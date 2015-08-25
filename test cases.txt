@@ -1,0 +1,24 @@
+----- TEST CASES USED --------
+
+sql > select population from world where name = 'France';
+sql > select name , continent from world where population < 2000000 and gdp > 5000000000;
+sql > select name, population, area from world where area>3000000 or population >250000000;
+sql > select name, population, area from world where area>3000000 or population >250000000 and population < 2000000 and gdp > 5000000000;
+sql > select name, population, area from world where (area>3000000 or population >250000000 and population < 2000000 and gdp > 5000000000);
+sql > select name, population, area from world where (area>3000000 or population >250000000) and (population < 2000000 and gdp > 5000000000);
+sql > select * from nobel  where subject='Physics' and yr=1980 or subject='Chemistry' and yr=1984;
+sql > select * from nobel where subject='Physics' and yr=1980 or subject!='Chemistry' and yr=1984;
+sql > select * from nobel where subject = 'Physics' and yr = 1980 or subject != 'Chemistry' and yr != 1984;
+
+sql > delete from b;
+sql > delete from b where a=1;
+sql > delete from a where (a=1 and b=2) or c=b;
+sql > delete from a where (a=1 and b=2) or c!=b;
+sql > delete from a where (a<1 and b>2 and d=a) or (c!=b);
+
+sql > update Employee set Phone = '9198657777';
+sql > update Employee set Phone = '9198657777', Address = 'Laguna';
+sql > update a set a=1, b=2 where (a=1 and b=2) or c=b;
+sql > update a set a=1, b=2 where (a=1 and b!=2) or c=b;
+sql > update a set a=1, b=2 where (a<1 and b!=2) or c>b;
+sql > update Employee set Phone = '9198657777' where Employee_Id  = 1;
