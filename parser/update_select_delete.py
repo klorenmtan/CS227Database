@@ -106,7 +106,7 @@ def p_update_statement(p):
 def p_select_statement(p):
     ''' select_statement : SELECT select_columns FROM id_list EOL
                          | SELECT select_columns FROM id_list WHERE search_condition EOL
-                         | SELECT select_columns FROM id_list join_clause EOL
+                         | SELECT select_columns FROM id_list join_clause 
                          | SELECT select_columns FROM id_list join_clause WHERE search_condition EOL '''
 
 def p_delete_statement(p):
@@ -126,12 +126,16 @@ def p_join_clause(p):
                     | JOIN ID ON ID DOT ID EQ ID DOT ID EOL
                     | NATURAL JOIN ID EOL
                     | JOIN ID ON ID EQ ID join_clause EOL
+                    | JOIN ID ON ID EQ ID search_condition EOL  
+                    | JOIN ID ON ID DOT ID EQ ID DOT ID search_condition EOL
                     | JOIN ID ON ID DOT ID EQ ID DOT ID join_clause EOL
                     | NATURAL JOIN ID join_clause EOL '''
     
 def p_search_condition(p):
     ''' search_condition : search_condition OR search_condition
                          | search_condition AND search_condition
+                         | AND search_condition
+                         | OR search_condition
                          | LPAREN search_condition RPAREN
                          | comparison_predicate '''
 
@@ -170,6 +174,9 @@ parser = yacc.yacc()
 while True:
     try:
         s = input('sql > ')   # Use raw_input on Python 2
+        s=s.lower()
     except EOFError:
         break
+    if s == 'quit':
+       break
     parser.parse(s)
