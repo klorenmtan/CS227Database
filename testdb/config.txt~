@@ -1,0 +1,5 @@
+customer,5,customer_id,number,last_name,varchar,first_name,varchar,birthdate,date,email,varchar
+payment,5,payment_id,number,si_id,number,amount,number,date_of_payment,date,mode_of_payment,varchar
+si,5,si_id,number,customer_id,number,product_id,number,date_ordered,date,price,number
+product,5,product_id,number,model,varchar,stock,number,description,varchar,weight,number
+delivery,5,delivery_id,number,si_id,number,quantity,number,delivery_date,date,delivery_cost,number
