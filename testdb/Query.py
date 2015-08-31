@@ -7,8 +7,8 @@ class Query:
 
 	def classify_query(self):
 		stat = (self.query).split(" ");
-	
-		if(stat[0]=="select"):
+		self.operation = stat[0]
+		if(self.operation=="select"):
 			query1 = Select(stat,self.database);
 			query1.make_select();	
 
@@ -16,7 +16,7 @@ class Query:
 		
 		#if(stat[0]=="delete"):		
 		
-	def makeTree(self,query):
-		print("Make tree here")
+	
+	
 
 

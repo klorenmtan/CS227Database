@@ -11,6 +11,7 @@ class Main:
 	while statement!='quit':
 		statement=input("SQL>")
 		statement=statement.lower()
+		statement=statement.replace(","," ")
 
 		if statement == 'quit':
 			break

@@ -8,32 +8,29 @@ class FileReader:
 		self.keyList 	= []
 		self.clean_data = {}
 		self.database = []
-		data1=[]
+		self.data1=[]
 	
-	def fileRead(self,data):
-		
+	def fileRead(self):
+		data2 = []
 		fileR = open(self.filename+".csv","r")
 		for line in fileR:
 			line = line[:-1]
-			data1 =line.split(",")
-			data.append(list(data1))
+			self.data1 =line.split(",")
+			data2.append(list(self.data1))
 		fileR.close()
-		self.data = data		
+		self.data = data2		
 		
+				
 		
 	def hashData(self):
 		
 		dt = Data(self.data,self.filename)
 		self.clean_data=dt.getDataHash()
-		self.database.append(self.clean_data)		
-		return self.database
+		return self.clean_data
 
 	def printData(self,tblname):
 		md = Metadata()
 		self.no_columns = md.no_getColumns(tblname)
-		print((self.database))		
-		#print (no_columns, type(no_columns))
-		#for i in range(0,len(self.database)):
-		#	print()
+		#print((self.database))		
 			
 
