@@ -1,3 +1,4 @@
+from Data import *
 import copy
 from Metadata import *
 class FileReader:
@@ -6,33 +7,33 @@ class FileReader:
 		self.dictValues = dict()
 		self.keyList 	= []
 		self.clean_data = {}
+		self.database = []
 		data1=[]
 	
 	def fileRead(self,data):
 		
-		fileR = open(self.filename,"r")
+		fileR = open(self.filename+".csv","r")
 		for line in fileR:
 			line = line[:-1]
 			data1 =line.split(",")
 			data.append(list(data1))
 		fileR.close()
-		#print(data)
 		self.data = data		
-		#self.clean_data = Data(self.data,self.filename)
-
-				
-
-	def getData(self):
-		return self.clean_data
-
-
-	
+		
+		
+	def hashData(self):
+		
+		dt = Data(self.data,self.filename)
+		self.clean_data=dt.getDataHash()
+		self.database.append(self.clean_data)		
+		return self.database
 
 	def printData(self,tblname):
 		md = Metadata()
 		self.no_columns = md.no_getColumns(tblname)
+		print((self.database))		
 		#print (no_columns, type(no_columns))
-		for i in range(0,len(self.data)):
-			print (self.data[i][0])
+		#for i in range(0,len(self.database)):
+		#	print()
 			
 

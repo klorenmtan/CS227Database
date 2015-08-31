@@ -4,9 +4,8 @@ from Select import *
 from Metadata import *
 from Data import *
 class Main:
-	global md
+	database={}
 	md=Metadata()
-	#md.showMetaData('payment')
 		
 	statement=''
 	while statement!='quit':
@@ -16,7 +15,7 @@ class Main:
 		if statement == 'quit':
 			break
 		else:
-			q1=Query(statement)
+			q1=Query(statement,database)
 			q1.classify_query();
 		
 		
