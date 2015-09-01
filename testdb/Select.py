@@ -66,13 +66,15 @@ class Select:
 		if len(self.where_operation)> 0:
 			for i in range(0,len(self.tblname)):
 				for j in range(0,len(self.where_operation)):
-					if not((self.where_operation[j]!= '<' or self.where_operation[j]!= '>' or self.where_operation[j]!= '=' or (self.where_operation[j].isDigit())) and self.where_operation[i] in meta.getAllColumns(self.tblname[i])):
+					if not((self.where_operation[j]!= '<' or self.where_operation[j]!= '>' or self.where_operation[j]!= '=' or (self.where_operation[j].isdigit())) and self.where_operation[i] in meta.getAllColumns(self.tblname[i])):
 						print("Column Does Not Exist")
 						return False
 		return True
 	def make_select(self): 
 		val=self.select_tree()
-		if val==True:		
+		if val==True:
+			self.where_operation=list(filter(None,self.where_operation))				
+			print(self.where_operation)		
 			self.perform_select()
 		
 			
@@ -88,12 +90,24 @@ class Select:
 		result=[]
 		self.counter=0
 		statement=''
-		#for i in range(0,len(self.where_operation)):
-		#	statement=statement+self.where_operation[i]
-	
 
 		for i in range (0,len(self.where_operation)):
-			print("ops ",self.where_operation[i],"--->type ",type(self.where_operation[i]))
+			if self.where_operation[i] == '>':
+				print("ops >")
+			elif self.where_operation[i] == '<':
+				print("ops <")
+			elif self.where_operation[i] == '=':
+				print("ops =")
+			elif self.where_operation[i] == 'and':
+				print("and")
+			elif self.where_operation[i] == 'or':
+				print("or")
+			elif self.where_operation[i].isdigit():
+				self.where_operation[i]=int(self.where_operation[i])
+				print("int/digit: ",self.where_operation[i],"--->type ",type(self.where_operation[i]))
+				
+			else:
+				print("data: ",self.where_operation[i],"--->type ",type(self.where_operation[i]))
 			
 			
 	def fetch_data(self):
