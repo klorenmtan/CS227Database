@@ -90,17 +90,24 @@ class Select:
 		result=[]
 		self.counter=0
 		statement=''
+		self.operation = ''
+		self.logicalOperator = ''		
 
 		for i in range (0,len(self.where_operation)):
 			if self.where_operation[i] == '>':
+				self.operation = self.where_operation[i]				
 				print("ops >")
 			elif self.where_operation[i] == '<':
+				self.operation = self.where_operation[i]
 				print("ops <")
 			elif self.where_operation[i] == '=':
+				self.operation = self.where_operation[i]
 				print("ops =")
 			elif self.where_operation[i] == 'and':
+				self.logicalOperator = self.where_operation[i]				
 				print("and")
 			elif self.where_operation[i] == 'or':
+				self.logicalOperator = self.where_operation[i]
 				print("or")
 			elif self.where_operation[i].isdigit():
 				self.where_operation[i]=int(self.where_operation[i])
