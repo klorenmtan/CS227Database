@@ -29,18 +29,18 @@ class Data:
 			for j in range(0,len(self.tbldata)):	
 				
 				if datatype[i] == 'numeric':
-					print(self.tbldata[j][i])
-					print("NUMERIC")
+				#	print(self.tbldata[j][i])
+				#	print("NUMERIC")
 					self.tbldata[j][i]=float(self.tbldata[j][i])
 					
 				if datatype[i] == 'int':
-					print(self.tbldata[j][i])
-					print("INT")
+				#	print(self.tbldata[j][i])
+				#	print("INT")
 					self.tbldata[j][i]=int(self.tbldata[j][i])
 					
 				else:			
-					print(self.tbldata[j][i])
-					print("STRING")
+				#	print(self.tbldata[j][i])
+				#	print("STRING")
 					self.tbldata[j][i]=str(self.tbldata[j][i])	
 											
 		for i in range(0,len(self.tbldata)):
