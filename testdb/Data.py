@@ -41,13 +41,8 @@ class Data:
 				else:			
 				#	print(self.tbldata[j][i])
 				#	print("STRING")
-					self.tbldata[j][i]=float(self.tbldata[j][i])
+					self.tbldata[j][i]=(self.tbldata[j][i])
 					
-				if datatype[i] == 'int':
-					self.tbldata[j][i]=int(self.tbldata[j][i])
-					
-				else:			
-					self.tbldata[j][i]=str(self.tbldata[j][i])	
 											
 		for i in range(0,len(self.tbldata)):
 			for j in range(0,len(columns)):
