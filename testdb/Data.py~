@@ -2,20 +2,54 @@ from Metadata import *
 class Data:
 
 	def __init__(self,tbldata,tblname):
+		global md
+		md=Metadata()		
+		self.database={}
 		self.tbldata = tbldata
 		self.tblname = tblname
 		self.clean_data = {}
-		self.datatypesArray=md.getAllDatatypes(self.tblname)	
-		self.colNameArray = md.getAllColumns(self.tblname)
+		self.getPrimary()
+		self.addToHash()
 
-#	def getPrimaryKey(self,tbldata,tblname):
+	def getPrimary(self):
+		self.primary_keys=[]
+		for i in range (0,len(self.tbldata)):
+			self.primary_keys.append((self.tbldata[i][0]))
 		
 
-'''
-	def convertDataTypes(self):
-		for i in range (0,len(self.datatypesArray)):
-			for j in range (0,len(self.tbldata)):
-				for k in range (0,len(self.colNameArray)-1):
-					self.clean_data[self.tbldata[j]]=append()
-'''		
+	def addToHash(self):
+		items={}		
+		items1={}
+		items2={}
+		columns=md.getAllColumns(self.tblname)
+		datatype =md.getAllDatatypes(self.tblname)
+
+		#convertion
+		for i in range(0,len(datatype)):			
+			for j in range(0,len(self.tbldata)):	
+				
+				if datatype[i] == 'numeric':
+					self.tbldata[j][i]=float(self.tbldata[j][i])
+					
+				if datatype[i] == 'int':
+					self.tbldata[j][i]=int(self.tbldata[j][i])
+					
+				else:			
+					self.tbldata[j][i]=str(self.tbldata[j][i])	
+											
+		for i in range(0,len(self.tbldata)):
+			for j in range(0,len(columns)):
+				items={columns[j]:self.tbldata[i][j]}
+				items1.update(items)
+			self.clean_data[self.primary_keys[i]]=items1			
+			items1={}
+			items={}
+							
+				
+	def getDataHash(self):
+		#print (self.clean_data)
+		return self.clean_data		
+
 		
+
+

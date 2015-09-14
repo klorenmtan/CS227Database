@@ -16,6 +16,7 @@ class Select:
 		self.targetPrint=[];
 		self.tblname=[];
 		self.where_operation=[]
+
 		#get table name and target print
 		for i in range(1,len(self.statementList)):
 			if self.statementList[i] == "from":

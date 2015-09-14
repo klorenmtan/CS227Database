@@ -25,7 +25,7 @@ class Data:
 		datatype =md.getAllDatatypes(self.tblname)
 
 		#convertion
-		for i in range(1,len(datatype)):			
+		for i in range(0,len(datatype)):			
 			for j in range(0,len(self.tbldata)):	
 				
 				if datatype[i] == 'numeric':
@@ -41,10 +41,16 @@ class Data:
 				else:			
 				#	print(self.tbldata[j][i])
 				#	print("STRING")
+					self.tbldata[j][i]=float(self.tbldata[j][i])
+					
+				if datatype[i] == 'int':
+					self.tbldata[j][i]=int(self.tbldata[j][i])
+					
+				else:			
 					self.tbldata[j][i]=str(self.tbldata[j][i])	
 											
 		for i in range(0,len(self.tbldata)):
-			for j in range(1,len(columns)):
+			for j in range(0,len(columns)):
 				items={columns[j]:self.tbldata[i][j]}
 				items1.update(items)
 			self.clean_data[self.primary_keys[i]]=items1			
@@ -53,6 +59,7 @@ class Data:
 							
 				
 	def getDataHash(self):
+		#print (self.clean_data)
 		return self.clean_data		
 
 		
