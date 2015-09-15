@@ -37,15 +37,26 @@ class Select:
 		#check if the columns exist for target print
 		self.targetPrint=list(filter(None,self.targetPrint))
 		self.tblname=list(filter(None,self.tblname))		
-				
+		print(self.targetPrint)
+		print(self.tblname)	
+		#print(self.where_operation)
+		status=0			
 		for m in range(0,len(self.targetPrint)):
 			if self.targetPrint[m] =="*":
 				break
 			else:
 				for n in range(0,len(self.tblname)):
-					if not(meta.checkcolumnExist(self.tblname[n],self.targetPrint[m])):
-						print ("Column Does Not Exist")
-						return False
+					
+					if (meta.checkcolumnExist(self.tblname[n],self.targetPrint[m])):
+						print(self.tblname[n],self.targetPrint[m])
+						status=1
+						continue
+					else:
+						status=0
+											
+		if status==0:						#print ("Column Does Not Exist")
+			return False
+		
 		
 		#check if the table is existing
 		for m in range(0,len(self.tblname)):
@@ -58,9 +69,7 @@ class Select:
 					self.where_operation.append(self.statementList[j])
 
 				
-		print(self.targetPrint)
-		print(self.tblname)	
-		print(self.where_operation)				
+					
 		#for the where clause
 		
 		#print(self.where_operation)
@@ -89,12 +98,19 @@ class Select:
 		result=[]
 		self.counter=0
 		statement=''
-		#for i in range(0,len(self.where_operation)):
-		#	statement=statement+self.where_operation[i]
-	
+		print(self.targetPrint)
+		if len(self.where_operation) == 0:
+			print("No where operation")
+			for i in range(0,len(self.targetPrint)):
+				if self.targetPrint[i]=='*':
+					print("print ALL")
+					Data.PrintDataALL(self.tblname,self.database)
+				else:
+					print("columns")
+					Data.PrintColumn(self.tblname,self.targetPrint,self.database)
 
-		for i in range (0,len(self.where_operation)):
-			print("ops ",self.where_operation[i],"--->type ",type(self.where_operation[i]))
+		#for i in range (0,len(self.where_operation)):
+		#	print("ops ",self.where_operation[i],"--->type ",type(self.where_operation[i]))
 			
 			
 	def fetch_data(self):

@@ -55,8 +55,59 @@ class Data:
 				
 	def getDataHash(self):
 		#print (self.clean_data)
-		return self.clean_data		
+		return self.clean_data
 
+	def PrintDataALL(tblname, database):
+		count=0;
+		for i in range(0,len(tblname)):
+			column=md.getAllColumns(tblname[i])
+			for j in range(0,len(database[tblname[i]])):				
+				for k in range(0,len(column)):			
+					print("",database[tblname[i]][str(j+1)][column[k]],"\t",end='')
+					
+				print()
+				count=count+1					
+
+		print(count,"rows returned") 
+				
+	def PrintColumn(tblname,targetPrint,database):
+		num=0
+		return_select=[]
+		datahash=list()	
+		count=0
+		for i in range(0,len(tblname)):
+			for j in range(0,len(database[tblname[i]])):
+				for k in range(0,len(targetPrint)):
+					if targetPrint[k] in database[tblname[i]][str(j+1)] and num==0:
+					   
+					   datahash.append(database[tblname[i]][str(j+1)][targetPrint[k]])
+					elif targetPrint[k] in database[tblname[i]][str(j+1)] and num!=0:
+						
+						datahash.append(database[tblname[i]][str(j+1)][targetPrint[k]])
+						#print(database[tblname[i]][str(j+1)][targetPrint[k]])
+					else:
+						continue
+				return_select.append(datahash)
+				datahash=[]				
+			num=1
+		print(return_select)
+		print(count,"rows returned")
+'''		print(targetPrint)
+		for i in range(0,len(tblname)):
+			#column=md.getAllColumns(tblname[i])
+			for j in range(0,len(database[tblname[i]])):				
+				for k in range(0,len(targetPrint)):
+					if targetPrint[k] in database[tblname[i]][str(j+1)]:			
+						print("",database[tblname[i]][str(j+1)][targetPrint[k]],"\t",end='')
+						datahash[targetPrint[k]]=database[tblname[i]][str(j+1)][targetPrint[k]]
+
+					else:
+						continue
+				
+				datahash={}
+				#print()
+				count=count+1					
+'''		
 		
 
 
