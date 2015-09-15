@@ -69,29 +69,46 @@ class Data:
 				count=count+1					
 
 		print(count,"rows returned") 
-				
-	def PrintColumn(tblname,targetPrint,database):
-		num=0
-		return_select=[]
-		datahash=list()	
-		count=0
+
+	def getRows(tblname,column_name,database):
+		datahash=[]
 		for i in range(0,len(tblname)):
 			for j in range(0,len(database[tblname[i]])):
-				for k in range(0,len(targetPrint)):
-					if targetPrint[k] in database[tblname[i]][str(j+1)] and num==0:
-					   
-					   datahash.append(database[tblname[i]][str(j+1)][targetPrint[k]])
-					elif targetPrint[k] in database[tblname[i]][str(j+1)] and num!=0:
-						
-						datahash.append(database[tblname[i]][str(j+1)][targetPrint[k]])
-						#print(database[tblname[i]][str(j+1)][targetPrint[k]])
-					else:
-						continue
-				return_select.append(datahash)
-				datahash=[]				
-			num=1
+				if column_name in database[tblname[i]][str(j+1)]:
+					datahash.append(database[tblname[i]][str(j+1)][column_name])
+				else:
+					break
+		return datahash	
+
+			
+	def PrintColumn(tblname,targetPrint,database):
+		length=0
+		count=0
+		return_select=[]
+		datahash=list()
+		for i in range (0,len(targetPrint)):
+			datahash=Data.getRows(tblname,targetPrint[i],database)
+			length=len(datahash)+length
+			return_select.append(datahash)	
 		print(return_select)
+		if len(targetPrint)==0:
+			for i in range(0,length):
+				for j in range(0,len(return_select)):
+					print(return_select[j][i],"\t",end='')
+				
+				print()
+				count=count+1
+			
+		else:
+			for i in range(0,length//(len(targetPrint))):
+				for j in range(0,len(return_select)):
+					print(return_select[j][i],"\t",end='')
+				
+				print()
+				count=count+1
 		print(count,"rows returned")
+		
+
 '''		print(targetPrint)
 		for i in range(0,len(tblname)):
 			#column=md.getAllColumns(tblname[i])
