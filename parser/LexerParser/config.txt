@@ -1,0 +1,6 @@
+//filename.csv,number_of_rows,column1,datatype,column2,datatype,column3,datatype,column4,datatype,column5,datatype,
+customers.csv,10000,customer_id,number,last_name,varchar,first_name,varchar,birthdate,date,email,varchar
+payment.csv,10000,payment_id,number,si_id,number,amount,number,date_of_payment,date,mode_of_payment,varchar
+si.csv,10000,si_id,number,customer_id,number,product_id,number,date_ordered,date,price,number
+product.csv,10000,product_id,number,model,varchar,stock,number,description,varchar,weight,number
+delivery.csv,10000,delivery_id,number,si_id,number,quantity,number,delivery_date,date,delivery_cost,number
