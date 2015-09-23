@@ -1,4 +1,5 @@
 from Select import * 
+from Update import *
 from FileReader import *
 class Query:
 	def __init__(self,query,database):
@@ -12,7 +13,9 @@ class Query:
 			query1 = Select(stat,self.database);
 			query1.make_select();	
 
-		#if(stat[0]=="update"):	
+		if(stat[0]=="update"):
+			query2 = Update(stat,self.database);
+			query2.HelloUpdate(); 	
 		
 		#if(stat[0]=="delete"):		
 		
