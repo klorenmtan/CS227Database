@@ -45,16 +45,9 @@ class Delete:
 		#check if the columns exist for target print
 		self.targetPrint=list(filter(None,self.targetPrint))
 		self.tblname=list(filter(None,self.tblname))		
-		print(self.targetPrint)
-		print(self.tblname)	
 		#print(self.where_operation)
 		status=0			
-		print('vvvvv')
-		print(self.targetPrint)
-		print('aaaaaa')
 
-
-		print('sada')
 		#check if the table is existing
 		for m in range(0,len(self.tblname)):
 			if not(meta.checkTableExist(self.tblname[m])):
@@ -71,17 +64,13 @@ class Delete:
 		if len(self.where_operation)> 0:
 			for i in range(0,len(self.tblname)):
 				for j in range(0,len(self.where_operation)):
-					print(j)
 					if not((self.where_operation[j]!= '<' or self.where_operation[j]!= '>' or self.where_operation[j]!= '=' or (self.where_operation[j].isDigit())) and self.where_operation[i] in meta.getAllColumns(self.tblname[i])):
-						print(self.where_operation[j] + " Column Does Not Exist" )
 						return False
 		return True
 
 
 	def make_delete(self): 
-		print('make_delete')
 		val=self.select_tree()
-		print(val)
 		if val==True:		
 			self.perform_delete()
 		
@@ -93,7 +82,6 @@ class Delete:
 		
 		# if where is blank
 
-		print(self.where_operation)
 	
 		#foreach row in self.database[self.tblname[0]]['2'] palitan yung [0]['2'] ng pang increment ng rows
 		#print(self.database[self.tblname[0]]['2'][self.where_operation[0]]) 
@@ -130,53 +118,50 @@ class Delete:
 
 			print('multiple where')
 
-			andKeyTable=[]
 			orKeyTable=[]
+			andKeyTable=[]
 			result=[]
+			andResult=[]			
 
-			andSplitted = self.split_by_logic(self.where_operation, ('and'))
+			orSplitted = self.split_by_logic(self.where_operation, ('or'))
+			
 
-			for i in range(0,len(andSplitted)):
+			for i in range(0,len(orSplitted)):
 
 
-				if (len(andSplitted[i])==3):
-					print(andSplitted[i])
+				if (len(orSplitted[i])==3):
 					#add primary key to list
-					print(self.evaluate_expression(andSplitted[i][0],andSplitted[i][1],andSplitted[i][2]))
-					andKeyTable.append(self.evaluate_expression(andSplitted[i][0],andSplitted[i][1],andSplitted[i][2]))
+					orKeyTable.append(self.evaluate_expression(orSplitted[i][0],orSplitted[i][1],orSplitted[i][2]))
 
 
 				else:
-					print('split by or then evaluate_expression')
 
-					print('+++++++++++++++++++++++++++')
-					orSplitted = self.split_by_logic(andSplitted[i], 'or')
-					for j in range(0,len(orSplitted)):
-						print('===============orSplitted '+ str(j) + ' value :' )
-						print(orSplitted[j])
-
-						if (len(orSplitted[j])==3):
+					andSplitted = self.split_by_logic(orSplitted[i], 'and')
+					for j in range(0,len(andSplitted)):
+				
+						if (len(andSplitted[j])==3):
 							#add primary key to list
-							print(self.evaluate_expression(orSplitted[j][0],orSplitted[j][1],orSplitted[j][2]))
-							orKeyTable.append(self.evaluate_expression(orSplitted[j][0],orSplitted[j][1],orSplitted[j][2]))
+							andKeyTable.append(self.evaluate_expression(andSplitted[j][0],andSplitted[j][1],andSplitted[j][2]))
 					
-					orResult=[]			
-					for j in range(0,len(orKeyTable)-1):
-						orResult= list(set(orKeyTable[j]) | set(orKeyTable[j+1]) )
-					andKeyTable.append(orResult)
+				
+					andResult = andKeyTable[0]	
+					
+					for j in range(1,len(andKeyTable)):
+						andResult= list(set(andKeyTable[j]) & set(andResult) )
+					orKeyTable.append(andResult)
 					
 									
-					print('-----------------------------')
+					
 
-				for i in range(0,len(andKeyTable)-1):
-					result= list(set(andKeyTable[i]) & set(andKeyTable[i+1]) )				
+				for i in range(0,len(orKeyTable)):
+					result=(list(set(orKeyTable[i]) | set(result) ))
+				
+					
 
-				print('and result')
-				print(result)
-				print('and result')
+			print(result)
+				
+
 			#split where operation
-				print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-				print('end multiple where')
 
 
 
@@ -231,6 +216,8 @@ class Delete:
 
 		matches=[]
 
+		for i in range(0,len(self.tblname)):
+	
 			if (operand1 in meta.getAllColumns(self.tblname[i])):
 				columnName = operand1
 				value = operand2
@@ -242,9 +229,6 @@ class Delete:
 			for key in self.database[self.tblname[i]].items():
 				if (operation == '='):
 					if (str(key[1][columnName]) == value):
-						print('key=================')
-						print(key[0])
-						print('key=================')
 						matches.append(key[0])
 					
 				if(operation == '!='):
