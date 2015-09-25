@@ -1,0 +1,93 @@
+Given Relation:
+customer(customer_id(pk), last_name,first_name, birthdate, email)
+
+
+	customer_id = 1
+
+	last_name = 'Roman' 
+
+	first_name = 'Ray'
+	birthdate = 27/5/1975 
+	email = 'ko@pa.co.uk'
+
+
+
+Expected Output (class update)	
+	Table Name	
+	Primary Key	
+	Columns to update	
+	Values to update	
+	Columns of where condition	
+	Values of where condition
+
+
+Input 1: 
+	UPDATE customer         
+       	SET first_name = 'Smith', birthdate =23/5/1975, email = 'ikaw@pa.co.uk'         
+       	WHERE last_name = 'Roman' AND email = 'ko@pa.co.uk';
+
+
+Output1: 
+	['customer'] <--- Table Name
+        
+	['1']       <--- Primary Key
+		
+	['first_name', 'birthdate', 'email']  <--- 3 column names to update
+			
+	['Smith','23/5/1975', 'ikaw@pa.co.uk']  <--- 3 values to update
+        
+	['last_name', 'email']  <--- column/s of where condition?
+        
+	['Roman','ko@pa.co.uk'] <--- values of where condition
+         
+
+
+
+
+Initial Algorithm
+
+1. Find the table 'table name' if existing? true or false
+2. Find where 'condition' (statement)
+3. 		condition is true return row including the primary key
+4. execute update with the set values.
+
+
+
+
+Revised Algorithm
+
+1. Dissect Update statement 
+2. Get table name
+
+3. Match table name in metadata (config.txt)
+
+4. 		If false: "Table name does not exist"   ---> Display Error Table name/s "" do not exist
+
+5. 		If true
+
+6.			Match SET columns in metadata (config.txt)
+
+7. 				If true, save SET columns and its values
+8.				If false: "Column name in SET does not exist in metadata(config.txt)" ---> Display Error Column name/s "" do not exist
+
+9. Match WHERE 'condition'- column names in metadata (config.txt)
+10. 	If true, save WHERE column names and its values (i.e. Roman, ko@pa.co.uk)
+
+11. 	If false: "Column name in WHERE does not exist" ---> Display Error Column name/s "" in WHERE do not exist
+
+12. Open file (customer.csv) 
+13. Read (customer.csv) and match the saved values of WHERE (i.e. Roman, ko@pa.co.uk) 
+
+14. 	If true, get and display record - customer(customer_id(pk), last_name,first_name, birthdate, email)
+
+15. 		Replace match values in customer.csv with the saved SET values
+16.  	If false: "record does not exist"  ---> Display Error No record found
+17. Close customer.csv file
+
+
+
+
+
+
+
+ 
