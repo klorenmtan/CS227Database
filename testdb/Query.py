@@ -1,9 +1,13 @@
 from Select import * 
+from Delete import *
 from FileReader import *
+
 class Query:
 	def __init__(self,query,database):
 		self.query = query
 		self.database = database
+		
+
 
 	def classify_query(self):
 		stat = (self.query).split(" ");
@@ -14,8 +18,10 @@ class Query:
 
 		#if(stat[0]=="update"):	
 		
-		#if(stat[0]=="delete"):		
-		
+		if(self.operation=="delete"):
+			query1 = Delete(stat,self.database);
+			query1.make_delete();	
+
 	
 	
 
