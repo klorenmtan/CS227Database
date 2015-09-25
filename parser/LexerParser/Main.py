@@ -1,16 +1,14 @@
-from FileReader import *
 from LexerParser import *
-from Metadata import *
-from Data import *
+
 class Main:
-        database={}
-        md=Metadata()
+        #database={}
+        #md=Metadata()
 
         statement=''
         while statement!='quit':
                 statement=input("SQL>")
                 statement=statement.lower()
-                statement=statement.replace(","," ")
+                #statement=statement.replace(","," ")
                 if statement == 'quit':
                         break
                 else:

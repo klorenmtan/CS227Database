@@ -4,11 +4,10 @@
 #
 # -----------------------------------------------------------------------------
 
-from Metadata import *
 from ply import lex, yacc
 
 
-class SqlLexer(object):
+class SqlLexer:
     
     tokens = [
         'ID','ALL','DOT','COMMA','LPAREN','RPAREN','EQ','NEQ','GT','LT','EOL','STRING','INT','DOUBLE'
@@ -33,7 +32,7 @@ class SqlLexer(object):
     def t_INT(self, t):
         # for what Python accepts, then use eval
         r'\d+'
-        t.value = int(t.value)    
+        #t.value = int(t.value)    
         return t
 
     def t_ID(self, t):
@@ -92,7 +91,7 @@ class SqlLexer(object):
     #    print(tok)
 
 
-class SqlParser(object):
+class SqlParser:
 
     tokens = SqlLexer.tokens
 
@@ -103,10 +102,6 @@ class SqlParser(object):
         ('left', 'AND'),
         ('left', 'EQ', 'NEQ', 'LT', 'GT')
     )
-
-    def __init__(self):
-        global meta
-        meta = Metadata();
                 
     def p_statement(self, p):
         ''' statement : update_statement
@@ -120,37 +115,36 @@ class SqlParser(object):
                              | UPDATE ID SET set_clause_list WHERE search_condition EOL '''
 
         if len(p) == 6:
-            p[0] = ('update', p[2], p[4])
+            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5]
         else:
-            p[0] = ('update', p[2], p[4], p[6])
+            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5] + " " + p[6] + " " + p[7]
 
     def p_select_statement(self, p):
-        ''' select_statement : SELECT select_columns FROM table_list EOL
-                             | SELECT select_columns FROM table_list join_clause EOL
-                             | SELECT select_columns FROM table_list WHERE search_condition EOL
-                             | SELECT select_columns FROM table_list join_clause WHERE search_condition EOL '''
-
+        ''' select_statement : SELECT select_columns FROM id_list EOL
+                             | SELECT select_columns FROM id_list join_clause EOL
+                             | SELECT select_columns FROM id_list WHERE search_condition EOL
+                             | SELECT select_columns FROM id_list join_clause WHERE search_condition EOL '''
         if len(p) == 6:
-            p[0] = ('select', p[2], p[4])
+            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5]
         elif len(p) == 7:
-            p[0] = ('select', p[2], p[4], p[5])
+            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5] + " " + p[6]
         elif len(p) == 8:
-            p[0] = ('select', p[2], p[4], p[6])
+            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5] + " " + p[6] + " " + p[7]
         else:
-            p[0] = ('select', p[2], p[4], p[5], p[7])
+            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5] + " " + p[6] + " " + p[7] + " " + p[8]
 
     def p_delete_statement(self, p):
         ''' delete_statement : DELETE FROM ID EOL
                              | DELETE FROM ID WHERE search_condition EOL '''
 
         if len(p) == 5:
-            p[0] = ('delete', p[3])
+            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4]
         else:
-            p[0] = ('delete', p[3], p[5])
+            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5] + " " + p[6]
 
     def p_select_columns(self, p):
         ''' select_columns : ALL
-                           | column_list '''
+                           | id_list '''
 
         p[0] = p[1]
 
@@ -159,33 +153,42 @@ class SqlParser(object):
                             | ID EQ literal COMMA set_clause_list '''
 
         if len(p) == 4:
-            p[0] = [p[1], p[3]]
+            p[0] = p[1] + " " + p[2] + " " + p[3]
         else:
-            p[0] = [p[1], p[3]] + p[5]
+            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5]
 
     def p_join_clause(self, p):
         ''' join_clause : NATURAL JOIN ID
                         | NATURAL JOIN ID join_clause
-                        | JOIN ID ON ID EQ ID
-                        | JOIN ID ON ID EQ ID join_clause
-                        | JOIN ID ON ID EQ ID join_search_condition
-                        | JOIN ID ON ID DOT ID EQ ID DOT ID
-                        | JOIN ID ON ID DOT ID EQ ID DOT ID join_clause
-                        | JOIN ID ON ID DOT ID EQ ID DOT ID join_search_condition '''
+                        | join_list ON ID EQ ID
+                        | join_list ON ID EQ ID join_clause
+                        | join_list ON ID EQ ID join_search_condition
+                        | join_list ON ID DOT ID EQ ID DOT ID
+                        | join_list ON ID DOT ID EQ ID DOT ID join_clause
+                        | join_list ON ID DOT ID EQ ID DOT ID join_search_condition '''
 
         if len(p) == 4:
-            p[0] = [p[1], p[3]]
+            p[0] = p[1] + " " + p[2] + " " + p[3]
         elif len(p) == 5:
-            p[0] = [p[1], p[3]] + p[4]
+            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4]
+        elif len(p) == 6:
+            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5]
         elif len(p) == 7:
-            p[0] = [p[1], p[2], p[4], p[6]]
-        elif len(p) == 8:
-            p[0] = [p[1], p[2], p[4], p[6]] + p[7]
-        elif len(p) == 11:
-            p[0] = [p[1], p[2], p[4], p[6], p[8], p[10]]
+            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5] + " " + p[6]
+        elif len(p) == 10:
+            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5] + " " + p[6] + " " + p[7] + " " + p[8] + " " + p[9]
         else:
-            p[0] = [p[1], p[2], p[4], p[6], p[8], p[10]] + p[11]
+            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5] + " " + p[6] + " " + p[7] + " " + p[8] + " " + p[9] + " " + p[10]
+
+    def p_join_list(self, p):
+        ''' join_list : JOIN ID
+                      | JOIN ID join_list '''
         
+        if len(p) == 3:
+            p[0] = p[1] + " " + p[2]
+        elif len(p) == 4:
+            p[0] = p[1] + " " + p[2] + " " + p[3]
+       
     def p_join_search_condition(self, p):
         ''' join_search_condition : AND join_search_condition
                                   | OR join_search_condition
@@ -193,9 +196,9 @@ class SqlParser(object):
                                   | comparison_predicate '''
 
         if len(p) == 3:
-            p[0] = (p[1], p[2])
+            p[0] = p[1] + " " + p[2]
         elif len(p) == 4:
-            p[0] = p[2]
+            p[0] = p[1] + " " + p[2] + " " + p[3]
         else:
             p[0] = p[1]
 
@@ -206,17 +209,14 @@ class SqlParser(object):
                              | comparison_predicate '''
 
         if len(p) == 4:
-            if p[1] == '(':
-                p[0] = p[2]
-            else:
-                p[0] = (p[1], p[2], p[3])
+            p[0] = p[1] + " " + p[2] + " " + p[3]
         else:
             p[0] = p[1]
         
     def p_comparison_predicate(self, p):
         ' comparison_predicate : value comp_op value '
 
-        p[0] = (p[1], p[2], p[3])
+        p[0] = p[1] + " " + p[2] + " " + p[3]
 
     def p_comp_op(self, p):
         ''' comp_op : EQ
@@ -226,38 +226,36 @@ class SqlParser(object):
 
         p[0] = p[1]
         
-    def p_table_list(self, p):
-        ''' table_list : ID
-                       | table_list COMMA ID '''
+    def p_id_list(self, p):
+        ''' id_list : ID
+                    | ID DOT ID
+                    | id_list COMMA ID
+                    | id_list COMMA ID DOT ID '''
         
         if len(p) == 2:
-            p[0] = [p[1]]
+            p[0] = p[1]
+        elif len(p) == 4:
+            if p[2] == '.':
+                p[0] = p[1] + " " + p[2] + " " + p[3]
+            else: 
+                p[0] = p[1] + " " + p[3]
         else:
-            p[0] = p[1] + [p[3]]
-
-    def p_column_list(self, p):
-        ''' column_list : ID
-                        | column_list COMMA ID '''
-        
-        if len(p) == 2:
-            p[0] = [p[1]]
-        else:
-            p[0] = p[1] + [p[3]]
+            p[0] = p[1] + " " + p[3] + " " + p[4] + " " + p[5]
 
     def p_inner_select_statement(self, p):
-        ''' inner_select_statement : SELECT select_columns FROM table_list
-                                   | SELECT select_columns FROM table_list join_clause
-                                   | SELECT select_columns FROM table_list WHERE search_condition
-                                   | SELECT select_columns FROM table_list join_clause WHERE search_condition '''
+        ''' inner_select_statement : SELECT select_columns FROM id_list
+                                   | SELECT select_columns FROM id_list join_clause
+                                   | SELECT select_columns FROM id_list WHERE search_condition
+                                   | SELECT select_columns FROM id_list join_clause WHERE search_condition '''
 
         if len(p) == 5:
-            p[0] = ('select', p[2], p[4])
+            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4]
         elif len(p) == 6:
-            p[0] = ('select', p[2], p[4], p[5])
+            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5]
         elif len(p) == 7:
-            p[0] = ('select', p[2], p[4], p[6])
+            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5] + " " + p[6]
         else:
-            p[0] = ('select', p[2], p[4], p[5], p[7])
+            p[0] = p[1] +  " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5] + " " + p[6] + " " + p[7]
 
     def p_value(self, p):
         ''' value : ID
@@ -268,10 +266,7 @@ class SqlParser(object):
         if len(p) == 2:
             p[0] = p[1]
         elif len(p) == 4:
-            if p[1] == '(':
-                p[0] = (p[2])
-            else:
-                 p[0] = (p[1], p[3])
+            p[0] = p[1] + " " + p[2] + " " + p[3]
 
     def p_literal(self, p):
         ''' literal : INT
@@ -285,6 +280,7 @@ class SqlParser(object):
     def build(self, **kwargs):
         self.parser = yacc.yacc(module=self, **kwargs)
         return self.parser
+
 
 #    while True:
 #        try:
