@@ -1,4 +1,6 @@
 from Metadata import *
+import itertools
+
 class Data:
 
 	def __init__(self,tbldata,tblname):
@@ -11,10 +13,12 @@ class Data:
 		self.getPrimary()
 		self.addToHash()
 
+
 	def getPrimary(self):
 		self.primary_keys=[]
 		for i in range (0,len(self.tbldata)):
 			self.primary_keys.append((self.tbldata[i][0]))
+		return self.primary_keys
 		
 
 	def addToHash(self):
@@ -54,77 +58,108 @@ class Data:
 							
 				
 	def getDataHash(self):
-		#print (self.clean_data)
 		return self.clean_data
 
-	def PrintDataALL(tblname, database):
-		count=0;
-		for i in range(0,len(tblname)):
-			column=md.getAllColumns(tblname[i])
-			for j in range(0,len(database[tblname[i]])):				
-				for k in range(0,len(column)):			
-					print("",database[tblname[i]][str(j+1)][column[k]],"\t",end='')
-					
+	def printData(datahash,tblname,targetPrint):
+		if len(targetPrint) == 0:
+			for j in range(0,len(tblname)):
+				column=md.getAllColumns(tblname[j])
+				for i in range(len(column)):	
+					print("%10s"%(column[i]),"\t",end='')
 				print()
-				count=count+1					
-
-		print(count,"rows returned") 
-
-	def getRows(tblname,column_name,database):
-		datahash=[]
-		for i in range(0,len(tblname)):
-			for j in range(0,len(database[tblname[i]])):
-				if column_name in database[tblname[i]][str(j+1)]:
-					datahash.append(database[tblname[i]][str(j+1)][column_name])
-				else:
-					break
-		return datahash	
-
+		else:
+			for j in range(0,len(tblname)):
+				for i in range(len(targetPrint)):	
+					print("%10s"%(targetPrint[i]),"\t",end='')
+				print()
 			
+		
+		for i in range(0,len(datahash)):
+			for j in range(0,len(datahash[i])):
+				if(len(str(datahash[i][j]))>5):
+					print("%10s"%(str(datahash[i][j])[0:8])+"..","\t",end='')	
+				else:				
+					print("%10s"%(datahash[i][j]),"\t",end='')
+			print()
+
+	
+				
+	def crossProduct(list1, list2):
+		list4=[]		
+		list3=list1
+		for i in range(0,len(list1)):
+			for j in range(0,len(list2)):
+				list4.append(list3[i]+list2[j])				
+		return list4
+
+	def PrintDataALL(tblname, database):
+				
+		return_data=[]
+		datahash=[]		
+		count=0;
+		cross_data=[]
+		k=0
+		for j in range(0,len(tblname)):
+			column=md.getAllColumns(tblname[j])	
+			datahash=Data.getRows(tblname[j],column,database)
+			return_data.append(datahash)
+
+		print(return_data)
+		targetPrint=[]
+		a=[]
+		a=return_data[0]		
+		j=0
+		if len(tblname) > 1:
+			for i in range(1,len(return_data)):			
+				a=Data.crossProduct(a,return_data[i])			
+			Data.printData(a,tblname,targetPrint)
+			print(len(a),"rows returned")		
+		else:
+			Data.printData(return_data[0],tblname,targetPrint)
+			print(len(return_data[0]),"rows returned")	
+			
+		
+	def getRows(tblname,column_name,database):
+		return_data=[]
+		datahash=[]
+		data = []
+		counter=0
+
+		for j in range(0,len(list(database[tblname].keys()))):
+			for i in range(0,len(list(column_name))):
+				if column_name[i] in database[tblname][(list(database[tblname].keys()))[j]]:
+					data.append(database[tblname][(list(database[tblname].keys()))[j]][column_name[i]])						
+			datahash.append(data)
+			data=[]
+		return datahash
+
+	
+		
 	def PrintColumn(tblname,targetPrint,database):
 		length=0
 		count=0
+		
 		return_select=[]
+		return_data = []
 		datahash=list()
-		for i in range (0,len(targetPrint)):
-			datahash=Data.getRows(tblname,targetPrint[i],database)
-			length=len(datahash)+length
-			return_select.append(datahash)	
-		print(return_select)
-		if len(targetPrint)==0:
-			for i in range(0,length):
-				for j in range(0,len(return_select)):
-					print(return_select[j][i],"\t",end='')
-				
-				print()
-				count=count+1
-			
+		
+		for i in range(0,len(tblname)):		
+			datahash=Data.getRows(tblname[i],targetPrint,database)
+			return_data.append(datahash)
+		
+		
+		a=[]
+		a=return_data[0]		
+		if len(tblname) > 1:
+			for i in range(1,len(return_data)):			
+				a=Data.crossProduct(a,return_data[i])			
+			Data.printData(a,tblname,targetPrint)
+			print(len(a),"rows returned")
 		else:
-			for i in range(0,length//(len(targetPrint))):
-				for j in range(0,len(return_select)):
-					print(return_select[j][i],"\t",end='')
-				
-				print()
-				count=count+1
-		print(count,"rows returned")
-		
+			Data.printData(a,tblname,targetPrint)
+			print(len(return_data[0]),"rows returned")
 
-'''		print(targetPrint)
-		for i in range(0,len(tblname)):
-			#column=md.getAllColumns(tblname[i])
-			for j in range(0,len(database[tblname[i]])):				
-				for k in range(0,len(targetPrint)):
-					if targetPrint[k] in database[tblname[i]][str(j+1)]:			
-						print("",database[tblname[i]][str(j+1)][targetPrint[k]],"\t",end='')
-						datahash[targetPrint[k]]=database[tblname[i]][str(j+1)][targetPrint[k]]
 
-					else:
-						continue
-				
-				datahash={}
-				#print()
-				count=count+1					
-'''		
-		
+	
 
 
