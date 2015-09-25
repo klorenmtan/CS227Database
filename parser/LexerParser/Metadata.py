@@ -39,7 +39,7 @@ class Metadata:
 	def checkTableExist(self,tblname):
 		tblNames=self.getAllTableName()
 		for i in range(0,len(tblNames)):
-			if tblNames[i]==tblname:
+			if tblNames[i] in tblname:
 				return True
 		return False
 		
@@ -65,7 +65,7 @@ class Metadata:
 
 	def checkcolumnExist(self,tblname,colname):
 		columns=self.getAllColumns(tblname)
-		if checkTableExist(tblname):
+		if self.checkTableExist(tblname):
 			for i in range(0,len(self.getAllColumns(tblname))):
 				if colname == columns[i]:
 					return True

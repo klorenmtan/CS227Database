@@ -26,7 +26,6 @@ class FileReader:
 		
 		dt = Data(self.data,self.filename)
 		self.clean_data=dt.getDataHash()
-		
 		#print (self.clean_data)
 		return self.clean_data
 
