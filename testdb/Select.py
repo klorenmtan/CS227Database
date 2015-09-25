@@ -34,15 +34,14 @@ class Select:
 			else:
 				self.targetPrint.append(self.statementList[i])
 		
-		#check if the columns exist for target print
 		self.targetPrint=list(filter(None,self.targetPrint))
 		self.tblname=list(filter(None,self.tblname))		
 		print(self.targetPrint)
 		print(self.tblname)	
-		#print(self.where_operation)
 		status=0			
 		for m in range(0,len(self.targetPrint)):
 			if self.targetPrint[m] =="*":
+				status=1
 				break
 			else:
 				for n in range(0,len(self.tblname)):
@@ -55,6 +54,7 @@ class Select:
 						status=0
 											
 		if status==0:						#print ("Column Does Not Exist")
+			print ("Column Does Not Exist")	
 			return False
 		
 		
@@ -65,7 +65,6 @@ class Select:
 				return False				
 			else:
 				for j in range(k,len(self.statementList)):
-					
 					self.where_operation.append(self.statementList[j])
 
 				
@@ -84,16 +83,11 @@ class Select:
 		val=self.select_tree()
 		if val==True:		
 			self.perform_select()
-		
-			
 
 	def perform_select(self):
 		self.fetch_data()
 		self.perform_operations()
-		#perform operations pass the list of operations
-		#returns list of primary key + data
-		#prints it
-
+		
 	def perform_operations(self):
 		result=[]
 		self.counter=0
@@ -101,16 +95,13 @@ class Select:
 		print(self.targetPrint)
 		if len(self.where_operation) == 0:
 			print("No where operation")
-			for i in range(0,len(self.targetPrint)):
-				if self.targetPrint[i]=='*':
-					print("print ALL")
-					Data.PrintDataALL(self.tblname,self.database)
-				else:
-					print("columns")
-					Data.PrintColumn(self.tblname,self.targetPrint,self.database)
-
-		#for i in range (0,len(self.where_operation)):
-		#	print("ops ",self.where_operation[i],"--->type ",type(self.where_operation[i]))
+			if self.targetPrint[0]=='*':
+				Data.PrintDataALL(self.tblname,self.database)
+			else:
+				Data.PrintColumn(self.tblname,self.targetPrint,self.database)
+		else:
+			print(self.where_operation)
+			
 			
 			
 	def fetch_data(self):
@@ -124,34 +115,11 @@ class Select:
 				self.database[self.tblname[i]]=array1
 				
 
-		print(self.database.keys())
+		#print(self.database.keys())
 
 				
 
-	#def buildTree(self):
-		
-	'''	
-	def check_show(self):
-		for i in range(1,(len(self.statementList))):			
-			if(self.statementList[i]=="*"):
-				if (self.meta).checkTableExist(self.statementList[i+1]):
-											
-					if self.statementList[i+1] in self.database:
-						filer.printData(self.statementList[i+1])	
-					else:						
-						filer.fileRead(self.data)
-						self.database=filer.hashData();
-						filer.printData(self.statementList[i+1])				
-						break
-				
-				else:
-					print ("Table Does Not Exist")
-					break
-			#else:
-				#check columns
-	
-	'''	
-	
+
 		
   
 		
