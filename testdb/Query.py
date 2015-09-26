@@ -15,7 +15,9 @@ class Query:
 
 		if(stat[0]=="update"):
 			query2 = Update(stat,self.database);
-			query2.HelloUpdate(); 	
+			#query2.HelloUpdate();
+			query2.UpdateTree()
+				
 		
 		#if(stat[0]=="delete"):		
 		
