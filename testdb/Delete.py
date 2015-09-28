@@ -123,25 +123,25 @@ class Delete:
 			result=[]
 			andResult=[]			
 
-			orSplitted = self.split_by_logic(self.where_operation, ('or'))
+			orSplit = self.split_by_logic(self.where_operation, ('or'))
 			
 
-			for i in range(0,len(orSplitted)):
+			for i in range(0,len(orSplit)):
 
 
-				if (len(orSplitted[i])==3):
+				if (len(orSplit[i])==3):
 					#add primary key to list
-					orKeyTable.append(self.evaluate_expression(orSplitted[i][0],orSplitted[i][1],orSplitted[i][2]))
+					orKeyTable.append(self.evaluate_expression(orSplit[i][0],orSplit[i][1],orSplit[i][2]))
 
 
 				else:
 
-					andSplitted = self.split_by_logic(orSplitted[i], 'and')
-					for j in range(0,len(andSplitted)):
+					andSplit = self.split_by_logic(orSplit[i], 'and')
+					for j in range(0,len(andSplit)):
 				
-						if (len(andSplitted[j])==3):
+						if (len(andSplit[j])==3):
 							#add primary key to list
-							andKeyTable.append(self.evaluate_expression(andSplitted[j][0],andSplitted[j][1],andSplitted[j][2]))
+							andKeyTable.append(self.evaluate_expression(andSplit[j][0],andSplit[j][1],andSplit[j][2]))
 					
 				
 					andResult = andKeyTable[0]	
