@@ -115,9 +115,9 @@ class SqlParser:
                              | UPDATE ID SET set_clause_list WHERE search_condition EOL '''
 
         if len(p) == 6:
-            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5]
+            p[0] = p[1] + "|" + p[2] + "|" + p[3] + "|" + p[4] + "|" + p[5]
         else:
-            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5] + " " + p[6] + " " + p[7]
+            p[0] = p[1] + "|" + p[2] + "|" + p[3] + "|" + p[4] + "|" + p[5] + "|" + p[6] + "|" + p[7]
 
     def p_select_statement(self, p):
         ''' select_statement : SELECT select_columns FROM id_list EOL
@@ -125,22 +125,22 @@ class SqlParser:
                              | SELECT select_columns FROM id_list WHERE search_condition EOL
                              | SELECT select_columns FROM id_list join_clause WHERE search_condition EOL '''
         if len(p) == 6:
-            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5]
+            p[0] = p[1] + "|" + p[2] + "|" + p[3] + "|" + p[4] + "|" + p[5]
         elif len(p) == 7:
-            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5] + " " + p[6]
+            p[0] = p[1] + "|" + p[2] + "|" + p[3] + "|" + p[4] + "|" + p[5] + "|" + p[6]
         elif len(p) == 8:
-            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5] + " " + p[6] + " " + p[7]
+            p[0] = p[1] + "|" + p[2] + "|" + p[3] + "|" + p[4] + "|" + p[5] + "|" + p[6] + "|" + p[7]
         else:
-            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5] + " " + p[6] + " " + p[7] + " " + p[8]
+            p[0] = p[1] + "|" + p[2] + "|" + p[3] + "|" + p[4] + "|" + p[5] + "|" + p[6] + "|" + p[7] + "|" + p[8]
 
     def p_delete_statement(self, p):
         ''' delete_statement : DELETE FROM ID EOL
                              | DELETE FROM ID WHERE search_condition EOL '''
 
         if len(p) == 5:
-            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4]
+            p[0] = p[1] + "|" + p[2] + "|" + p[3] + "|" + p[4]
         else:
-            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5] + " " + p[6]
+            p[0] = p[1] + "|" + p[2] + "|" + p[3] + "|" + p[4] + "|" + p[5] + "|" + p[6]
 
     def p_select_columns(self, p):
         ''' select_columns : ALL
@@ -153,9 +153,9 @@ class SqlParser:
                             | ID EQ literal COMMA set_clause_list '''
 
         if len(p) == 4:
-            p[0] = p[1] + " " + p[2] + " " + p[3]
+            p[0] = p[1] + "|" + p[2] + "|" + p[3]
         else:
-            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5]
+            p[0] = p[1] + "|" + p[2] + "|" + p[3] + "|" + p[5]
 
     def p_join_clause(self, p):
         ''' join_clause : NATURAL JOIN ID
@@ -168,26 +168,26 @@ class SqlParser:
                         | join_list ON ID DOT ID EQ ID DOT ID join_search_condition '''
 
         if len(p) == 4:
-            p[0] = p[1] + " " + p[2] + " " + p[3]
+            p[0] = p[1] + "|" + p[2] + "|" + p[3]
         elif len(p) == 5:
-            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4]
+            p[0] = p[1] + "|" + p[2] + "|" + p[3] + "|" + p[4]
         elif len(p) == 6:
-            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5]
+            p[0] = p[1] + "|" + p[2] + "|" + p[3] + "|" + p[4] + "|" + p[5]
         elif len(p) == 7:
-            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5] + " " + p[6]
+            p[0] = p[1] + "|" + p[2] + "|" + p[3] + "|" + p[4] + "|" + p[5] + "|" + p[6]
         elif len(p) == 10:
-            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5] + " " + p[6] + " " + p[7] + " " + p[8] + " " + p[9]
+            p[0] = p[1] + "|" + p[2] + "|" + p[3] + "|" + p[4] + "|" + p[5] + "|" + p[6] + "|" + p[7] + "|" + p[8] + "|" + p[9]
         else:
-            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5] + " " + p[6] + " " + p[7] + " " + p[8] + " " + p[9] + " " + p[10]
+            p[0] = p[1] + "|" + p[2] + "|" + p[3] + "|" + p[4] + "|" + p[5] + "|" + p[6] + "|" + p[7] + "|" + p[8] + "|" + p[9] + "|" + p[10]
 
     def p_join_list(self, p):
         ''' join_list : JOIN ID
                       | JOIN ID join_list '''
         
         if len(p) == 3:
-            p[0] = p[1] + " " + p[2]
+            p[0] = p[1] + "|" + p[2]
         elif len(p) == 4:
-            p[0] = p[1] + " " + p[2] + " " + p[3]
+            p[0] = p[1] + "|" + p[2] + "|" + p[3]
        
     def p_join_search_condition(self, p):
         ''' join_search_condition : AND join_search_condition
@@ -196,9 +196,9 @@ class SqlParser:
                                   | comparison_predicate '''
 
         if len(p) == 3:
-            p[0] = p[1] + " " + p[2]
+            p[0] = p[1] + "|" + p[2]
         elif len(p) == 4:
-            p[0] = p[1] + " " + p[2] + " " + p[3]
+            p[0] = p[1] + "|" + p[2] + "|" + p[3]
         else:
             p[0] = p[1]
 
@@ -209,14 +209,14 @@ class SqlParser:
                              | comparison_predicate '''
 
         if len(p) == 4:
-            p[0] = p[1] + " " + p[2] + " " + p[3]
+            p[0] = p[1] + "|" + p[2] + "|" + p[3]
         else:
             p[0] = p[1]
         
     def p_comparison_predicate(self, p):
         ' comparison_predicate : value comp_op value '
 
-        p[0] = p[1] + " " + p[2] + " " + p[3]
+        p[0] = p[1] + "|" + p[2] + "|" + p[3]
 
     def p_comp_op(self, p):
         ''' comp_op : EQ
@@ -236,11 +236,11 @@ class SqlParser:
             p[0] = p[1]
         elif len(p) == 4:
             if p[2] == '.':
-                p[0] = p[1] + " " + p[2] + " " + p[3]
+                p[0] = p[1] + "|" + p[2] + "|" + p[3]
             else: 
-                p[0] = p[1] + " " + p[3]
+                p[0] = p[1] + "|" + p[3]
         else:
-            p[0] = p[1] + " " + p[3] + " " + p[4] + " " + p[5]
+            p[0] = p[1] + "|" + p[3] + "|" + p[4] + "|" + p[5]
 
     def p_inner_select_statement(self, p):
         ''' inner_select_statement : SELECT select_columns FROM id_list
@@ -249,13 +249,13 @@ class SqlParser:
                                    | SELECT select_columns FROM id_list join_clause WHERE search_condition '''
 
         if len(p) == 5:
-            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4]
+            p[0] = p[1] + "|" + p[2] + "|" + p[3] + "|" + p[4]
         elif len(p) == 6:
-            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5]
+            p[0] = p[1] + "|" + p[2] + "|" + p[3] + "|" + p[4] + "|" + p[5]
         elif len(p) == 7:
-            p[0] = p[1] + " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5] + " " + p[6]
+            p[0] = p[1] + "|" + p[2] + "|" + p[3] + "|" + p[4] + "|" + p[5] + "|" + p[6]
         else:
-            p[0] = p[1] +  " " + p[2] + " " + p[3] + " " + p[4] + " " + p[5] + " " + p[6] + " " + p[7]
+            p[0] = p[1] +  "|" + p[2] + "|" + p[3] + "|" + p[4] + "|" + p[5] + "|" + p[6] + "|" + p[7]
 
     def p_value(self, p):
         ''' value : ID
@@ -266,7 +266,7 @@ class SqlParser:
         if len(p) == 2:
             p[0] = p[1]
         elif len(p) == 4:
-            p[0] = p[1] + " " + p[2] + " " + p[3]
+            p[0] = p[1] + "|" + p[2] + "|" + p[3]
 
     def p_literal(self, p):
         ''' literal : INT
