@@ -16,7 +16,6 @@ class Update:
 		self.qlength = len(statements);
 		self.database = database;
 		
-<<<<<<< HEAD
 
 	
 	def DissectUpdate(self):
@@ -104,7 +103,7 @@ class Update:
 				SetColVal[Clause[index-1]] = Clause[index+1]
 		print('Where Column Name and Value:' + str(SetColVal))
 		return SetColVal		
-=======
+
 	def UpdateTree(self):
 		self.TblName = [];
 		self.PrimaryKey = [];
@@ -138,7 +137,7 @@ class Update:
 		print ('Set Column Name(s):' + (self.SetColNameToUpdate))
 		print ('Set Column Value(s):' + (self.SetColValToUpdate))
 		#print('Set Column Name and Value:' + str(SetWhere))
->>>>>>> e56fcc4743067f380ddbc2dff5219d19d56d61ed
+
 		
 		
 		#get where Column Name and its value		
@@ -189,9 +188,7 @@ class Update:
 					print("columns")
 					Data.PrintColumn(self.tblname,self.targetPrint,self.database)
 
-<<<<<<< HEAD
-		
-=======
+
 		#for i in range (0,len(self.where_operation)):
 		#	print("ops ",self.where_operation[i],"--->type ",type(self.where_operation[i]))
 	
@@ -209,7 +206,7 @@ class Update:
 		print(self.database.keys())
 	
 	
->>>>>>> e56fcc4743067f380ddbc2dff5219d19d56d61ed
+
 	def HelloUpdate(self):
 		print ('HELLO UPDATE, This is where we start!')
 		print(self.statementList)
