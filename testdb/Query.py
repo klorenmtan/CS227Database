@@ -14,9 +14,10 @@ class Query:
 			query1.make_select();	
 
 		if(stat[0]=="update"):
-			query2 = Update(stat,self.database);
-			#query2.HelloUpdate();
-			query2.DissectUpdate();
+			query2 = Update(stat,self.database);			
+			#query2.DissectUpdate();
+			query2.MakeUpdate();
+			
 				
 		
 		#if(stat[0]=="delete"):		
