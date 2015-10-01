@@ -60,10 +60,10 @@ class Update:
 			lWhereClause = lUpdateStatement[iWhereIndex+1:len(lUpdateStatement)] # extract the where clause
 			
 			#Comparison Operators
-			lCompareOperator =['=','>','<','=>','=<'];
+			lCompareOperator =['=','>','<','=>','=<','<>'];
 			
 			#LogicalOperator
-			lLogicalOperator = ['and','or'];
+			lLogicalOperator = ['and','or','not'];
 			
 			#Iterate to Where Clause and assign the Column names and its value, comparison and logical operators to self 	
 			for index in range(len(lWhereClause)):			
