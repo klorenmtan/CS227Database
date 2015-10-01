@@ -117,7 +117,8 @@ class Update:
 				if not(meta.checkcolumnExist(self.TblName[0], ColumnName)):
 					print('where Column Name ' + str(ColumnName) + ' Does Not Exist!')
 					return False
-						
+		
+			print('Table name and column names have been checked!')				
 	
 	def SetColumnValue(Clause):
 		SetColVal = {}
