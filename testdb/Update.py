@@ -118,7 +118,7 @@ class Update:
 					print('where Column Name ' + str(ColumnName) + ' Does Not Exist!')
 					return False
 		
-			print('Table name and column names have been checked!')				
+			print('Table name and column names have been checked!') # Tama na ba to Ms V?				
 	
 	def SetColumnValue(Clause):
 		SetColVal = {}
