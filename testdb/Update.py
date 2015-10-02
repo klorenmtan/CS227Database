@@ -103,7 +103,7 @@ class Update:
 		#check if the table is existing		
 		if not(meta.checkTableExist(self.TblName)):
 			sTableName = self.TblName[0]
-			print("Table '" + sTableName +"' does not exist!")
+			print("Table '" + sTableName +"' does not exist! ")
 			return False
 			
 		else:
