@@ -140,11 +140,12 @@ class Update:
 		#	self.performUpdate()		
 		self.DissectUpdate();
 		self.CheckUpdate();
+		self.PerformUpdate();
 			
 			
-	def performUpdate(self):
+	def PerformUpdate(self):
 		self.fetch_data()
-		self.perform_operations()
+		#self.perform_operations()
 		#perform operations pass the list of operations
 		#returns list of primary key + data
 		#prints it
@@ -171,14 +172,15 @@ class Update:
 	def fetch_data(self):
 		array1 = {}
 		
-		for i in range(0,len(self.tblname)):
-			if not(self.tblname[i] in self.database.keys()):
-				filer=FileReader(self.tblname[i])
+		for i in range(0,len(self.TblName)):
+			if not(self.TblName[i] in self.database.keys()):
+				filer=FileReader(self.TblName[i])
 				filer.fileRead()
 				array1=filer.hashData()
-				self.database[self.tblname[i]]=array1				
+				self.database[self.TblName[i]]=array1				
 
 		print(self.database.keys())
+		print (str(self.database[self.TblName[i]]))
 	
 	
 
