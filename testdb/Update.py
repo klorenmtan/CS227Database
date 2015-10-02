@@ -102,20 +102,21 @@ class Update:
 		
 		#check if the table is existing		
 		if not(meta.checkTableExist(self.TblName)):
-			print("Table Does Not Exist!")
+			sTableName = self.TblName[0]
+			print("Table '" + sTableName +"' does not exist!")
 			return False
 			
 		else:
 			#check if the set columns are existing
 			for ColumnName in self.SetColNameToUpdate:						
 				if not(meta.checkcolumnExist(self.TblName[0], ColumnName)):
-					print('Set Column Name ' + str(ColumnName) + ' Does Not Exist!')
+					print("Unknown column name '" + str(ColumnName) + "' in the field list!")
 					return False					
 					
 			#check if the where columns are existing
 			for ColumnName in self.WhereColName:
 				if not(meta.checkcolumnExist(self.TblName[0], ColumnName)):
-					print('where Column Name ' + str(ColumnName) + ' Does Not Exist!')
+					print("Unknown column name '" + str(ColumnName) + "' in the field list!")
 					return False
 		
 
