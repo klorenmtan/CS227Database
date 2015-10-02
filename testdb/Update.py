@@ -120,8 +120,8 @@ class Update:
 					return False
 		
 
-			print('Table name and column names have been checked!') # Tama na ba to Ms Venus Retuya?
-			# Yes wens tama na to! 
+			print('Table name and column names have been checked!') 
+			
 							
 
 	
@@ -146,29 +146,18 @@ class Update:
 			
 	def PerformUpdate(self):
 		self.fetch_data()
-		#self.perform_operations()
+		self.GetPK()
 		#perform operations pass the list of operations
 		#returns list of primary key + data
 		#prints it
 			
-	def perform_operations(self):
-		result=[]
-		self.counter=0
-		statement=''
-		print(self.targetPrint)
-		if len(self.where_operation) == 0:
-			print("No where operation")
-			for i in range(0,len(self.targetPrint)):
-				if self.targetPrint[i]=='*':
-					print("print ALL")
-					Data.PrintDataALL(self.tblname,self.database)
-				else:
-					print("columns")
-					Data.PrintColumn(self.tblname,self.targetPrint,self.database)
-
-
-		#for i in range (0,len(self.where_operation)):
-		#	print("ops ",self.where_operation[i],"--->type ",type(self.where_operation[i]))
+	def GetPK(self):
+		
+		print('Result of Get Primary Key')
+		print(self.database.keys())
+		print(str(Data.PrintDataALL(self.TblName,self.database)))
+		
+		
 	
 	def fetch_data(self):
 		array1 = {}
@@ -180,8 +169,9 @@ class Update:
 				array1=filer.hashData()
 				self.database[self.TblName[i]]=array1				
 
+		print('Result of fetch_data')
 		print(self.database.keys())
-		print (str(self.database[self.TblName[i]]))
+		#print (str(self.database[self.TblName[i]]))
 	
 	
 
