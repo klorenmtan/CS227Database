@@ -20,7 +20,7 @@ class Update:
 	
 	def DissectUpdate(self):
 		self.TblName = [];
-		self.PrimaryKey = [];
+		self.PrimaryKey = ['1111'];
 		self.SetColNameToUpdate = [];
 		self.SetColValToUpdate =[];
 		self.WhereColName = [];
@@ -98,7 +98,7 @@ class Update:
 
 	def CheckUpdate(self):
 		
-		print('Result of CheckUpdate')
+		#print('Result of CheckUpdate')
 		
 		#check if the table is existing		
 		if not(meta.checkTableExist(self.TblName)):
@@ -119,10 +119,8 @@ class Update:
 					print("Unknown Column name '" + str(ColumnName) + "' in where field list!")
 					return False
 		
-
-			print('Table name and column names have been checked!') # Tama na ba to Ms Venus Retuya?
-			# Yes wens tama na to! 
-							
+		 
+			return True				
 
 	
 	def SetColumnValue(Clause):
@@ -135,22 +133,95 @@ class Update:
 
 			
 		
-	def MakeUpdate(self): 
-		#val=self.UpdateTree()
-		#if val==True:		
-		#	self.performUpdate()		
+	def MakeUpdate(self): 		
 		self.DissectUpdate();
-		self.CheckUpdate();
-		self.PerformUpdate();
+		Val = self.CheckUpdate();
+		#Val2 = self.GetPrimaryKey();
+		if Val == True: #and Val2 == True:
+			self.PerformUpdate();
 			
+			
+	def GetPrimaryKey(self):
+				
+		print('Table to update:' + str(self.TblName[0]))
+		
+		CSVFile = open(self.TblName[0]+".csv")
+		AllRecords = CSVFile.readlines()
+		CSVFile.close()
+		TableAllColNames = meta.getAllColumns(self.TblName[0]) # Get all the Columns names of Given Tables
+		PK = []
+		for ColName in self.WhereColName:
+			iTableIndex = TableAllColNames.index(ColName)
+			print('iTableIndex :' + str(iTableIndex))
+				
+			for ColVal in self.WhereColVal:
+				print(str(ColVal))	
+				
+				for Record in AllRecords:
+					Record.lower()
+					SplitRecord = Record.split(',')
+					#print(str(SplitRecord))
+					
+					if SplitRecord[iTableIndex] ==  ColVal:
+						#print(str(SplitRecord[iTableIndex]))
+						PK.append(SplitRecord[0])
+						print('Found PK')
+						break
+						
+		print('Primary Key: ' + str(PK))
+			
+		#print('Print All Record:' + str(AllRecords))	
+		
+		return False
+		
 			
 	def PerformUpdate(self):
-		self.fetch_data()
-		#self.perform_operations()
-		#perform operations pass the list of operations
-		#returns list of primary key + data
-		#prints it
-			
+		
+		CSVFile = open(self.TblName[0]+".csv")
+		AllRecords = CSVFile.readlines()
+		CSVFile.close()
+		TableAllColNames = meta.getAllColumns(self.TblName[0]) # Get all the Columns names of Given Tables
+		
+		
+		for Record in AllRecords:
+			SplitRecord = Record.split(',') # Split the Record to extract PK
+			if SplitRecord[0] == self.PrimaryKey[0]: # Compare and Search PK
+				RecordIndex = AllRecords.index(Record) #Get the Record index from AllRecords
+				#print('Record Found!:' + str(Record))
+				#print('Split Record!:' + str(SplitRecord)) 
+				#print('Record:' + str(AllRecords[RecordIndex]))
+				#+++++++++++++++++++++++++++++++++++++++++++++++++++++
+				for index in range(len(self.SetColNameToUpdate)):
+					UpdateIndex = TableAllColNames.index(str(self.SetColNameToUpdate[index]))
+					Domain = self.SetColValToUpdate[index]
+					SplitRecord[UpdateIndex] = Domain.replace("'","")
+					
+				#print('Updated SplitRecord' + str(SplitRecord))
+				UpdateRecord = ""
+				for field in SplitRecord:
+					if '\n' not in field:
+						UpdateRecord = UpdateRecord + str(field + '\n') #Fill out the UpdateRecord String
+					else:
+						UpdateRecord = UpdateRecord + str(field)
+				
+				UpdateRecord = UpdateRecord.replace('\n',',',len(SplitRecord)-1) # Replace '\n' with commas(,)
+	
+				print('Update Record: ' + UpdateRecord)	
+				
+				#++++++++++++++++++++++++++++++++++++++++	
+				
+				AllRecords[RecordIndex]=str(UpdateRecord) #Insert the Update in AllRecords
+				break
+		
+		#print('Display all records:' + str(AllRecords))
+		
+		CSV_Output = open(self.TblName[0]+"All.csv","w")
+		for Record in AllRecords:
+			CSV_Output.write(str(Record))
+		CSV_Output.close()
+		print('One Row has been Updated!')
+		
+'''			
 	def perform_operations(self):
 		result=[]
 		self.counter=0
@@ -183,6 +254,6 @@ class Update:
 		print(self.database.keys())
 		print (str(self.database[self.TblName[i]]))
 	
-	
+'''	
 
 	
