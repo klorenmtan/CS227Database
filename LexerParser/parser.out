@@ -123,44 +123,15 @@ state 0
     (11) delete_statement -> . DELETE FROM ID WHERE search_condition EOL
 
     UPDATE          shift and go to state 3
-    SELECT          shift and go to state 5
-    DELETE          shift and go to state 6
+    SELECT          shift and go to state 1
+    DELETE          shift and go to state 4
 
-    update_statement               shift and go to state 4
-    delete_statement               shift and go to state 1
-    statement                      shift and go to state 7
-    select_statement               shift and go to state 2
+    statement                      shift and go to state 5
+    delete_statement               shift and go to state 2
+    select_statement               shift and go to state 6
+    update_statement               shift and go to state 7
 
 state 1
-
-    (3) statement -> delete_statement .
-
-    $end            reduce using rule 3 (statement -> delete_statement .)
-
-
-state 2
-
-    (2) statement -> select_statement .
-
-    $end            reduce using rule 2 (statement -> select_statement .)
-
-
-state 3
-
-    (4) update_statement -> UPDATE . ID SET set_clause_list EOL
-    (5) update_statement -> UPDATE . ID SET set_clause_list WHERE search_condition EOL
-
-    ID              shift and go to state 8
-
-
-state 4
-
-    (1) statement -> update_statement .
-
-    $end            reduce using rule 1 (statement -> update_statement .)
-
-
-state 5
 
     (6) select_statement -> SELECT . select_columns FROM id_list EOL
     (7) select_statement -> SELECT . select_columns FROM id_list join_clause EOL
@@ -173,13 +144,28 @@ state 5
     (41) id_list -> . id_list COMMA ID
     (42) id_list -> . id_list COMMA ID DOT ID
 
-    ALL             shift and go to state 9
-    ID              shift and go to state 11
+    ALL             shift and go to state 8
+    ID              shift and go to state 10
 
-    select_columns                 shift and go to state 12
-    id_list                        shift and go to state 10
+    id_list                        shift and go to state 11
+    select_columns                 shift and go to state 9
 
-state 6
+state 2
+
+    (3) statement -> delete_statement .
+
+    $end            reduce using rule 3 (statement -> delete_statement .)
+
+
+state 3
+
+    (4) update_statement -> UPDATE . ID SET set_clause_list EOL
+    (5) update_statement -> UPDATE . ID SET set_clause_list WHERE search_condition EOL
+
+    ID              shift and go to state 12
+
+
+state 4
 
     (10) delete_statement -> DELETE . FROM ID EOL
     (11) delete_statement -> DELETE . FROM ID WHERE search_condition EOL
@@ -187,38 +173,44 @@ state 6
     FROM            shift and go to state 13
 
 
-state 7
+state 5
 
     (0) S' -> statement .
 
 
 
+state 6
+
+    (2) statement -> select_statement .
+
+    $end            reduce using rule 2 (statement -> select_statement .)
+
+
+state 7
+
+    (1) statement -> update_statement .
+
+    $end            reduce using rule 1 (statement -> update_statement .)
+
+
 state 8
-
-    (4) update_statement -> UPDATE ID . SET set_clause_list EOL
-    (5) update_statement -> UPDATE ID . SET set_clause_list WHERE search_condition EOL
-
-    SET             shift and go to state 14
-
-
-state 9
 
     (12) select_columns -> ALL .
 
     FROM            reduce using rule 12 (select_columns -> ALL .)
 
 
+state 9
+
+    (6) select_statement -> SELECT select_columns . FROM id_list EOL
+    (7) select_statement -> SELECT select_columns . FROM id_list join_clause EOL
+    (8) select_statement -> SELECT select_columns . FROM id_list WHERE search_condition EOL
+    (9) select_statement -> SELECT select_columns . FROM id_list join_clause WHERE search_condition EOL
+
+    FROM            shift and go to state 14
+
+
 state 10
-
-    (13) select_columns -> id_list .
-    (41) id_list -> id_list . COMMA ID
-    (42) id_list -> id_list . COMMA ID DOT ID
-
-    FROM            reduce using rule 13 (select_columns -> id_list .)
-    COMMA           shift and go to state 15
-
-
-state 11
 
     (39) id_list -> ID .
     (40) id_list -> ID . DOT ID
@@ -228,19 +220,27 @@ state 11
     NATURAL         reduce using rule 39 (id_list -> ID .)
     JOIN            reduce using rule 39 (id_list -> ID .)
     RPAREN          reduce using rule 39 (id_list -> ID .)
-    FROM            reduce using rule 39 (id_list -> ID .)
     EOL             reduce using rule 39 (id_list -> ID .)
-    DOT             shift and go to state 16
+    FROM            reduce using rule 39 (id_list -> ID .)
+    DOT             shift and go to state 15
+
+
+state 11
+
+    (13) select_columns -> id_list .
+    (41) id_list -> id_list . COMMA ID
+    (42) id_list -> id_list . COMMA ID DOT ID
+
+    FROM            reduce using rule 13 (select_columns -> id_list .)
+    COMMA           shift and go to state 16
 
 
 state 12
 
-    (6) select_statement -> SELECT select_columns . FROM id_list EOL
-    (7) select_statement -> SELECT select_columns . FROM id_list join_clause EOL
-    (8) select_statement -> SELECT select_columns . FROM id_list WHERE search_condition EOL
-    (9) select_statement -> SELECT select_columns . FROM id_list join_clause WHERE search_condition EOL
+    (4) update_statement -> UPDATE ID . SET set_clause_list EOL
+    (5) update_statement -> UPDATE ID . SET set_clause_list WHERE search_condition EOL
 
-    FROM            shift and go to state 17
+    SET             shift and go to state 17
 
 
 state 13
@@ -253,32 +253,6 @@ state 13
 
 state 14
 
-    (4) update_statement -> UPDATE ID SET . set_clause_list EOL
-    (5) update_statement -> UPDATE ID SET . set_clause_list WHERE search_condition EOL
-    (14) set_clause_list -> . ID EQ literal
-    (15) set_clause_list -> . ID EQ literal COMMA set_clause_list
-
-    ID              shift and go to state 19
-
-    set_clause_list                shift and go to state 20
-
-state 15
-
-    (41) id_list -> id_list COMMA . ID
-    (42) id_list -> id_list COMMA . ID DOT ID
-
-    ID              shift and go to state 21
-
-
-state 16
-
-    (40) id_list -> ID DOT . ID
-
-    ID              shift and go to state 22
-
-
-state 17
-
     (6) select_statement -> SELECT select_columns FROM . id_list EOL
     (7) select_statement -> SELECT select_columns FROM . id_list join_clause EOL
     (8) select_statement -> SELECT select_columns FROM . id_list WHERE search_condition EOL
@@ -288,65 +262,46 @@ state 17
     (41) id_list -> . id_list COMMA ID
     (42) id_list -> . id_list COMMA ID DOT ID
 
-    ID              shift and go to state 11
+    ID              shift and go to state 10
 
-    id_list                        shift and go to state 23
+    id_list                        shift and go to state 19
+
+state 15
+
+    (40) id_list -> ID DOT . ID
+
+    ID              shift and go to state 20
+
+
+state 16
+
+    (41) id_list -> id_list COMMA . ID
+    (42) id_list -> id_list COMMA . ID DOT ID
+
+    ID              shift and go to state 21
+
+
+state 17
+
+    (4) update_statement -> UPDATE ID SET . set_clause_list EOL
+    (5) update_statement -> UPDATE ID SET . set_clause_list WHERE search_condition EOL
+    (14) set_clause_list -> . ID EQ literal
+    (15) set_clause_list -> . ID EQ literal COMMA set_clause_list
+
+    ID              shift and go to state 23
+
+    set_clause_list                shift and go to state 22
 
 state 18
 
     (10) delete_statement -> DELETE FROM ID . EOL
     (11) delete_statement -> DELETE FROM ID . WHERE search_condition EOL
 
-    EOL             shift and go to state 25
-    WHERE           shift and go to state 24
+    EOL             shift and go to state 24
+    WHERE           shift and go to state 25
 
 
 state 19
-
-    (14) set_clause_list -> ID . EQ literal
-    (15) set_clause_list -> ID . EQ literal COMMA set_clause_list
-
-    EQ              shift and go to state 26
-
-
-state 20
-
-    (4) update_statement -> UPDATE ID SET set_clause_list . EOL
-    (5) update_statement -> UPDATE ID SET set_clause_list . WHERE search_condition EOL
-
-    EOL             shift and go to state 28
-    WHERE           shift and go to state 27
-
-
-state 21
-
-    (41) id_list -> id_list COMMA ID .
-    (42) id_list -> id_list COMMA ID . DOT ID
-
-    WHERE           reduce using rule 41 (id_list -> id_list COMMA ID .)
-    COMMA           reduce using rule 41 (id_list -> id_list COMMA ID .)
-    NATURAL         reduce using rule 41 (id_list -> id_list COMMA ID .)
-    JOIN            reduce using rule 41 (id_list -> id_list COMMA ID .)
-    RPAREN          reduce using rule 41 (id_list -> id_list COMMA ID .)
-    FROM            reduce using rule 41 (id_list -> id_list COMMA ID .)
-    EOL             reduce using rule 41 (id_list -> id_list COMMA ID .)
-    DOT             shift and go to state 29
-
-
-state 22
-
-    (40) id_list -> ID DOT ID .
-
-    WHERE           reduce using rule 40 (id_list -> ID DOT ID .)
-    COMMA           reduce using rule 40 (id_list -> ID DOT ID .)
-    NATURAL         reduce using rule 40 (id_list -> ID DOT ID .)
-    JOIN            reduce using rule 40 (id_list -> ID DOT ID .)
-    RPAREN          reduce using rule 40 (id_list -> ID DOT ID .)
-    FROM            reduce using rule 40 (id_list -> ID DOT ID .)
-    EOL             reduce using rule 40 (id_list -> ID DOT ID .)
-
-
-state 23
 
     (6) select_statement -> SELECT select_columns FROM id_list . EOL
     (7) select_statement -> SELECT select_columns FROM id_list . join_clause EOL
@@ -365,16 +320,68 @@ state 23
     (24) join_list -> . JOIN ID
     (25) join_list -> . JOIN ID join_list
 
-    EOL             shift and go to state 33
-    WHERE           shift and go to state 31
-    COMMA           shift and go to state 15
-    NATURAL         shift and go to state 30
-    JOIN            shift and go to state 32
+    EOL             shift and go to state 30
+    WHERE           shift and go to state 27
+    COMMA           shift and go to state 16
+    NATURAL         shift and go to state 26
+    JOIN            shift and go to state 28
 
-    join_list                      shift and go to state 34
-    join_clause                    shift and go to state 35
+    join_clause                    shift and go to state 31
+    join_list                      shift and go to state 29
+
+state 20
+
+    (40) id_list -> ID DOT ID .
+
+    WHERE           reduce using rule 40 (id_list -> ID DOT ID .)
+    COMMA           reduce using rule 40 (id_list -> ID DOT ID .)
+    NATURAL         reduce using rule 40 (id_list -> ID DOT ID .)
+    JOIN            reduce using rule 40 (id_list -> ID DOT ID .)
+    RPAREN          reduce using rule 40 (id_list -> ID DOT ID .)
+    EOL             reduce using rule 40 (id_list -> ID DOT ID .)
+    FROM            reduce using rule 40 (id_list -> ID DOT ID .)
+
+
+state 21
+
+    (41) id_list -> id_list COMMA ID .
+    (42) id_list -> id_list COMMA ID . DOT ID
+
+    WHERE           reduce using rule 41 (id_list -> id_list COMMA ID .)
+    COMMA           reduce using rule 41 (id_list -> id_list COMMA ID .)
+    NATURAL         reduce using rule 41 (id_list -> id_list COMMA ID .)
+    JOIN            reduce using rule 41 (id_list -> id_list COMMA ID .)
+    RPAREN          reduce using rule 41 (id_list -> id_list COMMA ID .)
+    EOL             reduce using rule 41 (id_list -> id_list COMMA ID .)
+    FROM            reduce using rule 41 (id_list -> id_list COMMA ID .)
+    DOT             shift and go to state 32
+
+
+state 22
+
+    (4) update_statement -> UPDATE ID SET set_clause_list . EOL
+    (5) update_statement -> UPDATE ID SET set_clause_list . WHERE search_condition EOL
+
+    EOL             shift and go to state 33
+    WHERE           shift and go to state 34
+
+
+state 23
+
+    (14) set_clause_list -> ID . EQ literal
+    (15) set_clause_list -> ID . EQ literal COMMA set_clause_list
+
+    EQ              shift and go to state 35
+
 
 state 24
+
+    (10) delete_statement -> DELETE FROM ID EOL .
+
+    $end            reduce using rule 10 (delete_statement -> DELETE FROM ID EOL .)
+
+
+state 25
 
     (11) delete_statement -> DELETE FROM ID WHERE . search_condition EOL
     (30) search_condition -> . search_condition OR search_condition
@@ -390,88 +397,26 @@ state 24
     (52) literal -> . DOUBLE
     (53) literal -> . STRING
 
-    LPAREN          shift and go to state 37
-    ID              shift and go to state 40
-    INT             shift and go to state 43
-    DOUBLE          shift and go to state 39
-    STRING          shift and go to state 38
+    LPAREN          shift and go to state 42
+    ID              shift and go to state 38
+    INT             shift and go to state 44
+    DOUBLE          shift and go to state 43
+    STRING          shift and go to state 40
 
-    search_condition               shift and go to state 36
-    comparison_predicate           shift and go to state 44
-    literal                        shift and go to state 41
-    value                          shift and go to state 42
-
-state 25
-
-    (10) delete_statement -> DELETE FROM ID EOL .
-
-    $end            reduce using rule 10 (delete_statement -> DELETE FROM ID EOL .)
-
+    comparison_predicate           shift and go to state 39
+    literal                        shift and go to state 36
+    value                          shift and go to state 41
+    search_condition               shift and go to state 37
 
 state 26
-
-    (14) set_clause_list -> ID EQ . literal
-    (15) set_clause_list -> ID EQ . literal COMMA set_clause_list
-    (51) literal -> . INT
-    (52) literal -> . DOUBLE
-    (53) literal -> . STRING
-
-    INT             shift and go to state 43
-    DOUBLE          shift and go to state 39
-    STRING          shift and go to state 38
-
-    literal                        shift and go to state 45
-
-state 27
-
-    (5) update_statement -> UPDATE ID SET set_clause_list WHERE . search_condition EOL
-    (30) search_condition -> . search_condition OR search_condition
-    (31) search_condition -> . search_condition AND search_condition
-    (32) search_condition -> . LPAREN search_condition RPAREN
-    (33) search_condition -> . comparison_predicate
-    (34) comparison_predicate -> . value comp_op value
-    (47) value -> . ID
-    (48) value -> . ID DOT ID
-    (49) value -> . literal
-    (50) value -> . LPAREN inner_select_statement RPAREN
-    (51) literal -> . INT
-    (52) literal -> . DOUBLE
-    (53) literal -> . STRING
-
-    LPAREN          shift and go to state 37
-    ID              shift and go to state 40
-    INT             shift and go to state 43
-    DOUBLE          shift and go to state 39
-    STRING          shift and go to state 38
-
-    search_condition               shift and go to state 46
-    comparison_predicate           shift and go to state 44
-    literal                        shift and go to state 41
-    value                          shift and go to state 42
-
-state 28
-
-    (4) update_statement -> UPDATE ID SET set_clause_list EOL .
-
-    $end            reduce using rule 4 (update_statement -> UPDATE ID SET set_clause_list EOL .)
-
-
-state 29
-
-    (42) id_list -> id_list COMMA ID DOT . ID
-
-    ID              shift and go to state 47
-
-
-state 30
 
     (16) join_clause -> NATURAL . JOIN ID
     (17) join_clause -> NATURAL . JOIN ID join_clause
 
-    JOIN            shift and go to state 48
+    JOIN            shift and go to state 45
 
 
-state 31
+state 27
 
     (8) select_statement -> SELECT select_columns FROM id_list WHERE . search_condition EOL
     (30) search_condition -> . search_condition OR search_condition
@@ -487,33 +432,26 @@ state 31
     (52) literal -> . DOUBLE
     (53) literal -> . STRING
 
-    LPAREN          shift and go to state 37
-    ID              shift and go to state 40
-    INT             shift and go to state 43
-    DOUBLE          shift and go to state 39
-    STRING          shift and go to state 38
+    LPAREN          shift and go to state 42
+    ID              shift and go to state 38
+    INT             shift and go to state 44
+    DOUBLE          shift and go to state 43
+    STRING          shift and go to state 40
 
-    search_condition               shift and go to state 49
-    comparison_predicate           shift and go to state 44
-    literal                        shift and go to state 41
-    value                          shift and go to state 42
+    comparison_predicate           shift and go to state 39
+    search_condition               shift and go to state 46
+    value                          shift and go to state 41
+    literal                        shift and go to state 36
 
-state 32
+state 28
 
     (24) join_list -> JOIN . ID
     (25) join_list -> JOIN . ID join_list
 
-    ID              shift and go to state 50
+    ID              shift and go to state 47
 
 
-state 33
-
-    (6) select_statement -> SELECT select_columns FROM id_list EOL .
-
-    $end            reduce using rule 6 (select_statement -> SELECT select_columns FROM id_list EOL .)
-
-
-state 34
+state 29
 
     (18) join_clause -> join_list . ON ID EQ ID
     (19) join_clause -> join_list . ON ID EQ ID join_clause
@@ -522,30 +460,165 @@ state 34
     (22) join_clause -> join_list . ON ID DOT ID EQ ID DOT ID join_clause
     (23) join_clause -> join_list . ON ID DOT ID EQ ID DOT ID join_search_condition
 
-    ON              shift and go to state 51
+    ON              shift and go to state 48
 
 
-state 35
+state 30
+
+    (6) select_statement -> SELECT select_columns FROM id_list EOL .
+
+    $end            reduce using rule 6 (select_statement -> SELECT select_columns FROM id_list EOL .)
+
+
+state 31
 
     (7) select_statement -> SELECT select_columns FROM id_list join_clause . EOL
     (9) select_statement -> SELECT select_columns FROM id_list join_clause . WHERE search_condition EOL
 
-    EOL             shift and go to state 53
-    WHERE           shift and go to state 52
+    EOL             shift and go to state 49
+    WHERE           shift and go to state 50
 
+
+state 32
+
+    (42) id_list -> id_list COMMA ID DOT . ID
+
+    ID              shift and go to state 51
+
+
+state 33
+
+    (4) update_statement -> UPDATE ID SET set_clause_list EOL .
+
+    $end            reduce using rule 4 (update_statement -> UPDATE ID SET set_clause_list EOL .)
+
+
+state 34
+
+    (5) update_statement -> UPDATE ID SET set_clause_list WHERE . search_condition EOL
+    (30) search_condition -> . search_condition OR search_condition
+    (31) search_condition -> . search_condition AND search_condition
+    (32) search_condition -> . LPAREN search_condition RPAREN
+    (33) search_condition -> . comparison_predicate
+    (34) comparison_predicate -> . value comp_op value
+    (47) value -> . ID
+    (48) value -> . ID DOT ID
+    (49) value -> . literal
+    (50) value -> . LPAREN inner_select_statement RPAREN
+    (51) literal -> . INT
+    (52) literal -> . DOUBLE
+    (53) literal -> . STRING
+
+    LPAREN          shift and go to state 42
+    ID              shift and go to state 38
+    INT             shift and go to state 44
+    DOUBLE          shift and go to state 43
+    STRING          shift and go to state 40
+
+    comparison_predicate           shift and go to state 39
+    literal                        shift and go to state 36
+    value                          shift and go to state 41
+    search_condition               shift and go to state 52
+
+state 35
+
+    (14) set_clause_list -> ID EQ . literal
+    (15) set_clause_list -> ID EQ . literal COMMA set_clause_list
+    (51) literal -> . INT
+    (52) literal -> . DOUBLE
+    (53) literal -> . STRING
+
+    INT             shift and go to state 44
+    DOUBLE          shift and go to state 43
+    STRING          shift and go to state 40
+
+    literal                        shift and go to state 53
 
 state 36
+
+    (49) value -> literal .
+
+    EQ              reduce using rule 49 (value -> literal .)
+    NEQ             reduce using rule 49 (value -> literal .)
+    GT              reduce using rule 49 (value -> literal .)
+    LT              reduce using rule 49 (value -> literal .)
+    EOL             reduce using rule 49 (value -> literal .)
+    OR              reduce using rule 49 (value -> literal .)
+    AND             reduce using rule 49 (value -> literal .)
+    RPAREN          reduce using rule 49 (value -> literal .)
+    WHERE           reduce using rule 49 (value -> literal .)
+
+
+state 37
 
     (11) delete_statement -> DELETE FROM ID WHERE search_condition . EOL
     (30) search_condition -> search_condition . OR search_condition
     (31) search_condition -> search_condition . AND search_condition
 
-    EOL             shift and go to state 56
-    OR              shift and go to state 55
-    AND             shift and go to state 54
+    EOL             shift and go to state 55
+    OR              shift and go to state 54
+    AND             shift and go to state 56
 
 
-state 37
+state 38
+
+    (47) value -> ID .
+    (48) value -> ID . DOT ID
+
+    EQ              reduce using rule 47 (value -> ID .)
+    NEQ             reduce using rule 47 (value -> ID .)
+    GT              reduce using rule 47 (value -> ID .)
+    LT              reduce using rule 47 (value -> ID .)
+    EOL             reduce using rule 47 (value -> ID .)
+    OR              reduce using rule 47 (value -> ID .)
+    AND             reduce using rule 47 (value -> ID .)
+    RPAREN          reduce using rule 47 (value -> ID .)
+    WHERE           reduce using rule 47 (value -> ID .)
+    DOT             shift and go to state 57
+
+
+state 39
+
+    (33) search_condition -> comparison_predicate .
+
+    EOL             reduce using rule 33 (search_condition -> comparison_predicate .)
+    OR              reduce using rule 33 (search_condition -> comparison_predicate .)
+    AND             reduce using rule 33 (search_condition -> comparison_predicate .)
+    RPAREN          reduce using rule 33 (search_condition -> comparison_predicate .)
+
+
+state 40
+
+    (53) literal -> STRING .
+
+    EQ              reduce using rule 53 (literal -> STRING .)
+    NEQ             reduce using rule 53 (literal -> STRING .)
+    GT              reduce using rule 53 (literal -> STRING .)
+    LT              reduce using rule 53 (literal -> STRING .)
+    EOL             reduce using rule 53 (literal -> STRING .)
+    OR              reduce using rule 53 (literal -> STRING .)
+    AND             reduce using rule 53 (literal -> STRING .)
+    RPAREN          reduce using rule 53 (literal -> STRING .)
+    WHERE           reduce using rule 53 (literal -> STRING .)
+    COMMA           reduce using rule 53 (literal -> STRING .)
+
+
+state 41
+
+    (34) comparison_predicate -> value . comp_op value
+    (35) comp_op -> . EQ
+    (36) comp_op -> . NEQ
+    (37) comp_op -> . GT
+    (38) comp_op -> . LT
+
+    EQ              shift and go to state 62
+    NEQ             shift and go to state 60
+    GT              shift and go to state 58
+    LT              shift and go to state 61
+
+    comp_op                        shift and go to state 59
+
+state 42
 
     (32) search_condition -> LPAREN . search_condition RPAREN
     (50) value -> LPAREN . inner_select_statement RPAREN
@@ -566,178 +639,71 @@ state 37
     (52) literal -> . DOUBLE
     (53) literal -> . STRING
 
-    LPAREN          shift and go to state 37
-    SELECT          shift and go to state 59
-    ID              shift and go to state 40
-    INT             shift and go to state 43
-    DOUBLE          shift and go to state 39
-    STRING          shift and go to state 38
+    LPAREN          shift and go to state 42
+    SELECT          shift and go to state 64
+    ID              shift and go to state 38
+    INT             shift and go to state 44
+    DOUBLE          shift and go to state 43
+    STRING          shift and go to state 40
 
-    search_condition               shift and go to state 57
-    comparison_predicate           shift and go to state 44
-    inner_select_statement         shift and go to state 58
-    literal                        shift and go to state 41
-    value                          shift and go to state 42
+    comparison_predicate           shift and go to state 39
+    value                          shift and go to state 41
+    search_condition               shift and go to state 63
+    inner_select_statement         shift and go to state 65
+    literal                        shift and go to state 36
 
-state 38
-
-    (53) literal -> STRING .
-
-    COMMA           reduce using rule 53 (literal -> STRING .)
-    EOL             reduce using rule 53 (literal -> STRING .)
-    WHERE           reduce using rule 53 (literal -> STRING .)
-    EQ              reduce using rule 53 (literal -> STRING .)
-    NEQ             reduce using rule 53 (literal -> STRING .)
-    GT              reduce using rule 53 (literal -> STRING .)
-    LT              reduce using rule 53 (literal -> STRING .)
-    OR              reduce using rule 53 (literal -> STRING .)
-    AND             reduce using rule 53 (literal -> STRING .)
-    RPAREN          reduce using rule 53 (literal -> STRING .)
-
-
-state 39
+state 43
 
     (52) literal -> DOUBLE .
 
-    COMMA           reduce using rule 52 (literal -> DOUBLE .)
-    EOL             reduce using rule 52 (literal -> DOUBLE .)
-    WHERE           reduce using rule 52 (literal -> DOUBLE .)
     EQ              reduce using rule 52 (literal -> DOUBLE .)
     NEQ             reduce using rule 52 (literal -> DOUBLE .)
     GT              reduce using rule 52 (literal -> DOUBLE .)
     LT              reduce using rule 52 (literal -> DOUBLE .)
+    EOL             reduce using rule 52 (literal -> DOUBLE .)
     OR              reduce using rule 52 (literal -> DOUBLE .)
     AND             reduce using rule 52 (literal -> DOUBLE .)
     RPAREN          reduce using rule 52 (literal -> DOUBLE .)
-
-
-state 40
-
-    (47) value -> ID .
-    (48) value -> ID . DOT ID
-
-    EQ              reduce using rule 47 (value -> ID .)
-    NEQ             reduce using rule 47 (value -> ID .)
-    GT              reduce using rule 47 (value -> ID .)
-    LT              reduce using rule 47 (value -> ID .)
-    EOL             reduce using rule 47 (value -> ID .)
-    OR              reduce using rule 47 (value -> ID .)
-    AND             reduce using rule 47 (value -> ID .)
-    RPAREN          reduce using rule 47 (value -> ID .)
-    WHERE           reduce using rule 47 (value -> ID .)
-    DOT             shift and go to state 60
-
-
-state 41
-
-    (49) value -> literal .
-
-    EQ              reduce using rule 49 (value -> literal .)
-    NEQ             reduce using rule 49 (value -> literal .)
-    GT              reduce using rule 49 (value -> literal .)
-    LT              reduce using rule 49 (value -> literal .)
-    EOL             reduce using rule 49 (value -> literal .)
-    OR              reduce using rule 49 (value -> literal .)
-    AND             reduce using rule 49 (value -> literal .)
-    RPAREN          reduce using rule 49 (value -> literal .)
-    WHERE           reduce using rule 49 (value -> literal .)
-
-
-state 42
-
-    (34) comparison_predicate -> value . comp_op value
-    (35) comp_op -> . EQ
-    (36) comp_op -> . NEQ
-    (37) comp_op -> . GT
-    (38) comp_op -> . LT
-
-    EQ              shift and go to state 62
-    NEQ             shift and go to state 61
-    GT              shift and go to state 64
-    LT              shift and go to state 65
-
-    comp_op                        shift and go to state 63
-
-state 43
-
-    (51) literal -> INT .
-
-    COMMA           reduce using rule 51 (literal -> INT .)
-    EOL             reduce using rule 51 (literal -> INT .)
-    WHERE           reduce using rule 51 (literal -> INT .)
-    EQ              reduce using rule 51 (literal -> INT .)
-    NEQ             reduce using rule 51 (literal -> INT .)
-    GT              reduce using rule 51 (literal -> INT .)
-    LT              reduce using rule 51 (literal -> INT .)
-    OR              reduce using rule 51 (literal -> INT .)
-    AND             reduce using rule 51 (literal -> INT .)
-    RPAREN          reduce using rule 51 (literal -> INT .)
+    WHERE           reduce using rule 52 (literal -> DOUBLE .)
+    COMMA           reduce using rule 52 (literal -> DOUBLE .)
 
 
 state 44
 
-    (33) search_condition -> comparison_predicate .
+    (51) literal -> INT .
 
-    OR              reduce using rule 33 (search_condition -> comparison_predicate .)
-    AND             reduce using rule 33 (search_condition -> comparison_predicate .)
-    EOL             reduce using rule 33 (search_condition -> comparison_predicate .)
-    RPAREN          reduce using rule 33 (search_condition -> comparison_predicate .)
+    EQ              reduce using rule 51 (literal -> INT .)
+    NEQ             reduce using rule 51 (literal -> INT .)
+    GT              reduce using rule 51 (literal -> INT .)
+    LT              reduce using rule 51 (literal -> INT .)
+    EOL             reduce using rule 51 (literal -> INT .)
+    OR              reduce using rule 51 (literal -> INT .)
+    AND             reduce using rule 51 (literal -> INT .)
+    RPAREN          reduce using rule 51 (literal -> INT .)
+    WHERE           reduce using rule 51 (literal -> INT .)
+    COMMA           reduce using rule 51 (literal -> INT .)
 
 
 state 45
 
-    (14) set_clause_list -> ID EQ literal .
-    (15) set_clause_list -> ID EQ literal . COMMA set_clause_list
-
-    EOL             reduce using rule 14 (set_clause_list -> ID EQ literal .)
-    WHERE           reduce using rule 14 (set_clause_list -> ID EQ literal .)
-    COMMA           shift and go to state 66
-
-
-state 46
-
-    (5) update_statement -> UPDATE ID SET set_clause_list WHERE search_condition . EOL
-    (30) search_condition -> search_condition . OR search_condition
-    (31) search_condition -> search_condition . AND search_condition
-
-    EOL             shift and go to state 67
-    OR              shift and go to state 55
-    AND             shift and go to state 54
-
-
-state 47
-
-    (42) id_list -> id_list COMMA ID DOT ID .
-
-    WHERE           reduce using rule 42 (id_list -> id_list COMMA ID DOT ID .)
-    COMMA           reduce using rule 42 (id_list -> id_list COMMA ID DOT ID .)
-    NATURAL         reduce using rule 42 (id_list -> id_list COMMA ID DOT ID .)
-    JOIN            reduce using rule 42 (id_list -> id_list COMMA ID DOT ID .)
-    RPAREN          reduce using rule 42 (id_list -> id_list COMMA ID DOT ID .)
-    FROM            reduce using rule 42 (id_list -> id_list COMMA ID DOT ID .)
-    EOL             reduce using rule 42 (id_list -> id_list COMMA ID DOT ID .)
-
-
-state 48
-
     (16) join_clause -> NATURAL JOIN . ID
     (17) join_clause -> NATURAL JOIN . ID join_clause
 
-    ID              shift and go to state 68
+    ID              shift and go to state 66
 
 
-state 49
+state 46
 
     (8) select_statement -> SELECT select_columns FROM id_list WHERE search_condition . EOL
     (30) search_condition -> search_condition . OR search_condition
     (31) search_condition -> search_condition . AND search_condition
 
-    EOL             shift and go to state 69
-    OR              shift and go to state 55
-    AND             shift and go to state 54
+    EOL             shift and go to state 67
+    OR              shift and go to state 54
+    AND             shift and go to state 56
 
 
-state 50
+state 47
 
     (24) join_list -> JOIN ID .
     (25) join_list -> JOIN ID . join_list
@@ -745,11 +711,11 @@ state 50
     (25) join_list -> . JOIN ID join_list
 
     ON              reduce using rule 24 (join_list -> JOIN ID .)
-    JOIN            shift and go to state 32
+    JOIN            shift and go to state 28
 
-    join_list                      shift and go to state 70
+    join_list                      shift and go to state 68
 
-state 51
+state 48
 
     (18) join_clause -> join_list ON . ID EQ ID
     (19) join_clause -> join_list ON . ID EQ ID join_clause
@@ -758,10 +724,17 @@ state 51
     (22) join_clause -> join_list ON . ID DOT ID EQ ID DOT ID join_clause
     (23) join_clause -> join_list ON . ID DOT ID EQ ID DOT ID join_search_condition
 
-    ID              shift and go to state 71
+    ID              shift and go to state 69
 
 
-state 52
+state 49
+
+    (7) select_statement -> SELECT select_columns FROM id_list join_clause EOL .
+
+    $end            reduce using rule 7 (select_statement -> SELECT select_columns FROM id_list join_clause EOL .)
+
+
+state 50
 
     (9) select_statement -> SELECT select_columns FROM id_list join_clause WHERE . search_condition EOL
     (30) search_condition -> . search_condition OR search_condition
@@ -777,52 +750,52 @@ state 52
     (52) literal -> . DOUBLE
     (53) literal -> . STRING
 
-    LPAREN          shift and go to state 37
-    ID              shift and go to state 40
-    INT             shift and go to state 43
-    DOUBLE          shift and go to state 39
-    STRING          shift and go to state 38
+    LPAREN          shift and go to state 42
+    ID              shift and go to state 38
+    INT             shift and go to state 44
+    DOUBLE          shift and go to state 43
+    STRING          shift and go to state 40
 
-    search_condition               shift and go to state 72
-    comparison_predicate           shift and go to state 44
-    literal                        shift and go to state 41
-    value                          shift and go to state 42
+    comparison_predicate           shift and go to state 39
+    search_condition               shift and go to state 70
+    value                          shift and go to state 41
+    literal                        shift and go to state 36
+
+state 51
+
+    (42) id_list -> id_list COMMA ID DOT ID .
+
+    WHERE           reduce using rule 42 (id_list -> id_list COMMA ID DOT ID .)
+    COMMA           reduce using rule 42 (id_list -> id_list COMMA ID DOT ID .)
+    NATURAL         reduce using rule 42 (id_list -> id_list COMMA ID DOT ID .)
+    JOIN            reduce using rule 42 (id_list -> id_list COMMA ID DOT ID .)
+    RPAREN          reduce using rule 42 (id_list -> id_list COMMA ID DOT ID .)
+    EOL             reduce using rule 42 (id_list -> id_list COMMA ID DOT ID .)
+    FROM            reduce using rule 42 (id_list -> id_list COMMA ID DOT ID .)
+
+
+state 52
+
+    (5) update_statement -> UPDATE ID SET set_clause_list WHERE search_condition . EOL
+    (30) search_condition -> search_condition . OR search_condition
+    (31) search_condition -> search_condition . AND search_condition
+
+    EOL             shift and go to state 71
+    OR              shift and go to state 54
+    AND             shift and go to state 56
+
 
 state 53
 
-    (7) select_statement -> SELECT select_columns FROM id_list join_clause EOL .
+    (14) set_clause_list -> ID EQ literal .
+    (15) set_clause_list -> ID EQ literal . COMMA set_clause_list
 
-    $end            reduce using rule 7 (select_statement -> SELECT select_columns FROM id_list join_clause EOL .)
+    EOL             reduce using rule 14 (set_clause_list -> ID EQ literal .)
+    WHERE           reduce using rule 14 (set_clause_list -> ID EQ literal .)
+    COMMA           shift and go to state 72
 
 
 state 54
-
-    (31) search_condition -> search_condition AND . search_condition
-    (30) search_condition -> . search_condition OR search_condition
-    (31) search_condition -> . search_condition AND search_condition
-    (32) search_condition -> . LPAREN search_condition RPAREN
-    (33) search_condition -> . comparison_predicate
-    (34) comparison_predicate -> . value comp_op value
-    (47) value -> . ID
-    (48) value -> . ID DOT ID
-    (49) value -> . literal
-    (50) value -> . LPAREN inner_select_statement RPAREN
-    (51) literal -> . INT
-    (52) literal -> . DOUBLE
-    (53) literal -> . STRING
-
-    LPAREN          shift and go to state 37
-    ID              shift and go to state 40
-    INT             shift and go to state 43
-    DOUBLE          shift and go to state 39
-    STRING          shift and go to state 38
-
-    search_condition               shift and go to state 73
-    comparison_predicate           shift and go to state 44
-    literal                        shift and go to state 41
-    value                          shift and go to state 42
-
-state 55
 
     (30) search_condition -> search_condition OR . search_condition
     (30) search_condition -> . search_condition OR search_condition
@@ -838,69 +811,90 @@ state 55
     (52) literal -> . DOUBLE
     (53) literal -> . STRING
 
-    LPAREN          shift and go to state 37
-    ID              shift and go to state 40
-    INT             shift and go to state 43
-    DOUBLE          shift and go to state 39
-    STRING          shift and go to state 38
+    LPAREN          shift and go to state 42
+    ID              shift and go to state 38
+    INT             shift and go to state 44
+    DOUBLE          shift and go to state 43
+    STRING          shift and go to state 40
 
-    search_condition               shift and go to state 74
-    comparison_predicate           shift and go to state 44
-    literal                        shift and go to state 41
-    value                          shift and go to state 42
+    comparison_predicate           shift and go to state 39
+    literal                        shift and go to state 36
+    value                          shift and go to state 41
+    search_condition               shift and go to state 73
 
-state 56
+state 55
 
     (11) delete_statement -> DELETE FROM ID WHERE search_condition EOL .
 
     $end            reduce using rule 11 (delete_statement -> DELETE FROM ID WHERE search_condition EOL .)
 
 
+state 56
+
+    (31) search_condition -> search_condition AND . search_condition
+    (30) search_condition -> . search_condition OR search_condition
+    (31) search_condition -> . search_condition AND search_condition
+    (32) search_condition -> . LPAREN search_condition RPAREN
+    (33) search_condition -> . comparison_predicate
+    (34) comparison_predicate -> . value comp_op value
+    (47) value -> . ID
+    (48) value -> . ID DOT ID
+    (49) value -> . literal
+    (50) value -> . LPAREN inner_select_statement RPAREN
+    (51) literal -> . INT
+    (52) literal -> . DOUBLE
+    (53) literal -> . STRING
+
+    LPAREN          shift and go to state 42
+    ID              shift and go to state 38
+    INT             shift and go to state 44
+    DOUBLE          shift and go to state 43
+    STRING          shift and go to state 40
+
+    comparison_predicate           shift and go to state 39
+    literal                        shift and go to state 36
+    value                          shift and go to state 41
+    search_condition               shift and go to state 74
+
 state 57
 
-    (32) search_condition -> LPAREN search_condition . RPAREN
-    (30) search_condition -> search_condition . OR search_condition
-    (31) search_condition -> search_condition . AND search_condition
+    (48) value -> ID DOT . ID
 
-    RPAREN          shift and go to state 75
-    OR              shift and go to state 55
-    AND             shift and go to state 54
+    ID              shift and go to state 75
 
 
 state 58
 
-    (50) value -> LPAREN inner_select_statement . RPAREN
+    (37) comp_op -> GT .
 
-    RPAREN          shift and go to state 76
+    ID              reduce using rule 37 (comp_op -> GT .)
+    LPAREN          reduce using rule 37 (comp_op -> GT .)
+    INT             reduce using rule 37 (comp_op -> GT .)
+    DOUBLE          reduce using rule 37 (comp_op -> GT .)
+    STRING          reduce using rule 37 (comp_op -> GT .)
 
 
 state 59
 
-    (43) inner_select_statement -> SELECT . select_columns FROM id_list
-    (44) inner_select_statement -> SELECT . select_columns FROM id_list join_clause
-    (45) inner_select_statement -> SELECT . select_columns FROM id_list WHERE search_condition
-    (46) inner_select_statement -> SELECT . select_columns FROM id_list join_clause WHERE search_condition
-    (12) select_columns -> . ALL
-    (13) select_columns -> . id_list
-    (39) id_list -> . ID
-    (40) id_list -> . ID DOT ID
-    (41) id_list -> . id_list COMMA ID
-    (42) id_list -> . id_list COMMA ID DOT ID
+    (34) comparison_predicate -> value comp_op . value
+    (47) value -> . ID
+    (48) value -> . ID DOT ID
+    (49) value -> . literal
+    (50) value -> . LPAREN inner_select_statement RPAREN
+    (51) literal -> . INT
+    (52) literal -> . DOUBLE
+    (53) literal -> . STRING
 
-    ALL             shift and go to state 9
-    ID              shift and go to state 11
+    ID              shift and go to state 38
+    LPAREN          shift and go to state 76
+    INT             shift and go to state 44
+    DOUBLE          shift and go to state 43
+    STRING          shift and go to state 40
 
-    select_columns                 shift and go to state 77
-    id_list                        shift and go to state 10
+    literal                        shift and go to state 36
+    value                          shift and go to state 77
 
 state 60
-
-    (48) value -> ID DOT . ID
-
-    ID              shift and go to state 78
-
-
-state 61
 
     (36) comp_op -> NEQ .
 
@@ -909,6 +903,17 @@ state 61
     INT             reduce using rule 36 (comp_op -> NEQ .)
     DOUBLE          reduce using rule 36 (comp_op -> NEQ .)
     STRING          reduce using rule 36 (comp_op -> NEQ .)
+
+
+state 61
+
+    (38) comp_op -> LT .
+
+    ID              reduce using rule 38 (comp_op -> LT .)
+    LPAREN          reduce using rule 38 (comp_op -> LT .)
+    INT             reduce using rule 38 (comp_op -> LT .)
+    DOUBLE          reduce using rule 38 (comp_op -> LT .)
+    STRING          reduce using rule 38 (comp_op -> LT .)
 
 
 state 62
@@ -924,64 +929,42 @@ state 62
 
 state 63
 
-    (34) comparison_predicate -> value comp_op . value
-    (47) value -> . ID
-    (48) value -> . ID DOT ID
-    (49) value -> . literal
-    (50) value -> . LPAREN inner_select_statement RPAREN
-    (51) literal -> . INT
-    (52) literal -> . DOUBLE
-    (53) literal -> . STRING
+    (32) search_condition -> LPAREN search_condition . RPAREN
+    (30) search_condition -> search_condition . OR search_condition
+    (31) search_condition -> search_condition . AND search_condition
 
-    ID              shift and go to state 40
-    LPAREN          shift and go to state 79
-    INT             shift and go to state 43
-    DOUBLE          shift and go to state 39
-    STRING          shift and go to state 38
+    RPAREN          shift and go to state 78
+    OR              shift and go to state 54
+    AND             shift and go to state 56
 
-    literal                        shift and go to state 41
-    value                          shift and go to state 80
 
 state 64
 
-    (37) comp_op -> GT .
+    (43) inner_select_statement -> SELECT . select_columns FROM id_list
+    (44) inner_select_statement -> SELECT . select_columns FROM id_list join_clause
+    (45) inner_select_statement -> SELECT . select_columns FROM id_list WHERE search_condition
+    (46) inner_select_statement -> SELECT . select_columns FROM id_list join_clause WHERE search_condition
+    (12) select_columns -> . ALL
+    (13) select_columns -> . id_list
+    (39) id_list -> . ID
+    (40) id_list -> . ID DOT ID
+    (41) id_list -> . id_list COMMA ID
+    (42) id_list -> . id_list COMMA ID DOT ID
 
-    ID              reduce using rule 37 (comp_op -> GT .)
-    LPAREN          reduce using rule 37 (comp_op -> GT .)
-    INT             reduce using rule 37 (comp_op -> GT .)
-    DOUBLE          reduce using rule 37 (comp_op -> GT .)
-    STRING          reduce using rule 37 (comp_op -> GT .)
+    ALL             shift and go to state 8
+    ID              shift and go to state 10
 
+    id_list                        shift and go to state 11
+    select_columns                 shift and go to state 79
 
 state 65
 
-    (38) comp_op -> LT .
+    (50) value -> LPAREN inner_select_statement . RPAREN
 
-    ID              reduce using rule 38 (comp_op -> LT .)
-    LPAREN          reduce using rule 38 (comp_op -> LT .)
-    INT             reduce using rule 38 (comp_op -> LT .)
-    DOUBLE          reduce using rule 38 (comp_op -> LT .)
-    STRING          reduce using rule 38 (comp_op -> LT .)
+    RPAREN          shift and go to state 80
 
 
 state 66
-
-    (15) set_clause_list -> ID EQ literal COMMA . set_clause_list
-    (14) set_clause_list -> . ID EQ literal
-    (15) set_clause_list -> . ID EQ literal COMMA set_clause_list
-
-    ID              shift and go to state 19
-
-    set_clause_list                shift and go to state 81
-
-state 67
-
-    (5) update_statement -> UPDATE ID SET set_clause_list WHERE search_condition EOL .
-
-    $end            reduce using rule 5 (update_statement -> UPDATE ID SET set_clause_list WHERE search_condition EOL .)
-
-
-state 68
 
     (16) join_clause -> NATURAL JOIN ID .
     (17) join_clause -> NATURAL JOIN ID . join_clause
@@ -999,27 +982,27 @@ state 68
     EOL             reduce using rule 16 (join_clause -> NATURAL JOIN ID .)
     WHERE           reduce using rule 16 (join_clause -> NATURAL JOIN ID .)
     RPAREN          reduce using rule 16 (join_clause -> NATURAL JOIN ID .)
-    NATURAL         shift and go to state 30
-    JOIN            shift and go to state 32
+    NATURAL         shift and go to state 26
+    JOIN            shift and go to state 28
 
-    join_list                      shift and go to state 34
-    join_clause                    shift and go to state 82
+    join_clause                    shift and go to state 81
+    join_list                      shift and go to state 29
 
-state 69
+state 67
 
     (8) select_statement -> SELECT select_columns FROM id_list WHERE search_condition EOL .
 
     $end            reduce using rule 8 (select_statement -> SELECT select_columns FROM id_list WHERE search_condition EOL .)
 
 
-state 70
+state 68
 
     (25) join_list -> JOIN ID join_list .
 
     ON              reduce using rule 25 (join_list -> JOIN ID join_list .)
 
 
-state 71
+state 69
 
     (18) join_clause -> join_list ON ID . EQ ID
     (19) join_clause -> join_list ON ID . EQ ID join_clause
@@ -1028,87 +1011,69 @@ state 71
     (22) join_clause -> join_list ON ID . DOT ID EQ ID DOT ID join_clause
     (23) join_clause -> join_list ON ID . DOT ID EQ ID DOT ID join_search_condition
 
-    EQ              shift and go to state 83
-    DOT             shift and go to state 84
+    EQ              shift and go to state 82
+    DOT             shift and go to state 83
 
 
-state 72
+state 70
 
     (9) select_statement -> SELECT select_columns FROM id_list join_clause WHERE search_condition . EOL
     (30) search_condition -> search_condition . OR search_condition
     (31) search_condition -> search_condition . AND search_condition
 
-    EOL             shift and go to state 85
-    OR              shift and go to state 55
-    AND             shift and go to state 54
+    EOL             shift and go to state 84
+    OR              shift and go to state 54
+    AND             shift and go to state 56
 
+
+state 71
+
+    (5) update_statement -> UPDATE ID SET set_clause_list WHERE search_condition EOL .
+
+    $end            reduce using rule 5 (update_statement -> UPDATE ID SET set_clause_list WHERE search_condition EOL .)
+
+
+state 72
+
+    (15) set_clause_list -> ID EQ literal COMMA . set_clause_list
+    (14) set_clause_list -> . ID EQ literal
+    (15) set_clause_list -> . ID EQ literal COMMA set_clause_list
+
+    ID              shift and go to state 23
+
+    set_clause_list                shift and go to state 85
 
 state 73
-
-    (31) search_condition -> search_condition AND search_condition .
-    (30) search_condition -> search_condition . OR search_condition
-    (31) search_condition -> search_condition . AND search_condition
-
-    OR              reduce using rule 31 (search_condition -> search_condition AND search_condition .)
-    AND             reduce using rule 31 (search_condition -> search_condition AND search_condition .)
-    EOL             reduce using rule 31 (search_condition -> search_condition AND search_condition .)
-    RPAREN          reduce using rule 31 (search_condition -> search_condition AND search_condition .)
-
-  ! OR              [ shift and go to state 55 ]
-  ! AND             [ shift and go to state 54 ]
-
-
-state 74
 
     (30) search_condition -> search_condition OR search_condition .
     (30) search_condition -> search_condition . OR search_condition
     (31) search_condition -> search_condition . AND search_condition
 
-    OR              reduce using rule 30 (search_condition -> search_condition OR search_condition .)
     EOL             reduce using rule 30 (search_condition -> search_condition OR search_condition .)
+    OR              reduce using rule 30 (search_condition -> search_condition OR search_condition .)
     RPAREN          reduce using rule 30 (search_condition -> search_condition OR search_condition .)
-    AND             shift and go to state 54
+    AND             shift and go to state 56
 
   ! AND             [ reduce using rule 30 (search_condition -> search_condition OR search_condition .) ]
-  ! OR              [ shift and go to state 55 ]
+  ! OR              [ shift and go to state 54 ]
+
+
+state 74
+
+    (31) search_condition -> search_condition AND search_condition .
+    (30) search_condition -> search_condition . OR search_condition
+    (31) search_condition -> search_condition . AND search_condition
+
+    EOL             reduce using rule 31 (search_condition -> search_condition AND search_condition .)
+    OR              reduce using rule 31 (search_condition -> search_condition AND search_condition .)
+    AND             reduce using rule 31 (search_condition -> search_condition AND search_condition .)
+    RPAREN          reduce using rule 31 (search_condition -> search_condition AND search_condition .)
+
+  ! OR              [ shift and go to state 54 ]
+  ! AND             [ shift and go to state 56 ]
 
 
 state 75
-
-    (32) search_condition -> LPAREN search_condition RPAREN .
-
-    OR              reduce using rule 32 (search_condition -> LPAREN search_condition RPAREN .)
-    AND             reduce using rule 32 (search_condition -> LPAREN search_condition RPAREN .)
-    EOL             reduce using rule 32 (search_condition -> LPAREN search_condition RPAREN .)
-    RPAREN          reduce using rule 32 (search_condition -> LPAREN search_condition RPAREN .)
-
-
-state 76
-
-    (50) value -> LPAREN inner_select_statement RPAREN .
-
-    EQ              reduce using rule 50 (value -> LPAREN inner_select_statement RPAREN .)
-    NEQ             reduce using rule 50 (value -> LPAREN inner_select_statement RPAREN .)
-    GT              reduce using rule 50 (value -> LPAREN inner_select_statement RPAREN .)
-    LT              reduce using rule 50 (value -> LPAREN inner_select_statement RPAREN .)
-    EOL             reduce using rule 50 (value -> LPAREN inner_select_statement RPAREN .)
-    OR              reduce using rule 50 (value -> LPAREN inner_select_statement RPAREN .)
-    AND             reduce using rule 50 (value -> LPAREN inner_select_statement RPAREN .)
-    RPAREN          reduce using rule 50 (value -> LPAREN inner_select_statement RPAREN .)
-    WHERE           reduce using rule 50 (value -> LPAREN inner_select_statement RPAREN .)
-
-
-state 77
-
-    (43) inner_select_statement -> SELECT select_columns . FROM id_list
-    (44) inner_select_statement -> SELECT select_columns . FROM id_list join_clause
-    (45) inner_select_statement -> SELECT select_columns . FROM id_list WHERE search_condition
-    (46) inner_select_statement -> SELECT select_columns . FROM id_list join_clause WHERE search_condition
-
-    FROM            shift and go to state 86
-
-
-state 78
 
     (48) value -> ID DOT ID .
 
@@ -1123,7 +1088,7 @@ state 78
     WHERE           reduce using rule 48 (value -> ID DOT ID .)
 
 
-state 79
+state 76
 
     (50) value -> LPAREN . inner_select_statement RPAREN
     (43) inner_select_statement -> . SELECT select_columns FROM id_list
@@ -1131,30 +1096,57 @@ state 79
     (45) inner_select_statement -> . SELECT select_columns FROM id_list WHERE search_condition
     (46) inner_select_statement -> . SELECT select_columns FROM id_list join_clause WHERE search_condition
 
-    SELECT          shift and go to state 59
+    SELECT          shift and go to state 64
 
-    inner_select_statement         shift and go to state 58
+    inner_select_statement         shift and go to state 65
 
-state 80
+state 77
 
     (34) comparison_predicate -> value comp_op value .
 
-    RPAREN          reduce using rule 34 (comparison_predicate -> value comp_op value .)
     EOL             reduce using rule 34 (comparison_predicate -> value comp_op value .)
     OR              reduce using rule 34 (comparison_predicate -> value comp_op value .)
     AND             reduce using rule 34 (comparison_predicate -> value comp_op value .)
+    RPAREN          reduce using rule 34 (comparison_predicate -> value comp_op value .)
     WHERE           reduce using rule 34 (comparison_predicate -> value comp_op value .)
 
 
+state 78
+
+    (32) search_condition -> LPAREN search_condition RPAREN .
+
+    EOL             reduce using rule 32 (search_condition -> LPAREN search_condition RPAREN .)
+    OR              reduce using rule 32 (search_condition -> LPAREN search_condition RPAREN .)
+    AND             reduce using rule 32 (search_condition -> LPAREN search_condition RPAREN .)
+    RPAREN          reduce using rule 32 (search_condition -> LPAREN search_condition RPAREN .)
+
+
+state 79
+
+    (43) inner_select_statement -> SELECT select_columns . FROM id_list
+    (44) inner_select_statement -> SELECT select_columns . FROM id_list join_clause
+    (45) inner_select_statement -> SELECT select_columns . FROM id_list WHERE search_condition
+    (46) inner_select_statement -> SELECT select_columns . FROM id_list join_clause WHERE search_condition
+
+    FROM            shift and go to state 86
+
+
+state 80
+
+    (50) value -> LPAREN inner_select_statement RPAREN .
+
+    EQ              reduce using rule 50 (value -> LPAREN inner_select_statement RPAREN .)
+    NEQ             reduce using rule 50 (value -> LPAREN inner_select_statement RPAREN .)
+    GT              reduce using rule 50 (value -> LPAREN inner_select_statement RPAREN .)
+    LT              reduce using rule 50 (value -> LPAREN inner_select_statement RPAREN .)
+    EOL             reduce using rule 50 (value -> LPAREN inner_select_statement RPAREN .)
+    OR              reduce using rule 50 (value -> LPAREN inner_select_statement RPAREN .)
+    AND             reduce using rule 50 (value -> LPAREN inner_select_statement RPAREN .)
+    RPAREN          reduce using rule 50 (value -> LPAREN inner_select_statement RPAREN .)
+    WHERE           reduce using rule 50 (value -> LPAREN inner_select_statement RPAREN .)
+
+
 state 81
-
-    (15) set_clause_list -> ID EQ literal COMMA set_clause_list .
-
-    EOL             reduce using rule 15 (set_clause_list -> ID EQ literal COMMA set_clause_list .)
-    WHERE           reduce using rule 15 (set_clause_list -> ID EQ literal COMMA set_clause_list .)
-
-
-state 82
 
     (17) join_clause -> NATURAL JOIN ID join_clause .
 
@@ -1163,7 +1155,7 @@ state 82
     RPAREN          reduce using rule 17 (join_clause -> NATURAL JOIN ID join_clause .)
 
 
-state 83
+state 82
 
     (18) join_clause -> join_list ON ID EQ . ID
     (19) join_clause -> join_list ON ID EQ . ID join_clause
@@ -1172,7 +1164,7 @@ state 83
     ID              shift and go to state 87
 
 
-state 84
+state 83
 
     (21) join_clause -> join_list ON ID DOT . ID EQ ID DOT ID
     (22) join_clause -> join_list ON ID DOT . ID EQ ID DOT ID join_clause
@@ -1181,11 +1173,19 @@ state 84
     ID              shift and go to state 88
 
 
-state 85
+state 84
 
     (9) select_statement -> SELECT select_columns FROM id_list join_clause WHERE search_condition EOL .
 
     $end            reduce using rule 9 (select_statement -> SELECT select_columns FROM id_list join_clause WHERE search_condition EOL .)
+
+
+state 85
+
+    (15) set_clause_list -> ID EQ literal COMMA set_clause_list .
+
+    EOL             reduce using rule 15 (set_clause_list -> ID EQ literal COMMA set_clause_list .)
+    WHERE           reduce using rule 15 (set_clause_list -> ID EQ literal COMMA set_clause_list .)
 
 
 state 86
@@ -1199,7 +1199,7 @@ state 86
     (41) id_list -> . id_list COMMA ID
     (42) id_list -> . id_list COMMA ID DOT ID
 
-    ID              shift and go to state 11
+    ID              shift and go to state 10
 
     id_list                        shift and go to state 89
 
@@ -1234,22 +1234,22 @@ state 87
     EOL             reduce using rule 18 (join_clause -> join_list ON ID EQ ID .)
     WHERE           reduce using rule 18 (join_clause -> join_list ON ID EQ ID .)
     RPAREN          reduce using rule 18 (join_clause -> join_list ON ID EQ ID .)
-    NATURAL         shift and go to state 30
-    AND             shift and go to state 91
-    OR              shift and go to state 92
-    LPAREN          shift and go to state 93
-    JOIN            shift and go to state 32
-    ID              shift and go to state 40
-    INT             shift and go to state 43
-    DOUBLE          shift and go to state 39
-    STRING          shift and go to state 38
+    NATURAL         shift and go to state 26
+    AND             shift and go to state 95
+    OR              shift and go to state 93
+    LPAREN          shift and go to state 92
+    JOIN            shift and go to state 28
+    ID              shift and go to state 38
+    INT             shift and go to state 44
+    DOUBLE          shift and go to state 43
+    STRING          shift and go to state 40
 
+    comparison_predicate           shift and go to state 91
+    literal                        shift and go to state 36
     join_search_condition          shift and go to state 90
-    join_list                      shift and go to state 34
-    comparison_predicate           shift and go to state 94
-    literal                        shift and go to state 41
-    value                          shift and go to state 42
-    join_clause                    shift and go to state 95
+    value                          shift and go to state 41
+    join_list                      shift and go to state 29
+    join_clause                    shift and go to state 94
 
 state 88
 
@@ -1281,12 +1281,12 @@ state 89
 
     RPAREN          reduce using rule 43 (inner_select_statement -> SELECT select_columns FROM id_list .)
     WHERE           shift and go to state 97
-    COMMA           shift and go to state 15
-    NATURAL         shift and go to state 30
-    JOIN            shift and go to state 32
+    COMMA           shift and go to state 16
+    NATURAL         shift and go to state 26
+    JOIN            shift and go to state 28
 
-    join_list                      shift and go to state 34
     join_clause                    shift and go to state 98
+    join_list                      shift and go to state 29
 
 state 90
 
@@ -1299,63 +1299,14 @@ state 90
 
 state 91
 
-    (26) join_search_condition -> AND . join_search_condition
-    (26) join_search_condition -> . AND join_search_condition
-    (27) join_search_condition -> . OR join_search_condition
-    (28) join_search_condition -> . LPAREN join_search_condition RPAREN
-    (29) join_search_condition -> . comparison_predicate
-    (34) comparison_predicate -> . value comp_op value
-    (47) value -> . ID
-    (48) value -> . ID DOT ID
-    (49) value -> . literal
-    (50) value -> . LPAREN inner_select_statement RPAREN
-    (51) literal -> . INT
-    (52) literal -> . DOUBLE
-    (53) literal -> . STRING
+    (29) join_search_condition -> comparison_predicate .
 
-    AND             shift and go to state 91
-    OR              shift and go to state 92
-    LPAREN          shift and go to state 93
-    ID              shift and go to state 40
-    INT             shift and go to state 43
-    DOUBLE          shift and go to state 39
-    STRING          shift and go to state 38
+    EOL             reduce using rule 29 (join_search_condition -> comparison_predicate .)
+    WHERE           reduce using rule 29 (join_search_condition -> comparison_predicate .)
+    RPAREN          reduce using rule 29 (join_search_condition -> comparison_predicate .)
 
-    join_search_condition          shift and go to state 99
-    comparison_predicate           shift and go to state 94
-    literal                        shift and go to state 41
-    value                          shift and go to state 42
 
 state 92
-
-    (27) join_search_condition -> OR . join_search_condition
-    (26) join_search_condition -> . AND join_search_condition
-    (27) join_search_condition -> . OR join_search_condition
-    (28) join_search_condition -> . LPAREN join_search_condition RPAREN
-    (29) join_search_condition -> . comparison_predicate
-    (34) comparison_predicate -> . value comp_op value
-    (47) value -> . ID
-    (48) value -> . ID DOT ID
-    (49) value -> . literal
-    (50) value -> . LPAREN inner_select_statement RPAREN
-    (51) literal -> . INT
-    (52) literal -> . DOUBLE
-    (53) literal -> . STRING
-
-    AND             shift and go to state 91
-    OR              shift and go to state 92
-    LPAREN          shift and go to state 93
-    ID              shift and go to state 40
-    INT             shift and go to state 43
-    DOUBLE          shift and go to state 39
-    STRING          shift and go to state 38
-
-    join_search_condition          shift and go to state 100
-    comparison_predicate           shift and go to state 94
-    literal                        shift and go to state 41
-    value                          shift and go to state 42
-
-state 93
 
     (28) join_search_condition -> LPAREN . join_search_condition RPAREN
     (50) value -> LPAREN . inner_select_statement RPAREN
@@ -1376,31 +1327,51 @@ state 93
     (52) literal -> . DOUBLE
     (53) literal -> . STRING
 
-    AND             shift and go to state 91
-    OR              shift and go to state 92
-    LPAREN          shift and go to state 93
-    SELECT          shift and go to state 59
-    ID              shift and go to state 40
-    INT             shift and go to state 43
-    DOUBLE          shift and go to state 39
-    STRING          shift and go to state 38
+    AND             shift and go to state 95
+    OR              shift and go to state 93
+    LPAREN          shift and go to state 92
+    SELECT          shift and go to state 64
+    ID              shift and go to state 38
+    INT             shift and go to state 44
+    DOUBLE          shift and go to state 43
+    STRING          shift and go to state 40
 
-    join_search_condition          shift and go to state 101
-    comparison_predicate           shift and go to state 94
-    literal                        shift and go to state 41
-    inner_select_statement         shift and go to state 58
-    value                          shift and go to state 42
+    comparison_predicate           shift and go to state 91
+    value                          shift and go to state 41
+    literal                        shift and go to state 36
+    join_search_condition          shift and go to state 99
+    inner_select_statement         shift and go to state 65
+
+state 93
+
+    (27) join_search_condition -> OR . join_search_condition
+    (26) join_search_condition -> . AND join_search_condition
+    (27) join_search_condition -> . OR join_search_condition
+    (28) join_search_condition -> . LPAREN join_search_condition RPAREN
+    (29) join_search_condition -> . comparison_predicate
+    (34) comparison_predicate -> . value comp_op value
+    (47) value -> . ID
+    (48) value -> . ID DOT ID
+    (49) value -> . literal
+    (50) value -> . LPAREN inner_select_statement RPAREN
+    (51) literal -> . INT
+    (52) literal -> . DOUBLE
+    (53) literal -> . STRING
+
+    AND             shift and go to state 95
+    OR              shift and go to state 93
+    LPAREN          shift and go to state 92
+    ID              shift and go to state 38
+    INT             shift and go to state 44
+    DOUBLE          shift and go to state 43
+    STRING          shift and go to state 40
+
+    comparison_predicate           shift and go to state 91
+    literal                        shift and go to state 36
+    value                          shift and go to state 41
+    join_search_condition          shift and go to state 100
 
 state 94
-
-    (29) join_search_condition -> comparison_predicate .
-
-    EOL             reduce using rule 29 (join_search_condition -> comparison_predicate .)
-    WHERE           reduce using rule 29 (join_search_condition -> comparison_predicate .)
-    RPAREN          reduce using rule 29 (join_search_condition -> comparison_predicate .)
-
-
-state 95
 
     (19) join_clause -> join_list ON ID EQ ID join_clause .
 
@@ -1408,6 +1379,35 @@ state 95
     WHERE           reduce using rule 19 (join_clause -> join_list ON ID EQ ID join_clause .)
     RPAREN          reduce using rule 19 (join_clause -> join_list ON ID EQ ID join_clause .)
 
+
+state 95
+
+    (26) join_search_condition -> AND . join_search_condition
+    (26) join_search_condition -> . AND join_search_condition
+    (27) join_search_condition -> . OR join_search_condition
+    (28) join_search_condition -> . LPAREN join_search_condition RPAREN
+    (29) join_search_condition -> . comparison_predicate
+    (34) comparison_predicate -> . value comp_op value
+    (47) value -> . ID
+    (48) value -> . ID DOT ID
+    (49) value -> . literal
+    (50) value -> . LPAREN inner_select_statement RPAREN
+    (51) literal -> . INT
+    (52) literal -> . DOUBLE
+    (53) literal -> . STRING
+
+    AND             shift and go to state 95
+    OR              shift and go to state 93
+    LPAREN          shift and go to state 92
+    ID              shift and go to state 38
+    INT             shift and go to state 44
+    DOUBLE          shift and go to state 43
+    STRING          shift and go to state 40
+
+    comparison_predicate           shift and go to state 91
+    literal                        shift and go to state 36
+    value                          shift and go to state 41
+    join_search_condition          shift and go to state 101
 
 state 96
 
@@ -1434,16 +1434,16 @@ state 97
     (52) literal -> . DOUBLE
     (53) literal -> . STRING
 
-    LPAREN          shift and go to state 37
-    ID              shift and go to state 40
-    INT             shift and go to state 43
-    DOUBLE          shift and go to state 39
-    STRING          shift and go to state 38
+    LPAREN          shift and go to state 42
+    ID              shift and go to state 38
+    INT             shift and go to state 44
+    DOUBLE          shift and go to state 43
+    STRING          shift and go to state 40
 
+    comparison_predicate           shift and go to state 39
     search_condition               shift and go to state 103
-    comparison_predicate           shift and go to state 44
-    literal                        shift and go to state 41
-    value                          shift and go to state 42
+    value                          shift and go to state 41
+    literal                        shift and go to state 36
 
 state 98
 
@@ -1456,11 +1456,9 @@ state 98
 
 state 99
 
-    (26) join_search_condition -> AND join_search_condition .
+    (28) join_search_condition -> LPAREN join_search_condition . RPAREN
 
-    EOL             reduce using rule 26 (join_search_condition -> AND join_search_condition .)
-    WHERE           reduce using rule 26 (join_search_condition -> AND join_search_condition .)
-    RPAREN          reduce using rule 26 (join_search_condition -> AND join_search_condition .)
+    RPAREN          shift and go to state 105
 
 
 state 100
@@ -1474,9 +1472,11 @@ state 100
 
 state 101
 
-    (28) join_search_condition -> LPAREN join_search_condition . RPAREN
+    (26) join_search_condition -> AND join_search_condition .
 
-    RPAREN          shift and go to state 105
+    EOL             reduce using rule 26 (join_search_condition -> AND join_search_condition .)
+    WHERE           reduce using rule 26 (join_search_condition -> AND join_search_condition .)
+    RPAREN          reduce using rule 26 (join_search_condition -> AND join_search_condition .)
 
 
 state 102
@@ -1495,8 +1495,8 @@ state 103
     (31) search_condition -> search_condition . AND search_condition
 
     RPAREN          reduce using rule 45 (inner_select_statement -> SELECT select_columns FROM id_list WHERE search_condition .)
-    OR              shift and go to state 55
-    AND             shift and go to state 54
+    OR              shift and go to state 54
+    AND             shift and go to state 56
 
 
 state 104
@@ -1515,16 +1515,16 @@ state 104
     (52) literal -> . DOUBLE
     (53) literal -> . STRING
 
-    LPAREN          shift and go to state 37
-    ID              shift and go to state 40
-    INT             shift and go to state 43
-    DOUBLE          shift and go to state 39
-    STRING          shift and go to state 38
+    LPAREN          shift and go to state 42
+    ID              shift and go to state 38
+    INT             shift and go to state 44
+    DOUBLE          shift and go to state 43
+    STRING          shift and go to state 40
 
+    comparison_predicate           shift and go to state 39
     search_condition               shift and go to state 107
-    comparison_predicate           shift and go to state 44
-    literal                        shift and go to state 41
-    value                          shift and go to state 42
+    value                          shift and go to state 41
+    literal                        shift and go to state 36
 
 state 105
 
@@ -1551,8 +1551,8 @@ state 107
     (31) search_condition -> search_condition . AND search_condition
 
     RPAREN          reduce using rule 46 (inner_select_statement -> SELECT select_columns FROM id_list join_clause WHERE search_condition .)
-    OR              shift and go to state 55
-    AND             shift and go to state 54
+    OR              shift and go to state 54
+    AND             shift and go to state 56
 
 
 state 108
@@ -1586,21 +1586,21 @@ state 108
     EOL             reduce using rule 21 (join_clause -> join_list ON ID DOT ID EQ ID DOT ID .)
     WHERE           reduce using rule 21 (join_clause -> join_list ON ID DOT ID EQ ID DOT ID .)
     RPAREN          reduce using rule 21 (join_clause -> join_list ON ID DOT ID EQ ID DOT ID .)
-    NATURAL         shift and go to state 30
-    AND             shift and go to state 91
-    OR              shift and go to state 92
-    LPAREN          shift and go to state 93
-    JOIN            shift and go to state 32
-    ID              shift and go to state 40
-    INT             shift and go to state 43
-    DOUBLE          shift and go to state 39
-    STRING          shift and go to state 38
+    NATURAL         shift and go to state 26
+    AND             shift and go to state 95
+    OR              shift and go to state 93
+    LPAREN          shift and go to state 92
+    JOIN            shift and go to state 28
+    ID              shift and go to state 38
+    INT             shift and go to state 44
+    DOUBLE          shift and go to state 43
+    STRING          shift and go to state 40
 
+    comparison_predicate           shift and go to state 91
+    literal                        shift and go to state 36
     join_search_condition          shift and go to state 109
-    join_list                      shift and go to state 34
-    comparison_predicate           shift and go to state 94
-    literal                        shift and go to state 41
-    value                          shift and go to state 42
+    value                          shift and go to state 41
+    join_list                      shift and go to state 29
     join_clause                    shift and go to state 110
 
 state 109
