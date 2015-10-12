@@ -119,8 +119,15 @@ class Update:
 					print("Unknown Column name '" + str(ColumnName) + "' in where field list!")
 					return False
 		
+
 		 
 			return True				
+
+
+			print('Table name and column names have been checked!') 
+			
+							
+
 
 	
 	def SetColumnValue(Clause):
@@ -141,6 +148,7 @@ class Update:
 			self.PerformUpdate();
 			
 			
+
 	def GetPrimaryKey(self):
 				
 		print('Table to update:' + str(self.TblName[0]))
@@ -240,6 +248,22 @@ class Update:
 
 		#for i in range (0,len(self.where_operation)):
 		#	print("ops ",self.where_operation[i],"--->type ",type(self.where_operation[i]))
+=======
+	def PerformUpdate(self):
+		self.fetch_data()
+		self.GetPK()
+		#perform operations pass the list of operations
+		#returns list of primary key + data
+		#prints it
+			
+	def GetPK(self):
+		
+		print('Result of Get Primary Key')
+		print(self.database.keys())
+		print(str(Data.PrintDataALL(self.TblName,self.database)))
+		
+		
+>>>>>>> 28bf700bef3146832ad48d4f42315e07073e6c79
 	
 	def fetch_data(self):
 		array1 = {}
@@ -251,8 +275,9 @@ class Update:
 				array1=filer.hashData()
 				self.database[self.TblName[i]]=array1				
 
+		print('Result of fetch_data')
 		print(self.database.keys())
-		print (str(self.database[self.TblName[i]]))
+		#print (str(self.database[self.TblName[i]]))
 	
 '''	
 
