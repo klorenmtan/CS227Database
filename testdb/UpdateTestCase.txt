@@ -49,4 +49,25 @@ Output for modification
 "['1000', 'Kai', 'wens', '6/12/2009', 'ako@ikaw.com']"
 
 
+Primary Key Algorithm:
+
+1. Get table
+2. Load to memory andassign variables to Allrecords
+3. Get all column and assign to variables TableAllColNames (from meta data)
+4. Extract each record/tuple from TableAllColName to variable record
+5. Convert record to list
+6. Get index # using TableAllColumnName as reference
+7. Compare thefirst whereColVal to index #
+8.	If found, return primarykeylist = index #
+		Proceed to step 10
+9. 	Else: "Record not found", abort operation
+10. Check if there are still columnname
+11. 	If no, save PK to self.PrimaryKey	
+12. 	If yes, perform step 3 to 7
+13.		Add to primarykeylist this time two primary keys
+14. Compare PK in the primarykeylist
+15. 	If not equal = "Record not found"
+16. 	If match, save to self.PrimaryKey
+
+
 
