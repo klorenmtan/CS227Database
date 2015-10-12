@@ -160,25 +160,21 @@ class SqlParser:
     def p_join_clause(self, p):
         ''' join_clause : NATURAL JOIN ID
                         | NATURAL JOIN ID join_clause
-                        | join_list ON ID EQ ID
-                        | join_list ON ID EQ ID join_clause
-                        | join_list ON ID EQ ID join_search_condition
-                        | join_list ON ID DOT ID EQ ID DOT ID
-                        | join_list ON ID DOT ID EQ ID DOT ID join_clause
-                        | join_list ON ID DOT ID EQ ID DOT ID join_search_condition '''
+                        | join_list
+                        | join_list ON join_value EQ join_value
+                        | join_list ON join_value EQ join_value join_clause
+                        | join_list ON join_value EQ join_value join_search_condition '''
 
-        if len(p) == 4:
+        if len(p) == 2:
+            p[0] = p[1]
+        elif len(p) == 4:
             p[0] = p[1] + "|" + p[2] + "|" + p[3]
         elif len(p) == 5:
             p[0] = p[1] + "|" + p[2] + "|" + p[3] + "|" + p[4]
         elif len(p) == 6:
             p[0] = p[1] + "|" + p[2] + "|" + p[3] + "|" + p[4] + "|" + p[5]
-        elif len(p) == 7:
-            p[0] = p[1] + "|" + p[2] + "|" + p[3] + "|" + p[4] + "|" + p[5] + "|" + p[6]
-        elif len(p) == 10:
-            p[0] = p[1] + "|" + p[2] + "|" + p[3] + "|" + p[4] + "|" + p[5] + "|" + p[6] + "|" + p[7] + "|" + p[8] + "|" + p[9]
         else:
-            p[0] = p[1] + "|" + p[2] + "|" + p[3] + "|" + p[4] + "|" + p[5] + "|" + p[6] + "|" + p[7] + "|" + p[8] + "|" + p[9] + "|" + p[10]
+            p[0] = p[1] + "|" + p[2] + "|" + p[3] + "|" + p[4] + "|" + p[5] + "|" + p[6]
 
     def p_join_list(self, p):
         ''' join_list : JOIN ID
@@ -188,6 +184,16 @@ class SqlParser:
             p[0] = p[1] + "|" + p[2]
         elif len(p) == 4:
             p[0] = p[1] + "|" + p[2] + "|" + p[3]
+
+    def p_join_value(self, p):
+        ''' join_value : ID
+                       | ID DOT ID
+                       | literal '''
+        
+        if len(p) == 4:
+            p[0] = p[1] + "|" + p[2] + "|" + p[3]
+        else:
+            p[0] = p[1]
        
     def p_join_search_condition(self, p):
         ''' join_search_condition : AND join_search_condition

@@ -5,9 +5,9 @@ _tabversion = '3.5'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'CCA6B54F9E6039E49BFF23CACC3881A4'
+_lr_signature = '3F454EF38053F668A47A79F4604AC34E'
     
-_lr_action_items = {'EOL':([10,18,19,20,21,22,31,36,37,38,39,40,43,44,46,51,52,53,66,70,73,74,75,77,78,80,81,85,87,90,91,94,100,101,105,108,109,110,],[-39,24,30,-40,-41,33,49,-49,55,-47,-33,-53,-52,-51,67,-42,71,-14,-16,84,-30,-31,-48,-34,-32,-50,-17,-15,-18,-20,-29,-19,-27,-26,-28,-21,-23,-22,]),'COMMA':([10,11,19,20,21,40,43,44,51,53,89,],[-39,16,16,-40,-41,-53,-52,-51,-42,72,16,]),'FROM':([4,8,9,10,11,20,21,51,79,],[13,-12,14,-39,-13,-40,-41,-42,86,]),'NATURAL':([10,19,20,21,51,66,87,89,108,],[-39,26,-40,-41,-42,26,26,26,26,]),'JOIN':([10,19,20,21,26,47,51,66,87,89,108,],[-39,28,-40,-41,45,28,-42,28,28,28,28,]),'LT':([36,38,40,41,43,44,75,80,],[-49,-47,-53,61,-52,-51,-48,-50,]),'ID':([1,3,13,14,15,16,17,25,27,28,32,34,42,45,48,50,54,56,57,58,59,60,61,62,64,72,82,83,86,87,92,93,95,96,97,104,106,108,],[10,12,18,10,20,21,23,38,38,47,51,38,38,66,69,38,38,38,75,-37,38,-36,-38,-35,10,23,87,88,10,38,38,38,38,102,38,38,108,38,]),'RPAREN':([10,20,21,36,38,39,40,43,44,51,63,65,66,73,74,75,77,78,80,81,87,89,90,91,94,98,99,100,101,103,105,107,108,109,110,],[-39,-40,-41,-49,-47,-33,-53,-52,-51,-42,78,80,-16,-30,-31,-48,-34,-32,-50,-17,-18,-43,-20,-29,-19,-44,105,-27,-26,-45,-28,-46,-21,-23,-22,]),'INT':([25,27,34,35,42,50,54,56,58,59,60,61,62,87,92,93,95,97,104,108,],[44,44,44,44,44,44,44,44,-37,44,-36,-38,-35,44,44,44,44,44,44,44,]),'$end':([2,5,6,7,24,30,33,49,55,67,71,84,],[-3,0,-2,-1,-10,-6,-4,-7,-11,-8,-5,-9,]),'GT':([36,38,40,41,43,44,75,80,],[-49,-47,-53,58,-52,-51,-48,-50,]),'DOT':([10,21,38,69,102,],[15,32,57,83,106,]),'SELECT':([0,42,76,92,],[1,64,64,64,]),'ALL':([1,64,],[8,8,]),'ON':([29,47,68,],[48,-24,-25,]),'STRING':([25,27,34,35,42,50,54,56,58,59,60,61,62,87,92,93,95,97,104,108,],[40,40,40,40,40,40,40,40,-37,40,-36,-38,-35,40,40,40,40,40,40,40,]),'NEQ':([36,38,40,41,43,44,75,80,],[-49,-47,-53,60,-52,-51,-48,-50,]),'UPDATE':([0,],[3,]),'OR':([36,37,38,39,40,43,44,46,52,63,70,73,74,75,77,78,80,87,92,93,95,103,107,108,],[-49,54,-47,-33,-53,-52,-51,54,54,54,54,-30,-31,-48,-34,-32,-50,93,93,93,93,54,54,93,]),'EQ':([23,36,38,40,41,43,44,69,75,80,88,],[35,-49,-47,-53,62,-52,-51,82,-48,-50,96,]),'SET':([12,],[17,]),'DELETE':([0,],[4,]),'LPAREN':([25,27,34,42,50,54,56,58,59,60,61,62,87,92,93,95,97,104,108,],[42,42,42,42,42,42,42,-37,76,-36,-38,-35,92,92,92,92,42,42,92,]),'DOUBLE':([25,27,34,35,42,50,54,56,58,59,60,61,62,87,92,93,95,97,104,108,],[43,43,43,43,43,43,43,43,-37,43,-36,-38,-35,43,43,43,43,43,43,43,]),'WHERE':([10,18,19,20,21,22,31,36,38,40,43,44,51,53,66,75,77,80,81,85,87,89,90,91,94,98,100,101,105,108,109,110,],[-39,25,27,-40,-41,34,50,-49,-47,-53,-52,-51,-42,-14,-16,-48,-34,-50,-17,-15,-18,97,-20,-29,-19,104,-27,-26,-28,-21,-23,-22,]),'AND':([36,37,38,39,40,43,44,46,52,63,70,73,74,75,77,78,80,87,92,93,95,103,107,108,],[-49,56,-47,-33,-53,-52,-51,56,56,56,56,56,-31,-48,-34,-32,-50,95,95,95,95,56,56,95,]),}
+_lr_action_items = {'ALL':([3,54,],[11,11,]),'FROM':([7,8,9,10,11,19,20,45,75,],[13,-13,-40,16,-12,-42,-41,-43,88,]),'GT':([37,39,40,41,42,43,77,78,],[-48,-53,-52,62,-50,-54,-51,-49,]),'LPAREN':([24,29,34,36,39,40,43,46,58,59,61,62,63,64,65,69,71,89,90,92,94,96,99,103,],[36,36,36,36,-53,-52,-54,36,36,36,-39,-38,-37,-36,82,-24,-26,-25,92,92,92,92,36,36,]),'NATURAL':([9,19,20,21,39,40,43,45,68,69,71,89,90,91,],[-40,-42,-41,30,-53,-52,-54,-43,30,-24,-26,-25,30,30,]),'DELETE':([0,],[7,]),'UPDATE':([0,],[6,]),'$end':([1,2,4,5,25,28,35,47,60,67,74,83,],[-1,-3,-2,0,-10,-6,-4,-7,-11,-8,-5,-9,]),'AND':([37,38,39,40,42,43,44,48,53,55,66,69,71,76,77,78,79,80,81,89,90,92,94,96,104,106,],[-48,58,-53,-52,-50,-54,-34,58,58,58,58,-24,-26,-33,-51,-49,-32,58,-35,-25,94,94,94,94,58,58,]),'ID':([3,6,13,14,15,16,17,24,26,29,32,34,36,39,40,43,46,49,50,54,57,58,59,61,62,63,64,65,69,71,73,85,86,88,89,90,92,94,96,99,103,],[9,12,18,19,20,9,22,37,45,37,51,37,37,-53,-52,-54,37,68,69,9,78,37,37,-39,-38,-37,-36,37,-24,-26,22,89,69,9,-25,37,37,37,37,37,37,]),'EOL':([9,18,19,20,21,23,27,31,37,38,39,40,42,43,44,45,48,51,52,53,66,68,69,71,72,76,77,78,79,80,81,84,87,89,90,93,95,97,101,102,105,],[-40,25,-42,-41,28,35,47,-18,-48,60,-53,-52,-50,-54,-34,-43,67,-22,-14,74,83,-16,-24,-26,-23,-33,-51,-49,-32,-31,-35,-17,-15,-25,-19,-21,-30,-20,-27,-28,-29,]),'DOT':([9,19,37,69,],[15,26,57,85,]),'SELECT':([0,36,82,92,],[3,54,54,54,]),'WHERE':([9,18,19,20,21,23,27,31,37,39,40,42,43,45,51,52,68,69,71,72,77,78,81,84,87,89,90,91,93,95,97,98,101,102,105,],[-40,24,-42,-41,29,34,46,-18,-48,-53,-52,-50,-54,-43,-22,-14,-16,-24,-26,-23,-51,-49,-35,-17,-15,-25,-19,99,-21,-30,-20,103,-27,-28,-29,]),'LT':([37,39,40,41,42,43,77,78,],[-48,-53,-52,61,-50,-54,-51,-49,]),'OR':([37,38,39,40,42,43,44,48,53,55,66,69,71,76,77,78,79,80,81,89,90,92,94,96,104,106,],[-48,59,-53,-52,-50,-54,-34,59,59,59,59,-24,-26,-33,-51,-49,-32,-31,-35,-25,96,96,96,96,59,59,]),'NEQ':([37,39,40,41,42,43,77,78,],[-48,-53,-52,63,-50,-54,-51,-49,]),'SET':([12,],[17,]),'RPAREN':([9,19,20,31,37,39,40,42,43,44,45,51,55,56,68,69,71,72,76,77,78,79,80,81,84,89,90,91,93,95,97,98,100,101,102,104,105,106,],[-40,-42,-41,-18,-48,-53,-52,-50,-54,-34,-43,-22,76,77,-16,-24,-26,-23,-33,-51,-49,-32,-31,-35,-17,-25,-19,-44,-21,-30,-20,-45,105,-27,-28,-46,-29,-47,]),'COMMA':([8,9,19,20,21,39,40,43,45,52,91,],[14,-40,-42,-41,14,-53,-52,-54,-43,73,14,]),'DOUBLE':([24,29,33,34,36,39,40,43,46,50,58,59,61,62,63,64,65,69,71,86,89,90,92,94,96,99,103,],[39,39,39,39,39,-53,-52,-54,39,39,39,39,-39,-38,-37,-36,39,-24,-26,39,-25,39,39,39,39,39,39,]),'INT':([24,29,33,34,36,39,40,43,46,50,58,59,61,62,63,64,65,69,71,86,89,90,92,94,96,99,103,],[40,40,40,40,40,-53,-52,-54,40,40,40,40,-39,-38,-37,-36,40,-24,-26,40,-25,40,40,40,40,40,40,]),'JOIN':([9,19,20,21,30,39,40,43,45,51,68,69,71,89,90,91,],[-40,-42,-41,32,49,-53,-52,-54,-43,32,32,-24,-26,-25,32,32,]),'STRING':([24,29,33,34,36,39,40,43,46,50,58,59,61,62,63,64,65,69,71,86,89,90,92,94,96,99,103,],[43,43,43,43,43,-53,-52,-54,43,43,43,43,-39,-38,-37,-36,43,-24,-26,43,-25,43,43,43,43,43,43,]),'EQ':([22,37,39,40,41,42,43,69,70,71,77,78,89,],[33,-48,-53,-52,64,-50,-54,-24,86,-26,-51,-49,-25,]),'ON':([31,51,72,],[50,-22,-23,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -16,7 +16,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'literal':([25,27,34,35,42,50,54,56,59,87,92,93,95,97,104,108,],[36,36,36,53,36,36,36,36,36,36,36,36,36,36,36,36,]),'select_columns':([1,64,],[9,79,]),'search_condition':([25,27,34,42,50,54,56,97,104,],[37,46,52,63,70,73,74,103,107,]),'inner_select_statement':([42,76,92,],[65,65,65,]),'join_search_condition':([87,92,93,95,108,],[90,99,100,101,109,]),'select_statement':([0,],[6,]),'comparison_predicate':([25,27,34,42,50,54,56,87,92,93,95,97,104,108,],[39,39,39,39,39,39,39,91,91,91,91,39,39,91,]),'statement':([0,],[5,]),'value':([25,27,34,42,50,54,56,59,87,92,93,95,97,104,108,],[41,41,41,41,41,41,41,77,41,41,41,41,41,41,41,]),'set_clause_list':([17,72,],[22,85,]),'id_list':([1,14,64,86,],[11,19,11,89,]),'comp_op':([41,],[59,]),'delete_statement':([0,],[2,]),'join_list':([19,47,66,87,89,108,],[29,68,29,29,29,29,]),'update_statement':([0,],[7,]),'join_clause':([19,66,87,89,108,],[31,81,94,98,110,]),}
+_lr_goto_items = {'update_statement':([0,],[1,]),'join_clause':([21,68,90,91,],[27,84,97,98,]),'set_clause_list':([17,73,],[23,87,]),'id_list':([3,16,54,88,],[8,21,8,91,]),'select_columns':([3,54,],[10,75,]),'join_value':([50,86,],[70,90,]),'search_condition':([24,29,34,36,46,58,59,99,103,],[38,48,53,55,66,79,80,104,106,]),'join_search_condition':([90,92,94,96,],[93,100,101,102,]),'join_list':([21,51,68,90,91,],[31,72,31,31,31,]),'value':([24,29,34,36,46,58,59,65,90,92,94,96,99,103,],[41,41,41,41,41,41,41,81,41,41,41,41,41,41,]),'select_statement':([0,],[4,]),'statement':([0,],[5,]),'delete_statement':([0,],[2,]),'literal':([24,29,33,34,36,46,50,58,59,65,86,90,92,94,96,99,103,],[42,42,52,42,42,42,71,42,42,42,71,42,42,42,42,42,42,]),'comparison_predicate':([24,29,34,36,46,58,59,90,92,94,96,99,103,],[44,44,44,44,44,44,44,95,95,95,95,44,44,]),'inner_select_statement':([36,82,92,],[56,56,56,]),'comp_op':([41,],[65,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -43,40 +43,41 @@ _lr_productions = [
   ('set_clause_list -> ID EQ literal COMMA set_clause_list','set_clause_list',5,'p_set_clause_list','LexerParser.py',153),
   ('join_clause -> NATURAL JOIN ID','join_clause',3,'p_join_clause','LexerParser.py',161),
   ('join_clause -> NATURAL JOIN ID join_clause','join_clause',4,'p_join_clause','LexerParser.py',162),
-  ('join_clause -> join_list ON ID EQ ID','join_clause',5,'p_join_clause','LexerParser.py',163),
-  ('join_clause -> join_list ON ID EQ ID join_clause','join_clause',6,'p_join_clause','LexerParser.py',164),
-  ('join_clause -> join_list ON ID EQ ID join_search_condition','join_clause',6,'p_join_clause','LexerParser.py',165),
-  ('join_clause -> join_list ON ID DOT ID EQ ID DOT ID','join_clause',9,'p_join_clause','LexerParser.py',166),
-  ('join_clause -> join_list ON ID DOT ID EQ ID DOT ID join_clause','join_clause',10,'p_join_clause','LexerParser.py',167),
-  ('join_clause -> join_list ON ID DOT ID EQ ID DOT ID join_search_condition','join_clause',10,'p_join_clause','LexerParser.py',168),
-  ('join_list -> JOIN ID','join_list',2,'p_join_list','LexerParser.py',184),
-  ('join_list -> JOIN ID join_list','join_list',3,'p_join_list','LexerParser.py',185),
-  ('join_search_condition -> AND join_search_condition','join_search_condition',2,'p_join_search_condition','LexerParser.py',193),
-  ('join_search_condition -> OR join_search_condition','join_search_condition',2,'p_join_search_condition','LexerParser.py',194),
-  ('join_search_condition -> LPAREN join_search_condition RPAREN','join_search_condition',3,'p_join_search_condition','LexerParser.py',195),
-  ('join_search_condition -> comparison_predicate','join_search_condition',1,'p_join_search_condition','LexerParser.py',196),
-  ('search_condition -> search_condition OR search_condition','search_condition',3,'p_search_condition','LexerParser.py',206),
-  ('search_condition -> search_condition AND search_condition','search_condition',3,'p_search_condition','LexerParser.py',207),
-  ('search_condition -> LPAREN search_condition RPAREN','search_condition',3,'p_search_condition','LexerParser.py',208),
-  ('search_condition -> comparison_predicate','search_condition',1,'p_search_condition','LexerParser.py',209),
-  ('comparison_predicate -> value comp_op value','comparison_predicate',3,'p_comparison_predicate','LexerParser.py',217),
-  ('comp_op -> EQ','comp_op',1,'p_comp_op','LexerParser.py',222),
-  ('comp_op -> NEQ','comp_op',1,'p_comp_op','LexerParser.py',223),
-  ('comp_op -> GT','comp_op',1,'p_comp_op','LexerParser.py',224),
-  ('comp_op -> LT','comp_op',1,'p_comp_op','LexerParser.py',225),
-  ('id_list -> ID','id_list',1,'p_id_list','LexerParser.py',230),
-  ('id_list -> ID DOT ID','id_list',3,'p_id_list','LexerParser.py',231),
-  ('id_list -> id_list COMMA ID','id_list',3,'p_id_list','LexerParser.py',232),
-  ('id_list -> id_list COMMA ID DOT ID','id_list',5,'p_id_list','LexerParser.py',233),
-  ('inner_select_statement -> SELECT select_columns FROM id_list','inner_select_statement',4,'p_inner_select_statement','LexerParser.py',246),
-  ('inner_select_statement -> SELECT select_columns FROM id_list join_clause','inner_select_statement',5,'p_inner_select_statement','LexerParser.py',247),
-  ('inner_select_statement -> SELECT select_columns FROM id_list WHERE search_condition','inner_select_statement',6,'p_inner_select_statement','LexerParser.py',248),
-  ('inner_select_statement -> SELECT select_columns FROM id_list join_clause WHERE search_condition','inner_select_statement',7,'p_inner_select_statement','LexerParser.py',249),
-  ('value -> ID','value',1,'p_value','LexerParser.py',261),
-  ('value -> ID DOT ID','value',3,'p_value','LexerParser.py',262),
-  ('value -> literal','value',1,'p_value','LexerParser.py',263),
-  ('value -> LPAREN inner_select_statement RPAREN','value',3,'p_value','LexerParser.py',264),
-  ('literal -> INT','literal',1,'p_literal','LexerParser.py',272),
-  ('literal -> DOUBLE','literal',1,'p_literal','LexerParser.py',273),
-  ('literal -> STRING','literal',1,'p_literal','LexerParser.py',274),
+  ('join_clause -> join_list','join_clause',1,'p_join_clause','LexerParser.py',163),
+  ('join_clause -> join_list ON join_value EQ join_value','join_clause',5,'p_join_clause','LexerParser.py',164),
+  ('join_clause -> join_list ON join_value EQ join_value join_clause','join_clause',6,'p_join_clause','LexerParser.py',165),
+  ('join_clause -> join_list ON join_value EQ join_value join_search_condition','join_clause',6,'p_join_clause','LexerParser.py',166),
+  ('join_list -> JOIN ID','join_list',2,'p_join_list','LexerParser.py',180),
+  ('join_list -> JOIN ID join_list','join_list',3,'p_join_list','LexerParser.py',181),
+  ('join_value -> ID','join_value',1,'p_join_value','LexerParser.py',189),
+  ('join_value -> ID DOT ID','join_value',3,'p_join_value','LexerParser.py',190),
+  ('join_value -> literal','join_value',1,'p_join_value','LexerParser.py',191),
+  ('join_search_condition -> AND join_search_condition','join_search_condition',2,'p_join_search_condition','LexerParser.py',199),
+  ('join_search_condition -> OR join_search_condition','join_search_condition',2,'p_join_search_condition','LexerParser.py',200),
+  ('join_search_condition -> LPAREN join_search_condition RPAREN','join_search_condition',3,'p_join_search_condition','LexerParser.py',201),
+  ('join_search_condition -> comparison_predicate','join_search_condition',1,'p_join_search_condition','LexerParser.py',202),
+  ('search_condition -> search_condition OR search_condition','search_condition',3,'p_search_condition','LexerParser.py',212),
+  ('search_condition -> search_condition AND search_condition','search_condition',3,'p_search_condition','LexerParser.py',213),
+  ('search_condition -> LPAREN search_condition RPAREN','search_condition',3,'p_search_condition','LexerParser.py',214),
+  ('search_condition -> comparison_predicate','search_condition',1,'p_search_condition','LexerParser.py',215),
+  ('comparison_predicate -> value comp_op value','comparison_predicate',3,'p_comparison_predicate','LexerParser.py',223),
+  ('comp_op -> EQ','comp_op',1,'p_comp_op','LexerParser.py',228),
+  ('comp_op -> NEQ','comp_op',1,'p_comp_op','LexerParser.py',229),
+  ('comp_op -> GT','comp_op',1,'p_comp_op','LexerParser.py',230),
+  ('comp_op -> LT','comp_op',1,'p_comp_op','LexerParser.py',231),
+  ('id_list -> ID','id_list',1,'p_id_list','LexerParser.py',236),
+  ('id_list -> ID DOT ID','id_list',3,'p_id_list','LexerParser.py',237),
+  ('id_list -> id_list COMMA ID','id_list',3,'p_id_list','LexerParser.py',238),
+  ('id_list -> id_list COMMA ID DOT ID','id_list',5,'p_id_list','LexerParser.py',239),
+  ('inner_select_statement -> SELECT select_columns FROM id_list','inner_select_statement',4,'p_inner_select_statement','LexerParser.py',252),
+  ('inner_select_statement -> SELECT select_columns FROM id_list join_clause','inner_select_statement',5,'p_inner_select_statement','LexerParser.py',253),
+  ('inner_select_statement -> SELECT select_columns FROM id_list WHERE search_condition','inner_select_statement',6,'p_inner_select_statement','LexerParser.py',254),
+  ('inner_select_statement -> SELECT select_columns FROM id_list join_clause WHERE search_condition','inner_select_statement',7,'p_inner_select_statement','LexerParser.py',255),
+  ('value -> ID','value',1,'p_value','LexerParser.py',267),
+  ('value -> ID DOT ID','value',3,'p_value','LexerParser.py',268),
+  ('value -> literal','value',1,'p_value','LexerParser.py',269),
+  ('value -> LPAREN inner_select_statement RPAREN','value',3,'p_value','LexerParser.py',270),
+  ('literal -> INT','literal',1,'p_literal','LexerParser.py',278),
+  ('literal -> DOUBLE','literal',1,'p_literal','LexerParser.py',279),
+  ('literal -> STRING','literal',1,'p_literal','LexerParser.py',280),
 ]
