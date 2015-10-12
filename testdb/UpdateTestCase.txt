@@ -1,0 +1,52 @@
+update customer set first_name = 'wens' where last_name = 'navallo'
+
+UPDATE customer SET first_name = 'Wens', email = 'ako@ikaw.com' WHERE last_name = 'Kai' and email = 'gatu@undopse.gov' ;
+
+UPDATE customer SET first_name = 'Wens2', birthdate = '9/9/1999' WHERE last_name = 'Kai' and email = 'gatu@undopse.gov' ;
+
+UPDATE customer SET first_name = 'Wens3' WHERE last_name = 'Kai' and email = 'gatu@undopse.gov' ;
+
+
+		self.TblName = [];
+		self.PrimaryKey = [];
+		self.SetColNameToUpdate = [];
+		self.SetColValToUpdate =[];
+		self.WhereColName = [];
+		self.WhereColVal = [];
+		self.WhereComOperator = [];
+		self.WhereLogicOperator = [];
+
+
+Table Name:['customer']
+Set Column Name:['first_name', 'email']
+Set Column Value:["'wens'", "'ako@ikaw.com'"]
+Where Column Name :['last_name']
+Where Comparison Operator:['=']
+Where Column Value:["'kai'"]
+Where Logical Operator:['and']
+
+
+
+Given PK = 1000
+
+TableAllColumnName['customerid,'last_name','first_name','birthdate','email\n']
+                    
+SplitRecord['1000','Kai','Jennings','6/12/2000','gatu@undopse\n']
+
+
+
+
+Assemble the Record List (Record to update).
+
+RecordToUpdate ['1000','Kai','wens','6/12/2000,'ako@ikaw.com\n']
+
+toString='1000,Kai,Wens,6/12/2000/,ako@ikaw.com\n'
+then insert to AllRecords
+Write to file
+
+
+Output for modification
+"['1000', 'Kai', 'wens', '6/12/2009', 'ako@ikaw.com']"
+
+
+
