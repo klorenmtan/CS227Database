@@ -110,13 +110,13 @@ class Update:
 			#check if the set columns are existing
 			for ColumnName in self.SetColNameToUpdate:						
 				if not(meta.checkcolumnExist(self.TblName[0], ColumnName)):
-					print("Unknown column name '" + str(ColumnName) + "' in set field list!")
+					print("Column name '" + str(ColumnName) + "' does not exist in '" + str(self.TblName[0]) + "' table!")
 					return False					
 					
 			#check if the where columns are existing
 			for ColumnName in self.WhereColName:
 				if not(meta.checkcolumnExist(self.TblName[0], ColumnName)):
-					print("Unknown Column name '" + str(ColumnName) + "' in where field list!")
+					print("Column name '" + str(ColumnName) + "' does not exist in '" + str(self.TblName[0]) + "' table!")
 					return False
 		
 
