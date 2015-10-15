@@ -20,7 +20,7 @@ class Update:
 	
 	def DissectUpdate(self):
 		self.TblName = [];
-		self.PrimaryKey = ['1111'];
+		self.PrimaryKey = [];
 		self.SetColNameToUpdate = [];
 		self.SetColValToUpdate =[];
 		self.WhereColName = [];
@@ -60,10 +60,10 @@ class Update:
 			lWhereClause = lUpdateStatement[iWhereIndex+1:len(lUpdateStatement)] # extract the where clause
 			
 			#Comparison Operators
-			lCompareOperator =['=','>','<','=>','=<','<>'];
+			lCompareOperator =['=','!=','>','<'];
 			
 			#LogicalOperator
-			lLogicalOperator = ['and','or','not'];
+			lLogicalOperator = ['and','or'];
 			
 			#Iterate to Where Clause and assign the Column names and its value, comparison and logical operators to self 	
 			for index in range(len(lWhereClause)):			
@@ -142,116 +142,116 @@ class Update:
 		
 	def MakeUpdate(self): 		
 		self.DissectUpdate();
-		Val = self.CheckUpdate();
-		Val2 = self.GetPrimaryKey();
+		#Val = self.CheckUpdate();
+		#Val2 = self.GetPrimaryKey();
 		#if Val == True: #and Val2 == True:
 		#	self.PerformUpdate();
 			
 			
 
 	def GetPrimaryKey(self):
-				
-		print('Table to update:' + str(self.TblName[0]))
+	
+		#This Function will Get the Primary key of matched condition from where clause
 		
 		CSVFile = open(self.TblName[0]+".csv")
 		AllRecords = CSVFile.readlines()
 		CSVFile.close()
 		lTableAllColNames = meta.getAllColumns(self.TblName[0]) # Get all the Columns names of Given Tables
-		PrimaryKey = []
+		#PrimaryKey = []
 		#print('AllRecords: ' + str(AllRecords))
 		
 		#get the index of the column names of the table to be searched
-		iSearchIndex = []
+		iSearchIndex = [] # Index will be assigned to list of integer
 		for ColumnName in self.WhereColName:
 			iSearchIndex.append(lTableAllColNames.index(str(ColumnName)))
 			
-		# Start the Searching by extracting each record and compare with the where values	
-		for Record in AllRecords:
-			Record = Record.lower() # Lower all the character
-			Record = Record.replace("\n","") # Remove \new line
-			lSplitRecord = Record.split(',') # Split the records and convert it to list
-			#print('Records: ' + str(lSplitRecord))
+		# Start the Searching of Table ID by extracting each record and compare with the where values	
+		for lRecord in AllRecords:
+			lRecord = lRecord.lower() # Lower all the character
+			lRecord = lRecord.replace("\n","") # Remove \new line
+			lSplitRecord = lRecord.split(',') # Split the records list
 			
+			iColValIndex = 0	# this Index will be used by self.WhereColVal list
+			blnTFCounter = [] # List that will collect  True and False evaluation of the search fields
+			iRecordId = lSplitRecord[0] # initialized the Record ID of each tuple
 			
-			ColValIndex = 0	# this Index will be used by self.WhereColVal list
-			TFCounter = [] # List that will collect True and False
-			GetPK = lSplitRecord[0] # initialized the Record PK
-			
-			for Index in iSearchIndex:
-						
+			# Dito Magsisimula mag navigate for each record
+			for Index in iSearchIndex:			
 				#for compare in self.WhereComOperator:
-				if self.WhereComOperator[ColValIndex] == '=' :
-						
-					if lSplitRecord[Index] == self.WhereColVal[ColValIndex]:
+				if self.WhereComOperator[iColValIndex] == '=' :
+						#Value from record         Value from wherecolvalue
+					if lSplitRecord[Index] == self.WhereColVal[iColValIndex]:
 							
-						print('GetPK:' + str(GetPK))
-						print('Index and ColValIndex ' + str(Index) + ':' + str(ColValIndex))								
-						TFCounter.append(True)
-						print('TFCounter' + str(TFCounter))	
-							
+						print('iRecordId:' + str(iRecordId))
+						print('Index and iColValIndex ' + str(Index) + ':' + str(iColValIndex))								
+						blnTFCounter.append(True)
+						print('blnTFCounter' + str(blnTFCounter))				
+					elif lSplitRecord[Index] != self.WhereColVal[iColValIndex]:
+						blnTFCounter.append(False)
 						
-					elif lSplitRecord[Index] != self.WhereColVal[ColValIndex]:
-						TFCounter.append(False)
-						
-				ColValIndex =ColValIndex + 1
-				
-						
-						
-						
-				'''		
+				#iColValIndex =iColValIndex + 1
+			
 				#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
 					
-					elif compare == '<':
-						if lSplitRecord[Index] < self.WhereColVal[ColValIndex]:
-							PrimaryKey.append(lSplitRecord[0]) # Get the Primary Key of the matched record		
-						ColValIndex =ColValIndex + 1
-					elif compare == '>':
-						if lSplitRecord[Index] > self.WhereColVal[ColValIndex]:
-							PrimaryKey.append(lSplitRecord[0]) # Get the Primary Key of the matched record		
-						ColValIndex =ColValIndex + 1
-					elif compare == '!=':
-						if lSplitRecord[Index] != self.WhereColVal[ColValIndex]:
-							PrimaryKey.append(lSplitRecord[0]) # Get the Primary Key of the matched record		
-						ColValIndex =ColValIndex + 1
-						
-				'''
-			
-			if len(self.WhereLogicOperator) != 0:
-			
-				for Index in range(len(self.WhereLogicOperator)):
-					Result = "" 
+				elif self.WhereComOperator[iColValIndex] == '<':
+					if lSplitRecord[Index] < self.WhereColVal[iColValIndex]:
+						blnTFCounter.append(True)
+					else: 
+						blnTFCounter.append(False)
+				#iColValIndex =iColValIndex + 1
 				
-					if Result == "":
+				elif self.WhereComOperator[iColValIndex] == '>':
+					if lSplitRecord[Index] > self.WhereColVal[iColValIndex]:
+						blnTFCounter.append(True)
+					else:
+						blnTFCounter.append(False)
+				#iColValIndex =iColValIndex + 1
+				
+				elif self.WhereComOperator[iColValIndex] == '!=':
+					if lSplitRecord[Index] != self.WhereColVal[iColValIndex]:
+						blnTFCounter.append(True)
+					else:
+						blnTFCounter.append(False)	
+						
+				iColValIndex =iColValIndex + 1
+						
+				
+			# Dito mag start mag compare all the collected True and False from blnTFCounter using value form self.WhereLogicOperator
+			if len(self.WhereLogicOperator) != 0:
+				for Index in range(len(self.WhereLogicOperator)):
+					blnResult = "" #Boolean Variable that will hold the result blnTFCounter Collected True or False
+				
+					if blnResult == "":
 						if self.WhereLogicOperator[Index] == 'and':
-							Result = TFCounter[Index] and TFCounter[Index + 1]
+							blnResult = blnTFCounter[Index] and blnTFCounter[Index + 1]
 						elif  self.WhereLogicOperator[Index] == 'or':
-							Result = TFCounter[Index] or TFCounter[Index + 1]
+							blnResult = blnTFCounter[Index] or blnTFCounter[Index + 1]
 					else:
 						if self.WhereLogicOperator[Index] == 'and':
-							Result = TFCounter[Index] and TFCounter[Index + 1]
+							blnResult = blnTFCounter[Index] and blnTFCounter[Index + 1]
 						elif  self.WhereLogicalOperator[Index] == 'or':
-							Result = TFCounter[Index] or TFCounter[Index + 1]
+							blnResult = blnTFCounter[Index] or blnTFCounter[Index + 1]
 			else:
-				Result = "" 
-				Result = TFCounter[0]
+				blnResult = "" 
+				blnResult = blnTFCounter[0]
 			
 			
 						
-			if Result == True:
-				PrimaryKey.append(GetPK)
+			if blnResult == True:
+				self.PrimaryKey.append(iRecordId)
 			
-			print('Result :'+ str(Result))	
+			#print('Result :'+ str(blnResult))	
 				
 
 														
 				
-		print('Primary Keys:' + str(PrimaryKey)) 		
+		print('Primary Keys:' + str(self.PrimaryKey)) 		
 		
 		
 	
 		#print('Print All Record:' + str(AllRecords))	
 		
-		if len(PrimaryKey) == 0:
+		if len(self.PrimaryKey) == 0:
 			print('Record Not Found')
 			return False
 		else:
@@ -330,13 +330,7 @@ class Update:
 		#returns list of primary key + data
 		#prints it
 
-++++++++++++++++++++++++++++++++++++ Delete			
-	def GetPK(self):
 		
-		print('Result of Get Primary Key')
-		print(self.database.keys())
-		print(str(Data.PrintDataALL(self.TblName,self.database)))
-++++++++++++++++++++++++++++++++++++++++++++++++++		
 		
 	
 	def fetch_data(self): # Do not Delete
