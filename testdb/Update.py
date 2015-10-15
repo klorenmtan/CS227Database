@@ -142,16 +142,16 @@ class Update:
 		
 	def MakeUpdate(self): 		
 		self.DissectUpdate();
-		#Val = self.CheckUpdate();
-		#Val2 = self.GetPrimaryKey();
-		#if Val == True: #and Val2 == True:
-		#	self.PerformUpdate();
+		Val = self.CheckUpdate();
+		Val2 = self.GetPrimaryKey();
+		if Val == True and Val2 == True:
+			self.PerformUpdate();
 			
 			
 
 	def GetPrimaryKey(self):
 	
-		#This Function will Get the Primary key of matched condition from where clause
+		#This Function will Get the Primary key of matched condition of the table to update and  where clause
 		
 		CSVFile = open(self.TblName[0]+".csv")
 		AllRecords = CSVFile.readlines()
@@ -168,7 +168,7 @@ class Update:
 		# Start the Searching of Table ID by extracting each record and compare with the where values	
 		for lRecord in AllRecords:
 			lRecord = lRecord.lower() # Lower all the character
-			lRecord = lRecord.replace("\n","") # Remove \new line
+			lRecord = lRecord.replace("\n","") # Remove \new lineS
 			lSplitRecord = lRecord.split(',') # Split the records list
 			
 			iColValIndex = 0	# this Index will be used by self.WhereColVal list
@@ -180,17 +180,14 @@ class Update:
 				#for compare in self.WhereComOperator:
 				if self.WhereComOperator[iColValIndex] == '=' :
 						#Value from record         Value from wherecolvalue
-					if lSplitRecord[Index] == self.WhereColVal[iColValIndex]:
-							
-						print('iRecordId:' + str(iRecordId))
-						print('Index and iColValIndex ' + str(Index) + ':' + str(iColValIndex))								
+					if lSplitRecord[Index] == self.WhereColVal[iColValIndex]:						
+						#print('iRecordId:' + str(iRecordId))
+						#print('Index and iColValIndex ' + str(Index) + ':' + str(iColValIndex))								
 						blnTFCounter.append(True)
-						print('blnTFCounter' + str(blnTFCounter))				
+						#print('blnTFCounter' + str(blnTFCounter))				
 					elif lSplitRecord[Index] != self.WhereColVal[iColValIndex]:
 						blnTFCounter.append(False)
 						
-				#iColValIndex =iColValIndex + 1
-			
 				#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
 					
 				elif self.WhereComOperator[iColValIndex] == '<':
@@ -198,14 +195,13 @@ class Update:
 						blnTFCounter.append(True)
 					else: 
 						blnTFCounter.append(False)
-				#iColValIndex =iColValIndex + 1
-				
+								
 				elif self.WhereComOperator[iColValIndex] == '>':
 					if lSplitRecord[Index] > self.WhereColVal[iColValIndex]:
 						blnTFCounter.append(True)
 					else:
 						blnTFCounter.append(False)
-				#iColValIndex =iColValIndex + 1
+				
 				
 				elif self.WhereComOperator[iColValIndex] == '!=':
 					if lSplitRecord[Index] != self.WhereColVal[iColValIndex]:
@@ -235,26 +231,17 @@ class Update:
 				blnResult = "" 
 				blnResult = blnTFCounter[0]
 			
-			
-						
+			# When the evaluation of the Record is completed the id will be appended to PK
 			if blnResult == True:
 				self.PrimaryKey.append(iRecordId)
 			
 			#print('Result :'+ str(blnResult))	
-				
-
-														
-				
-		print('Primary Keys:' + str(self.PrimaryKey)) 		
-		
-		
-	
-		#print('Print All Record:' + str(AllRecords))	
 		
 		if len(self.PrimaryKey) == 0:
 			print('Record Not Found')
 			return False
 		else:
+			#print('Number of Primary Keys:'+str(len(self.PrimaryKey)) +':' + str(self.PrimaryKey) )
 			return True
 			
 	def PerformUpdate(self):
@@ -264,43 +251,45 @@ class Update:
 		CSVFile.close()
 		TableAllColNames = meta.getAllColumns(self.TblName[0]) # Get all the Columns names of Given Tables
 		
-		for Record in AllRecords:
-			SplitRecord = Record.split(',') # Split the Record to extract PK
-			if SplitRecord[0] == self.PrimaryKey[0]: # Compare and Search PK
-				RecordIndex = AllRecords.index(Record) #Get the Record index from AllRecords
-				#print('Record Found!:' + str(Record))
-				#print('Split Record!:' + str(SplitRecord)) 
-				#print('Record:' + str(AllRecords[RecordIndex]))
-				#+++++++++++++++++++++++++++++++++++++++++++++++++++++
-				for index in range(len(self.SetColNameToUpdate)):
-					UpdateIndex = TableAllColNames.index(str(self.SetColNameToUpdate[index]))
-					Domain = self.SetColValToUpdate[index]
-					SplitRecord[UpdateIndex] = Domain.replace("'","")
-					
-				#print('Updated SplitRecord' + str(SplitRecord))
-				UpdateRecord = ""
-				for field in SplitRecord:
-					if '\n' not in field:
-						UpdateRecord = UpdateRecord + str(field + '\n') #Fill out the UpdateRecord String
-					else:
-						UpdateRecord = UpdateRecord + str(field)
-				
-				UpdateRecord = UpdateRecord.replace('\n',',',len(SplitRecord)-1) # Replace '\n' with commas(,)
-	
-				print('Update Record: ' + UpdateRecord)	
-				
-				#++++++++++++++++++++++++++++++++++++++++	
-				
-				AllRecords[RecordIndex]=str(UpdateRecord) #Insert the Update in AllRecords
-				break
+		for PK in self.PrimaryKey:
 		
-		#print('Display all records:' + str(AllRecords))
+			for Record in AllRecords:
+				SplitRecord = Record.split(',') # Split the Record to extract PK
+				if SplitRecord[0] == PK: # Compare and Search PK
+					RecordIndex = AllRecords.index(Record) #Get the Record index from AllRecords
+					#print('Record Found!:' + str(Record))
+					#print('Split Record!:' + str(SplitRecord)) 
+					#print('Record:' + str(AllRecords[RecordIndex]))
+					#+++++++++++++++++++++++++++++++++++++++++++++++++++++
+					for index in range(len(self.SetColNameToUpdate)):
+						UpdateIndex = TableAllColNames.index(str(self.SetColNameToUpdate[index]))
+						Domain = self.SetColValToUpdate[index]
+						SplitRecord[UpdateIndex] = Domain.replace("'","")
+					
+					#print('Updated SplitRecord' + str(SplitRecord))
+					UpdateRecord = ""
+					for field in SplitRecord:
+						if '\n' not in field:
+							UpdateRecord = UpdateRecord + str(field + '\n') #Fill out the UpdateRecord String
+						else:
+							UpdateRecord = UpdateRecord + str(field)
+				
+					UpdateRecord = UpdateRecord.replace('\n',',',len(SplitRecord)-1) # Replace '\n' with commas(,)
+	
+					print('Update Record: ' + UpdateRecord)	
+				
+					#++++++++++++++++++++++++++++++++++++++++	
+				
+					AllRecords[RecordIndex]=str(UpdateRecord) #Insert the Update in AllRecords
+					break
+		
+			#print('Display all records:' + str(AllRecords))
 		
 		CSV_Output = open(self.TblName[0]+"All.csv","w")
 		for Record in AllRecords:
 			CSV_Output.write(str(Record))
 		CSV_Output.close()
-		print('One Row has been Updated!')
+		print( str(len(self.PrimaryKey))+' Row(s) have been Updated!')
 		
 '''			
 	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Delete
