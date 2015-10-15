@@ -2,7 +2,9 @@ update customer set first_name = 'wens' where last_name = 'navallo'
 
 UPDATE customer SET first_name = 'Wens', email = 'ako@ikaw.com' WHERE last_name = 'Kai' and email = 'gatu@undopse.gov' ;
 
-UPDATE customer SET first_name = 'Wens', email = 'ako@ikaw.com' WHERE last_name = 'Kai' or email = 'gatu@undopse.gove' ;
+UPDATE customer SET first_name = 'Wens', email = 'ako@ikaw.com' WHERE last_name = 'Kai' and email != 'gatu@undopse.gov' ;
+
+UPDATE customer SET first_name = 'Wens', email = 'ako@ikaw.com' WHERE last_name = 'Kai' or email = 'gatu@undopse.govM' ;
 
 UPDATE customer SET first_name = 'Wens2', birthdate = '9/9/1999' WHERE last_name = 'Kai' ;
 
