@@ -51,7 +51,7 @@ class Update:
 			for index in range(len(lSetClause)):				
 				if lSetClause[index] == '=':
 					self.SetColNameToUpdate.append(lSetClause[index - 1])
-					self.SetColValToUpdate.append(lSetClause[index + 1])	
+					self.SetColValToUpdate.append(lSetClause[index + 1].replace("'",""))	
 				
 			print('Set Column Name:' + str(self.SetColNameToUpdate))
 			print('Set Column Value:' + str(self.SetColValToUpdate))		 
@@ -70,7 +70,7 @@ class Update:
 				if lWhereClause[index] in lCompareOperator:
 					self.WhereComOperator.append(lWhereClause[index])
 					self.WhereColName.append(lWhereClause[index-1]) 
-					self.WhereColVal.append(lWhereClause[index+1])
+					self.WhereColVal.append(lWhereClause[index+1].replace("'",""))
 				else:
 					if lWhereClause[index] in lLogicalOperator:
 						self.WhereLogicOperator.append(lWhereClause[index])
@@ -143,9 +143,9 @@ class Update:
 	def MakeUpdate(self): 		
 		self.DissectUpdate();
 		Val = self.CheckUpdate();
-		#Val2 = self.GetPrimaryKey();
-		if Val == True: #and Val2 == True:
-			self.PerformUpdate();
+		Val2 = self.GetPrimaryKey();
+		#if Val == True: #and Val2 == True:
+		#	self.PerformUpdate();
 			
 			
 
@@ -156,32 +156,110 @@ class Update:
 		CSVFile = open(self.TblName[0]+".csv")
 		AllRecords = CSVFile.readlines()
 		CSVFile.close()
-		TableAllColNames = meta.getAllColumns(self.TblName[0]) # Get all the Columns names of Given Tables
-		PK = []
-		for ColName in self.WhereColName:
-			iTableIndex = TableAllColNames.index(ColName)
-			print('iTableIndex :' + str(iTableIndex))
-				
-			for ColVal in self.WhereColVal:
-				print(str(ColVal))	
-				
-				for Record in AllRecords:
-					Record.lower()
-					SplitRecord = Record.split(',')
-					#print(str(SplitRecord))
-					
-					if SplitRecord[iTableIndex] ==  ColVal:
-						#print(str(SplitRecord[iTableIndex]))
-						PK.append(SplitRecord[0])
-						print('Found PK')
-						break
-						
-		print('Primary Key: ' + str(PK))
+		lTableAllColNames = meta.getAllColumns(self.TblName[0]) # Get all the Columns names of Given Tables
+		PrimaryKey = []
+		#print('AllRecords: ' + str(AllRecords))
+		
+		#get the index of the column names of the table to be searched
+		iSearchIndex = []
+		for ColumnName in self.WhereColName:
+			iSearchIndex.append(lTableAllColNames.index(str(ColumnName)))
 			
+		# Start the Searching by extracting each record and compare with the where values	
+		for Record in AllRecords:
+			Record = Record.lower() # Lower all the character
+			Record = Record.replace("\n","") # Remove \new line
+			lSplitRecord = Record.split(',') # Split the records and convert it to list
+			#print('Records: ' + str(lSplitRecord))
+			
+			
+			for Index in iSearchIndex:
+				GetPK = lSplitRecord[0] # initialized the Record PK
+				ColValIndex = 0	# this Index will be used by self.WhereColVal list
+				TFCounter = ""
+				for compare in self.WhereComOperator:
+					
+					if compare == '=' :
+						if lSplitRecord[Index] == self.WhereColVal[ColValIndex]:
+							#PrimaryKey.append(lSplitRecord[0]) # Get the Primary Key of the matched record		
+							print('GetPK:' + str(GetPK))
+							print('Index and ColValIndex' + str(Index) + ':' + str(ColValIndex))
+							#print('self.WhereLogicOperator[0] :' + str(self.WhereLogicOperator))
+							
+							if TFCounter != "":
+								if self.WhereLogicOperator[ColValIndex-1] == 'and':
+									TFCounter = TFCounter and True									
+									print('AND:' + str(TFCounter) + str(ColValIndex))
+									PrimaryKey.append(GetPK)
+								elif self.WhereLogicOperator[ColValIndex-1] == 'or': # OR
+									TFCounter = TFCounter or True
+									print('OR:' + str(TFCounter) + str(ColValIndex))
+									PrimaryKey.append(GetPK)
+								elif len(self.WhereLogicOperator) == 0:
+									print('self.WhereLogicOperator[0] :' + str(self.WhereLogicOperator))
+									PrimaryKey.append(GetPK)
+									break
+							else:
+								TFCounter = True
+								if len(self.WhereLogicOperator) == 0:
+									print('self.WhereLogicOperator[0] :' + str(self.WhereLogicOperator))
+									PrimaryKey.append(GetPK)
+									
+
+						else:
+							
+							if TFCounter != "":
+								if self.WhereLogicOperator[ColValIndex-1] == 'and':
+									TFCounter = TFCounter and False
+									
+									
+								elif self.WhereLogicOperator[ColValIndex-1] == 'or': # OR
+									TFCounter = TFCounter or True
+									print('TFCounter OR:' + str(TFCounter))
+									print('GetPK Value:' + str(GetPK))
+									PrimaryKey.append(GetPK)
+									
+									
+									
+							else:
+								TFCounter = False
+						
+						
+						
+						ColValIndex =ColValIndex + 1
+					
+						
+						
+						
+						#print('Print TFCounter:' + str(TFCounter) + str(lSplitRecord[0]))	
+						
+					elif compare == '<':
+						if lSplitRecord[Index] < self.WhereColVal[ColValIndex]:
+							PrimaryKey.append(lSplitRecord[0]) # Get the Primary Key of the matched record		
+						ColValIndex =ColValIndex + 1
+					elif compare == '>':
+						if lSplitRecord[Index] > self.WhereColVal[ColValIndex]:
+							PrimaryKey.append(lSplitRecord[0]) # Get the Primary Key of the matched record		
+						ColValIndex =ColValIndex + 1
+					elif compare == '!=':
+						if lSplitRecord[Index] != self.WhereColVal[ColValIndex]:
+							PrimaryKey.append(lSplitRecord[0]) # Get the Primary Key of the matched record		
+						ColValIndex =ColValIndex + 1
+						
+					
+													
+				
+		print('Primary Keys:' + str(PrimaryKey)) 		
+		
+		
+	
 		#print('Print All Record:' + str(AllRecords))	
 		
-		return False
-		
+		if len(PrimaryKey) == 0:
+			print('Record Not Found')
+			return False
+		else:
+			return True
 			
 	def PerformUpdate(self):
 		
@@ -189,7 +267,6 @@ class Update:
 		AllRecords = CSVFile.readlines()
 		CSVFile.close()
 		TableAllColNames = meta.getAllColumns(self.TblName[0]) # Get all the Columns names of Given Tables
-		
 		
 		for Record in AllRecords:
 			SplitRecord = Record.split(',') # Split the Record to extract PK
@@ -230,6 +307,7 @@ class Update:
 		print('One Row has been Updated!')
 		
 '''			
+	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Delete
 	def perform_operations(self):
 		result=[]
 		self.counter=0
@@ -248,24 +326,24 @@ class Update:
 
 		#for i in range (0,len(self.where_operation)):
 		#	print("ops ",self.where_operation[i],"--->type ",type(self.where_operation[i]))
-=======
-	def PerformUpdate(self):
+=======+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	def PerformUpdate(self): # Do not delete
 		self.fetch_data()
 		self.GetPK()
 		#perform operations pass the list of operations
 		#returns list of primary key + data
 		#prints it
-			
+
+++++++++++++++++++++++++++++++++++++ Delete			
 	def GetPK(self):
 		
 		print('Result of Get Primary Key')
 		print(self.database.keys())
 		print(str(Data.PrintDataALL(self.TblName,self.database)))
+++++++++++++++++++++++++++++++++++++++++++++++++++		
 		
-		
->>>>>>> 28bf700bef3146832ad48d4f42315e07073e6c79
 	
-	def fetch_data(self):
+	def fetch_data(self): # Do not Delete
 		array1 = {}
 		
 		for i in range(0,len(self.TblName)):

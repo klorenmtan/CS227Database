@@ -2,6 +2,10 @@ update customer set first_name = 'wens' where last_name = 'navallo'
 
 UPDATE customer SET first_name = 'Wens', email = 'ako@ikaw.com' WHERE last_name = 'Kai' and email = 'gatu@undopse.gov' ;
 
+UPDATE customer SET first_name = 'Wens', email = 'ako@ikaw.com' WHERE last_name = 'Kai' or email = 'gatu@undopse.gove' ;
+
+UPDATE customer SET first_name = 'Wens2', birthdate = '9/9/1999' WHERE last_name = 'Kai' ;
+
 UPDATE customer SET first_name = 'Wens2', birthdate = '9/9/1999' WHERE last_name = 'Kai' and email = 'gatu@undopse.gov' ;
 
 UPDATE customer SET first_name = 'Wens3' WHERE last_name = 'Kai' and email = 'gatu@undopse.gov' ;
@@ -30,6 +34,7 @@ Where Logical Operator:['and']
 Given PK = 1000
 
 TableAllColumnName['customerid,'last_name','first_name','birthdate','email\n']
+
                     
 SplitRecord['1000','Kai','Jennings','6/12/2000','gatu@undopse\n']
 
@@ -54,6 +59,7 @@ Primary Key Algorithm:
 1. Get table
 2. Load to memory andassign variables to Allrecords
 3. Get all column and assign to variables TableAllColNames (from meta data)
+ 3.1 get the index search from TableAllColNames
 4. Extract each record/tuple from TableAllColName to variable record
 5. Convert record to list
 6. Get index # using TableAllColumnName as reference
@@ -70,4 +76,10 @@ Primary Key Algorithm:
 16. 	If match, save to self.PrimaryKey
 
 
+Search Primary Key
+
+TableAllColumnName['customerid,'last_name','first_name','birthdate','email\n']
+
+                    
+SplitRecord['1000','Kai','Jennings','6/12/2000','gatu@undopse\n']
 
