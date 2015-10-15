@@ -173,66 +173,34 @@ class Update:
 			#print('Records: ' + str(lSplitRecord))
 			
 			
+			ColValIndex = 0	# this Index will be used by self.WhereColVal list
+			TFCounter = [] # List that will collect True and False
+			GetPK = lSplitRecord[0] # initialized the Record PK
+			
 			for Index in iSearchIndex:
-				GetPK = lSplitRecord[0] # initialized the Record PK
-				ColValIndex = 0	# this Index will be used by self.WhereColVal list
-				TFCounter = ""
-				for compare in self.WhereComOperator:
-					
-					if compare == '=' :
-						if lSplitRecord[Index] == self.WhereColVal[ColValIndex]:
-							#PrimaryKey.append(lSplitRecord[0]) # Get the Primary Key of the matched record		
-							print('GetPK:' + str(GetPK))
-							print('Index and ColValIndex' + str(Index) + ':' + str(ColValIndex))
-							#print('self.WhereLogicOperator[0] :' + str(self.WhereLogicOperator))
+						
+				#for compare in self.WhereComOperator:
+				if self.WhereComOperator[ColValIndex] == '=' :
+						
+					if lSplitRecord[Index] == self.WhereColVal[ColValIndex]:
 							
-							if TFCounter != "":
-								if self.WhereLogicOperator[ColValIndex-1] == 'and':
-									TFCounter = TFCounter and True									
-									print('AND:' + str(TFCounter) + str(ColValIndex))
-									PrimaryKey.append(GetPK)
-								elif self.WhereLogicOperator[ColValIndex-1] == 'or': # OR
-									TFCounter = TFCounter or True
-									print('OR:' + str(TFCounter) + str(ColValIndex))
-									PrimaryKey.append(GetPK)
-								elif len(self.WhereLogicOperator) == 0:
-									print('self.WhereLogicOperator[0] :' + str(self.WhereLogicOperator))
-									PrimaryKey.append(GetPK)
-									break
-							else:
-								TFCounter = True
-								if len(self.WhereLogicOperator) == 0:
-									print('self.WhereLogicOperator[0] :' + str(self.WhereLogicOperator))
-									PrimaryKey.append(GetPK)
-									
-
-						else:
+						print('GetPK:' + str(GetPK))
+						print('Index and ColValIndex ' + str(Index) + ':' + str(ColValIndex))								
+						TFCounter.append(True)
+						print('TFCounter' + str(TFCounter))	
 							
-							if TFCounter != "":
-								if self.WhereLogicOperator[ColValIndex-1] == 'and':
-									TFCounter = TFCounter and False
-									
-									
-								elif self.WhereLogicOperator[ColValIndex-1] == 'or': # OR
-									TFCounter = TFCounter or True
-									print('TFCounter OR:' + str(TFCounter))
-									print('GetPK Value:' + str(GetPK))
-									PrimaryKey.append(GetPK)
-									
-									
-									
-							else:
-								TFCounter = False
+						
+					elif lSplitRecord[Index] != self.WhereColVal[ColValIndex]:
+						TFCounter.append(False)
+						
+				ColValIndex =ColValIndex + 1
+				
 						
 						
 						
-						ColValIndex =ColValIndex + 1
+				'''		
+				#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
 					
-						
-						
-						
-						#print('Print TFCounter:' + str(TFCounter) + str(lSplitRecord[0]))	
-						
 					elif compare == '<':
 						if lSplitRecord[Index] < self.WhereColVal[ColValIndex]:
 							PrimaryKey.append(lSplitRecord[0]) # Get the Primary Key of the matched record		
@@ -246,8 +214,36 @@ class Update:
 							PrimaryKey.append(lSplitRecord[0]) # Get the Primary Key of the matched record		
 						ColValIndex =ColValIndex + 1
 						
-					
-													
+				'''
+			
+			if len(self.WhereLogicOperator) != 0:
+			
+				for Index in range(len(self.WhereLogicOperator)):
+					Result = "" 
+				
+					if Result == "":
+						if self.WhereLogicOperator[Index] == 'and':
+							Result = TFCounter[Index] and TFCounter[Index + 1]
+						elif  self.WhereLogicOperator[Index] == 'or':
+							Result = TFCounter[Index] or TFCounter[Index + 1]
+					else:
+						if self.WhereLogicOperator[Index] == 'and':
+							Result = TFCounter[Index] and TFCounter[Index + 1]
+						elif  self.WhereLogicalOperator[Index] == 'or':
+							Result = TFCounter[Index] or TFCounter[Index + 1]
+			else:
+				Result = "" 
+				Result = TFCounter[0]
+			
+			
+						
+			if Result == True:
+				PrimaryKey.append(GetPK)
+			
+			print('Result :'+ str(Result))	
+				
+
+														
 				
 		print('Primary Keys:' + str(PrimaryKey)) 		
 		
