@@ -8,20 +8,21 @@ class Query:
 
 	def classify_query(self):
 		stat = (self.query).split("|");
-		print('stat:' + str(stat[0]))
 		self.operation = stat[0]
 		if(self.operation=="select"):
 			query1 = Select(stat,self.database);
 			query1.make_select();	
 
 		if(stat[0]=="update"):
-			query2 = Update(stat,self.database);			
-			#query2.DissectUpdate();
-			query2.MakeUpdate();
+			if 'where' in stat:
+				query2 = Update(stat,self.database);			
+				query2.MakeUpdate();
+			else:
+				print("Invalid input 'where clause' does not exist!")
 			
 				
 		
-		#if(stat[0]=="delete"):		
+				
 		
 	
 	

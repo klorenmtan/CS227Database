@@ -31,11 +31,11 @@ class Update:
 		
 		
 		lUpdateStatement = self.statementList
-		print('Update Statement:' + str(lUpdateStatement))
+		#print('Update Statement:' + str(lUpdateStatement))
 		
 		#get Table Name
 		self.TblName.append(self.statementList[1])
-		print('Table Name:' + str(self.TblName))
+		#print('Table Name:' + str(self.TblName))
 		
 		#Dissect SET and WHERE CLAUSE 
 		
@@ -54,8 +54,8 @@ class Update:
 					self.SetColNameToUpdate.append(lSetClause[index - 1])
 					self.SetColValToUpdate.append(lSetClause[index + 1].replace("'",""))	
 				
-			print('Set Column Name:' + str(self.SetColNameToUpdate))
-			print('Set Column Value:' + str(self.SetColValToUpdate))		 
+			#print('Set Column Name:' + str(self.SetColNameToUpdate))
+			#print('Set Column Value:' + str(self.SetColValToUpdate))		 
 		
 			#WHERE CLAUSE
 			lWhereClause = lUpdateStatement[iWhereIndex+1:len(lUpdateStatement)] # extract the where clause
@@ -76,10 +76,10 @@ class Update:
 					if lWhereClause[index] in lLogicalOperator:
 						self.WhereLogicOperator.append(lWhereClause[index])
 				
-			print('Where Column Name :' + str(self.WhereColName))
-			print('Where Comparison Operator:' + str(self.WhereComOperator))
-			print('Where Column Value:' + str(self.WhereColVal))
-			print('Where Logical Operator:' + str(self.WhereLogicOperator))
+			#print('Where Column Name :' + str(self.WhereColName))
+			#print('Where Comparison Operator:' + str(self.WhereComOperator))
+			#print('Where Column Value:' + str(self.WhereColVal))
+			#print('Where Logical Operator:' + str(self.WhereLogicOperator))
 			
 		else:
 			#Update statement without Where Clause
