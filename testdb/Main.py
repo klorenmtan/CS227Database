@@ -20,6 +20,9 @@ class Main:
 			lexer = SqlLexer().build()
 			parser = SqlParser().build()
 			result = parser.parse(statement)
-			statement = result
-			q1=Query(statement,database)
-			q1.classify_query();
+			if result != None:
+				statement = result
+				print('Result: ' + str(result))
+				q1=Query(statement,database)
+				q1.classify_query();
+			

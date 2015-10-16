@@ -1,7 +1,12 @@
-#UPDATE Class
-#Venus Retuya
-#Wens Navallo
-#
+'''
+CMSC 227 1ST Sem SY 2015 - 2016 
+UPDATE Class
+Wenceslao Navallo
+Venus Retuya
+
+
+'''
+
 
 from Update import * 
 from FileReader import *
@@ -220,6 +225,7 @@ class Update:
 			return True
 			
 	def PerformUpdate(self):
+		# Perform Update function will execute the update given the valid collected ID or PK passed by GetPrimaryKey function 
 		
 		CSVFile = open(self.TblName[0]+".csv")
 		AllRecords = CSVFile.readlines()
