@@ -7,7 +7,8 @@ class Query:
 		self.database = database
 
 	def classify_query(self):
-		stat = (self.query).split(" ");
+		stat = (self.query).split("|");
+		print('stat:' + str(stat[0]))
 		self.operation = stat[0]
 		if(self.operation=="select"):
 			query1 = Select(stat,self.database);

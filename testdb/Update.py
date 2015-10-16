@@ -19,6 +19,7 @@ class Update:
 
 	
 	def DissectUpdate(self):
+		# This function will dissect the Update statement will be saved to the following variable set
 		self.TblName = [];
 		self.PrimaryKey = [];
 		self.SetColNameToUpdate = [];
@@ -98,7 +99,7 @@ class Update:
 
 	def CheckUpdate(self):
 		
-		#print('Result of CheckUpdate')
+		#This function will check the existence of tables and column in datadictionary or metadata
 		
 		#check if the table is existing		
 		if not(meta.checkTableExist(self.TblName)):
@@ -119,35 +120,9 @@ class Update:
 					print("Column name '" + str(ColumnName) + "' does not exist in '" + str(self.TblName[0]) + "' table!")
 					return False
 		
-
-		 
 			return True				
 
-
-			print('Table name and column names have been checked!') 
-			
-							
-
-
 	
-	def SetColumnValue(Clause):
-		SetColVal = {}
-		for index in range(len(Clause)):			
-			if Clause[index] == '=':
-				SetColVal[Clause[index-1]] = Clause[index+1]
-		print('Where Column Name and Value:' + str(SetColVal))
-		return SetColVal		
-
-			
-		
-	def MakeUpdate(self): 		
-		self.DissectUpdate();
-		Val = self.CheckUpdate();
-		Val2 = self.GetPrimaryKey();
-		if Val == True and Val2 == True:
-			self.PerformUpdate();
-			
-			
 
 	def GetPrimaryKey(self):
 	
@@ -238,7 +213,7 @@ class Update:
 			#print('Result :'+ str(blnResult))	
 		
 		if len(self.PrimaryKey) == 0:
-			print('Record Not Found')
+			print('Record Not Found!')
 			return False
 		else:
 			#print('Number of Primary Keys:'+str(len(self.PrimaryKey)) +':' + str(self.PrimaryKey) )
@@ -278,7 +253,7 @@ class Update:
 	
 					print('Update Record: ' + UpdateRecord)	
 				
-					#++++++++++++++++++++++++++++++++++++++++	
+					#+++++++++++++++++++++++++++++++++++++++++++++++++++++	
 				
 					AllRecords[RecordIndex]=str(UpdateRecord) #Insert the Update in AllRecords
 					break
@@ -289,53 +264,19 @@ class Update:
 		for Record in AllRecords:
 			CSV_Output.write(str(Record))
 		CSV_Output.close()
-		print( str(len(self.PrimaryKey))+' Row(s) have been Updated!')
 		
-'''			
-	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Delete
-	def perform_operations(self):
-		result=[]
-		self.counter=0
-		statement=''
-		print(self.targetPrint)
-		if len(self.where_operation) == 0:
-			print("No where operation")
-			for i in range(0,len(self.targetPrint)):
-				if self.targetPrint[i]=='*':
-					print("print ALL")
-					Data.PrintDataALL(self.tblname,self.database)
-				else:
-					print("columns")
-					Data.PrintColumn(self.tblname,self.targetPrint,self.database)
-
-
-		#for i in range (0,len(self.where_operation)):
-		#	print("ops ",self.where_operation[i],"--->type ",type(self.where_operation[i]))
-=======+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	def PerformUpdate(self): # Do not delete
-		self.fetch_data()
-		self.GetPK()
-		#perform operations pass the list of operations
-		#returns list of primary key + data
-		#prints it
-
-		
-		
+		print('Query OK, '+ str(len(self.PrimaryKey))+' row(s) affected')
+		print('Row(s) matched: ' + str(len(self.PrimaryKey)) +' Changed: ' + str(len(self.PrimaryKey)))
 	
-	def fetch_data(self): # Do not Delete
-		array1 = {}
-		
-		for i in range(0,len(self.TblName)):
-			if not(self.TblName[i] in self.database.keys()):
-				filer=FileReader(self.TblName[i])
-				filer.fileRead()
-				array1=filer.hashData()
-				self.database[self.TblName[i]]=array1				
-
-		print('Result of fetch_data')
-		print(self.database.keys())
-		#print (str(self.database[self.TblName[i]]))
 	
-'''	
+		
+	def MakeUpdate(self): 		
+		self.DissectUpdate();
+		Val = self.CheckUpdate();
+		Val2 = self.GetPrimaryKey();
+		if Val == True and Val2 == True:
+			self.PerformUpdate();
+
+		
 
 	
