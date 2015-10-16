@@ -273,7 +273,8 @@ class Update:
 	def MakeUpdate(self): 		
 		self.DissectUpdate();
 		Val = self.CheckUpdate();
-		Val2 = self.GetPrimaryKey();
+		if Val == True:
+			Val2 = self.GetPrimaryKey();
 		if Val == True and Val2 == True:
 			self.PerformUpdate();
 
