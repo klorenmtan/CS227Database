@@ -54,10 +54,10 @@ class Update:
 			
 		
 			#Iterate to SetClause and assign the Column name and its value to self 
-			for index in range(len(lSetClause)):				
-				if lSetClause[index] == '=':
-					self.SetColNameToUpdate.append(lSetClause[index - 1])
-					self.SetColValToUpdate.append(lSetClause[index + 1].replace("'",""))	
+			for Index in range(len(lSetClause)):				
+				if lSetClause[Index] == '=':
+					self.SetColNameToUpdate.append(lSetClause[Index - 1])
+					self.SetColValToUpdate.append(lSetClause[Index + 1].replace("'",""))	
 				
 			#print('Set Column Name:' + str(self.SetColNameToUpdate))
 			#print('Set Column Value:' + str(self.SetColValToUpdate))		 
@@ -72,15 +72,16 @@ class Update:
 			lLogicalOperator = ['and','or'];
 			
 			#Iterate to Where Clause and assign the Column names and its value, comparison and logical operators to self 	
-			for index in range(len(lWhereClause)):			
-				if lWhereClause[index] in lCompareOperator:
-					self.WhereComOperator.append(lWhereClause[index])
-					self.WhereColName.append(lWhereClause[index-1]) 
-					self.WhereColVal.append(lWhereClause[index+1].replace("'",""))
+			for Index in range(len(lWhereClause)):			
+				if lWhereClause[Index] in lCompareOperator:
+					self.WhereComOperator.append(lWhereClause[Index])
+					self.WhereColName.append(lWhereClause[Index-1]) 
+					self.WhereColVal.append(lWhereClause[Index+1].replace("'",""))
 				else:
-					if lWhereClause[index] in lLogicalOperator:
-						self.WhereLogicOperator.append(lWhereClause[index])
-				
+					if lWhereClause[Index] in lLogicalOperator:
+						self.WhereLogicOperator.append(lWhereClause[Index])
+						
+			#For trouble shooting	
 			#print('Where Column Name :' + str(self.WhereColName))
 			#print('Where Comparison Operator:' + str(self.WhereComOperator))
 			#print('Where Column Value:' + str(self.WhereColVal))
@@ -92,10 +93,10 @@ class Update:
 			lSetClause = lUpdateStatement[iSetIndex+1:len(lUpdateStatement)]
 		
 			#Iterate to SetClause and assign the Column name and Value to self
-			for index in range(len(lSetClause)):				
-				if lSetClause[index] == '=':
-					self.SetColNameToUpdate.append(lSetClause[index - 1])
-					self.SetColValToUpdate.append(lSetClause[index + 1])
+			for Index in range(len(lSetClause)):				
+				if lSetClause[Index] == '=':
+					self.SetColNameToUpdate.append(lSetClause[Index - 1])
+					self.SetColValToUpdate.append(lSetClause[Index + 1])
 								
 			print('Set Column Name:' + str(self.SetColNameToUpdate))
 			print('Set Column Value:' + str(self.SetColValToUpdate))
@@ -127,11 +128,10 @@ class Update:
 		
 			return True				
 
-	
 
 	def GetPrimaryKey(self):
 	
-		#This Function will Get the Primary key of matched condition of the table to update and  where clause
+		#This Function will Search and Get the Primary key of matched condition of the table to update and  where clause
 		
 		CSVFile = open(self.TblName[0]+".csv")
 		AllRecords = CSVFile.readlines()
@@ -238,6 +238,7 @@ class Update:
 				SplitRecord = Record.split(',') # Split the Record to extract PK
 				if SplitRecord[0] == PK: # Compare and Search PK
 					RecordIndex = AllRecords.index(Record) #Get the Record index from AllRecords
+					#for trouble shooting
 					#print('Record Found!:' + str(Record))
 					#print('Split Record!:' + str(SplitRecord)) 
 					#print('Record:' + str(AllRecords[RecordIndex]))
@@ -272,7 +273,7 @@ class Update:
 		CSV_Output.close()
 		
 		print('Query OK, '+ str(len(self.PrimaryKey))+' row(s) affected')
-		print('Row(s) matched: ' + str(len(self.PrimaryKey)) +' Changed: ' + str(len(self.PrimaryKey)))
+		print('Row(s) Matched: ' + str(len(self.PrimaryKey)) +' Changed: ' + str(len(self.PrimaryKey)))
 	
 	
 		

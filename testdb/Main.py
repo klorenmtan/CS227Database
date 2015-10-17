@@ -22,7 +22,7 @@ class Main:
 			result = parser.parse(statement)
 			if result != None:
 				statement = result
-				print('Result: ' + str(result))
+				#print('Result: ' + str(result))
 				q1=Query(statement,database)
 				q1.classify_query();
 			
