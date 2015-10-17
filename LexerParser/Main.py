@@ -18,11 +18,3 @@ class Main:
                         print ('parse result >>> {}' .format(result))
                         #q1=Query(statement,database)
 			#q1.classify_query()
-		
-		
-
-
-	
-
-	
-

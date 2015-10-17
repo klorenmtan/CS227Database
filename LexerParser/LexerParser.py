@@ -47,9 +47,9 @@ class SqlLexer:
         # TODO: unicode...
         # Note: this regex is from pyparsing, 
         # TODO: may be better to refer to http://docs.python.org/reference/lexical_analysis.html 
-        '(?:"(?:[^"\\n\\r\\\\]|(?:"")|(?:\\\\x[0-9a-fA-F]+)|(?:\\\\.))*")|(?:\'(?:[^\'\\n\\r\\\\]|(?:\'\')|(?:\\\\x[0-9a-fA-F]+)|(?:\\\\.))*\')'
-        t.value = eval(t.value) 
-        #t.value[1:-1]
+        '(?:"(?:[^"\\n\\r\\\\]|(?:"")|(?:\\\\x[0-9a-fA-F]+)|(?:\\\\.))*")|(?:\'(?:[^\'\\n\\r\\\\]|(?:\'\')|(?:\\\\x[0-9a-fA-F]+)| (?:\\\\.))*\')'
+        t.value = eval(t.value)
+        t.value[1:-1]
         return t
 
     # Tokens
@@ -73,23 +73,14 @@ class SqlLexer:
         t.lexer.lineno += t.value.count("\n")
         
     def t_error(self, t):
-        print('Illegal character {}' .value(t))
-        #print("Illegal character '%s'" % t.value[0])
+        if t is not None:
+            print("Lexer: Illegal token '%s'" % t.value)
         t.lexer.skip(1)
         
     # Build the lexer
     def build(self, **kwargs):
         self.lexer = lex.lex(module=self, **kwargs)
         return self.lexer
-
-    #data = input()
-    #lexer.input(data)
-    #while True:
-    #    tok = lexer.token()
-    #    if not tok:
-    #        break
-    #    print(tok)
-
 
 class SqlParser:
 
@@ -281,18 +272,11 @@ class SqlParser:
         p[0] = p[1]
 
     def p_error(self, p):
-        print ("Syntax error in input") # TODO: at line %d, pos %d!" % (p.lineno)
+        if p is not None:
+            print ('Parser: Illegal token %s' % p.value)
+        else:
+            print('Parser: Unexpected end of input');
 
     def build(self, **kwargs):
         self.parser = yacc.yacc(module=self, **kwargs)
         return self.parser
-
-
-#    while True:
-#        try:
-#            s = input('sql > ')   # Use raw_input on Python 2
-#            s = s.lower()
-#        except EOFError:
-#            break
-#        result = parser.parse(s)
-#        print ('parse result >>> {}' .format(result))
