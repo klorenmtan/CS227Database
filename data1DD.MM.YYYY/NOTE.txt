@@ -1,0 +1,3 @@
+Note: Required Date format sabi maam kat DD-MM-YYYY or (DD/MM/YYYY) 17-Oct-2015
+      Standardized(DD/MM/YYYY) all the date fields tables CUSTOMER, DELIVERY,PAYMENT, SI. 
+	
