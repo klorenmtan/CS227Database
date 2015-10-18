@@ -1,4 +1,3 @@
-
 # -----------------------------------------------------------------------------
 # update_select_delete.py
 #
@@ -244,5 +243,13 @@ while True:
         s = s.lower()
     except EOFError:
         break
+
     result = parser.parse(s)
     print ('parse result >>> {}' .format(result))
+
+    if s == 'quit':
+       break
+    parser.parse(s)
+
+
+
