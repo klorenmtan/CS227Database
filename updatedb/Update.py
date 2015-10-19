@@ -11,6 +11,8 @@ Venus Retuya
 from Update import * 
 from FileReader import *
 from Metadata import *
+import datetime 
+
 class Update:
 
 	def __init__(self,statements,database):	
@@ -25,6 +27,7 @@ class Update:
 	
 	def DissectUpdate(self):
 		# This function will dissect the Update statement will be saved to the following variable set
+		
 		self.TblName = [];
 		self.PrimaryKey = [];
 		self.SetColNameToUpdate = [];
@@ -81,11 +84,15 @@ class Update:
 					if lWhereClause[Index] in lLogicalOperator:
 						self.WhereLogicOperator.append(lWhereClause[Index])
 						
+			self.WhereColVal = self.WhereConvertDataType(self.WhereColVal) #perform the Convertion of clause
+			
 			#For trouble shooting	
 			#print('Where Column Name :' + str(self.WhereColName))
 			#print('Where Comparison Operator:' + str(self.WhereComOperator))
 			#print('Where Column Value:' + str(self.WhereColVal))
 			#print('Where Logical Operator:' + str(self.WhereLogicOperator))
+			
+			
 			
 		else:
 			#Update statement without Where Clause
@@ -105,7 +112,7 @@ class Update:
 
 	def CheckUpdate(self):
 		
-		#This function will check the existence of tables and column in datadictionary or metadata
+		#This function will check the existence of tables and column in data dictionary or metadata
 		
 		#check if the table is existing		
 		if not(meta.checkTableExist(self.TblName)):
@@ -137,6 +144,7 @@ class Update:
 		AllRecords = CSVFile.readlines()
 		CSVFile.close()
 		lTableAllColNames = meta.getAllColumns(self.TblName[0]) # Get all the Columns names of Given Tables
+		lTableDataType = meta.getAllDatatypes(self.TblName[0]) # Get all the Data Type of Column names
 		#PrimaryKey = []
 		#print('AllRecords: ' + str(AllRecords))
 		
@@ -151,9 +159,12 @@ class Update:
 			lRecord = lRecord.replace("\n","") # Remove \new lineS
 			lSplitRecord = lRecord.split(',') # Split the records list
 			
+			# Perform the conversion of tuples' Data Types
+			lSplitRecord = self.RowConvertDataType(lSplitRecord)
+			
 			iColValIndex = 0	# this Index will be used by self.WhereColVal list
 			blnTFCounter = [] # List that will collect  True and False evaluation of the search fields
-			iRecordId = lSplitRecord[0] # initialized the Record ID of each tuple
+			iRecordId = str(lSplitRecord[0]) # initialized the Record ID of each tuple and convert it to string from interger 
 			
 			# Dito Magsisimula mag navigate for each record
 			for Index in iSearchIndex:			
@@ -213,7 +224,7 @@ class Update:
 			
 			# When the evaluation of the Record is completed the id will be appended to PK
 			if blnResult == True:
-				self.PrimaryKey.append(iRecordId)
+				self.PrimaryKey.append(iRecordId) #Record(s) to update!
 			
 			#print('Result :'+ str(blnResult))	
 		
@@ -267,13 +278,80 @@ class Update:
 		
 			#print('Display all records:' + str(AllRecords))
 		
-		CSV_Output = open(self.TblName[0]+"All.csv","w")
+		CSV_Output = open(self.TblName[0]+"UPDATE.csv","w")
 		for Record in AllRecords:
 			CSV_Output.write(str(Record))
 		CSV_Output.close()
 		
 		print('Query OK, '+ str(len(self.PrimaryKey))+' row(s) affected')
 		print('Row(s) Matched: ' + str(len(self.PrimaryKey)) +' Changed: ' + str(len(self.PrimaryKey)))
+
+
+	def RowConvertDataType(self,Record):
+		# This Function will convert 
+		lTableAllColNames = meta.getAllColumns(self.TblName[0]) # Get all the Columns names of Given Tables
+		lColumnDataType = meta.getAllDatatypes(self.TblName[0]) # Get equivalent Data Types of each Column
+		NewRecordType = []
+		Index = 0
+		for Field in Record:
+			if lColumnDataType[Index] == "int" :
+				NewRecordType.append(int(Field))
+			elif lColumnDataType[Index] == "numeric" :
+				NewRecordType.append( float(Field))
+			elif lColumnDataType[Index] == "varchar" : 
+				NewRecordType.append( str(Field))
+			elif lColumnDataType[Index] == "date" :
+				NewRecordType.append(self.strToDateObj(Field)) # Use the Created function for date converstion	
+			Index = Index + 1
+		#print('New Record Type: ' + str(NewRecordType))
+		return NewRecordType	
+	
+	def WhereConvertDataType(self,WhereColValue):
+		# This Function Convert the Values of Where Condition saved in self.WhereColValue
+		lTableAllColNames = meta.getAllColumns(self.TblName[0]) # Get all the Columns names of Given Tables
+		lColumnDataType = meta.getAllDatatypes(self.TblName[0]) # Get equivalent Data Types of each Column
+		NewWhereValueType = []
+		Index = 0
+		for Value in WhereColValue :
+			if lColumnDataType[lTableAllColNames.index(self.WhereColName[Index])] == "int" :
+				NewWhereValueType.append(int(Value))
+			elif lColumnDataType[lTableAllColNames.index(self.WhereColName[Index])] == "numeric" :
+				NewWhereValueType.append(float(Value))
+			elif lColumnDataType[lTableAllColNames.index(self.WhereColName[Index])] == "varchar" :
+				NewWhereValueType.append(str(Value))
+			elif lColumnDataType[lTableAllColNames.index(self.WhereColName[Index])] == "date" :
+				NewWhereValueType.append(self.strToDateObj(Value))	
+			Index = Index + 1
+		#print('NewWhereValueType:' + str(NewWhereValueType))		
+		return NewWhereValueType
+
+	def strToDateObj(self, dString):
+		# Function that converts String to Date Object
+		lDateStr = dString.split("-")
+		lDateStr.reverse()
+		iYear = int(lDateStr[0])
+		iMonth = int(lDateStr[1])
+		iDay = int(lDateStr[2])
+		DateObj = datetime.date(iYear,iMonth,iDay)
+		#print(str(DateObj))
+		#returns Date Object
+		return DateObj
+		
+	
+	def objDateToString(self, DateObj):
+		#Function that Converts Date Object to String
+		
+		StrDate = str(DateObj) # Date obj To String
+		#StrDate = StrDate.replace("-","/")
+		#print(StrDate)
+		StrDate = StrDate.split("-")
+		StrDate.reverse()
+		sDate = ""
+		for date in StrDate:
+			sDate = sDate + str(date)+"-"
+		#returns String Date		
+		return sDate.strip("-")
+
 	
 	
 		
