@@ -84,7 +84,7 @@ class Update:
 					if lWhereClause[Index] in lLogicalOperator:
 						self.WhereLogicOperator.append(lWhereClause[Index])
 						
-			self.WhereColVal = self.WhereConvertDataType(self.WhereColVal) #perform the Convertion
+			self.WhereColVal = self.WhereConvertDataType(self.WhereColVal) #perform the Convertion of clause
 			
 			#For trouble shooting	
 			#print('Where Column Name :' + str(self.WhereColName))
@@ -159,6 +159,7 @@ class Update:
 			lRecord = lRecord.replace("\n","") # Remove \new lineS
 			lSplitRecord = lRecord.split(',') # Split the records list
 			
+			# Perform the conversion of tuples' Data Types
 			lSplitRecord = self.RowConvertDataType(lSplitRecord)
 			
 			iColValIndex = 0	# this Index will be used by self.WhereColVal list
@@ -326,7 +327,7 @@ class Update:
 
 	def strToDateObj(self, dString):
 		# Function that converts String to Date Object
-		lDateStr = dString.split("/")
+		lDateStr = dString.split("-")
 		lDateStr.reverse()
 		iYear = int(lDateStr[0])
 		iMonth = int(lDateStr[1])
@@ -341,15 +342,15 @@ class Update:
 		#Function that Converts Date Object to String
 		
 		StrDate = str(DateObj) # Date obj To String
-		StrDate = StrDate.replace("-","/")
-		print(StrDate)
-		StrDate = StrDate.split("/")
+		#StrDate = StrDate.replace("-","/")
+		#print(StrDate)
+		StrDate = StrDate.split("-")
 		StrDate.reverse()
 		sDate = ""
 		for date in StrDate:
-			sDate = sDate + str(date)+"/"
+			sDate = sDate + str(date)+"-"
 		#returns String Date		
-		return sDate.strip("/")
+		return sDate.strip("-")
 
 	
 	
