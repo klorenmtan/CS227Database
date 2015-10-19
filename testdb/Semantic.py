@@ -190,22 +190,79 @@ class Semantic:
 			col=columns
 			datatypes=dat+datatypes
 			dat=datatypes
-		
-				
+
+		print("columns",columns)
+		print("cols",col)
+		print(self.where_operation)		
 		for i in range(0,len(self.where_operation)):
+			print(self.where_operation[i])
+			print(columns)
 			if self.where_operation[i] == 'and' or self.where_operation[i] == 'or':
 				continue
 			elif self.where_operation[i] in columns:
 				continue
-			elif self.where_operation[i] == '<' or self.where_operation[i] == '>' or self.where_operation[i] == '!=' or self.where_operation[i] =='=':
+			elif self.where_operation[i] == '<':
 				continue
+			elif self.where_operation[i] == '>':
+				continue
+			elif self.where_operation[i] == '!=':
+				continue
+			elif self.where_operation[i] == '=':
+				continue
+			
 			elif self.where_operation[i] not in columns:
-				#print(,self.where_operation)
-				if i%3 == 0 and self.where_operation[i] not in columns:
-					print(self.where_operation[i],"is Invalid")
-				else:					
-					index1=columns.index(self.where_operation[i-2])
-					#print(self.where_operation)
+				print(self.where_operation[i])
+				if self.where_operation[i-1] == '<' or self.where_operation[i-1] == '>' or self.where_operation[i-1] == '=' or self.where_operation[i-1]=='!=':
+					if self.where_operation[i-2] in columns:
+						index1=columns.index(self.where_operation[i-2])
+					print(index1)
+					if datatypes[index1] == 'int':
+						if(self.where_operation[i].isdigit()):
+							continue
+						else:
+							print("Incompatible Types")
+							return False
+
+					elif datatypes[index1] == 'numeric':
+						if(self.where_operation[i].isdigit()):
+							continue
+						else:
+							return False
+
+				
+					elif datatypes[index1] == 'date':
+						try:
+							datetime.datetime.strptime(self.where_operation[i], '%d-%m-%Y')
+							continue	
+						except ValueError:
+							print("Wrong Date Format!")						
+							return False
+						
+					elif datatypes[index1] == 'varchar':
+						try:
+							datetime.datetime.strptime(self.where_operation[i], '%d-%m-%Y')
+							print("Date was given")
+							return False							
+								
+						except ValueError:														
+							continue
+					else:											
+						return False
+				if i == 0 and self.where_operation[i] not in columns:
+					print("Invalid Column 2")					
+					return False
+				else:
+					
+					print("hehe",i)
+					
+				''''
+				else:
+					print(self.where_operation[i-2])
+					if type(self.where_operation[i-2])==str:
+						print(self.where_operation[i],"is Invalid")
+					else:					
+						index1=columns.index(self.where_operation[i-2])
+						#print(self.where_operation)
 				#print(self.where_operation[i],self.where_operation[i-2])
 					if datatypes[index1] == 'int':
 						if(self.where_operation[i].isdigit()):
@@ -237,7 +294,7 @@ class Semantic:
 								
 						except ValueError:														
 							continue
-	
+				'''
 		return True
 
 	def getTblDelete(self):
@@ -321,29 +378,40 @@ class Semantic:
 			self.where_operation = self.getWhere()		
 
 			if(self.checkValidTargetPrint()):
-				if(self.checkValidTables()):		
+				if(self.checkValidTables()):
+					print("Valid Tables")
 					if(len(self.join_clause)>0):
+						
 						if(self.checkValidJoin()):
+							print("valid join")
 							if(len(self.where_operation)>0):
 								if(self.checkValidWhere()):
+									print("Valid where 2")
 									return True
 								else:
+									print("Invalid where")
 									return False
 							else:
+								print("Join without where")
 								return True
 							
 						else:
 							return False
-					elif(len(self.where_operation)>0):
+					if(len(self.where_operation)>0):
 						if(self.checkValidWhere()):
+							print("Valid Where 1")
 							return True
 						else:
+							print("Invalid Where")
 							return False
 					else:
+						print("Print table only")
 						return True
 				else:
+					("Invalid Tables")
 					return False
 			else:
+				print("Invalid Columns")
 				return False
 			return True
 
