@@ -1,0 +1,8 @@
+class query:
+	def __init__(self,query):
+		self.query = query
+
+	def makeTree(self,query):
+		print("Make tree here")
+
+

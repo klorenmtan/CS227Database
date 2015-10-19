@@ -1,0 +1,270 @@
+from Select import * 
+from FileReader import *
+from Metadata import *
+class Select:
+
+	def __init__(self,statements,database):
+	
+		self.statementList = statements;
+		self.data =[];
+		global meta
+		meta = Metadata();
+		self.qlength = len(statements);
+		self.database = database;
+
+	def select_tree(self):
+		self.targetPrint=[];
+		self.tblname=[];
+		self.where_operation=[]
+
+		#get table name and target print
+		for i in range(1,len(self.statementList)):
+			if self.statementList[i] == "from":
+				j=i+1	
+				while(j<len(self.statementList)):
+					if self.statementList[j]=="where":
+						k=j+1
+						break
+					else:
+						self.tblname.append(self.statementList[j])
+					j=j+1
+					k=len(self.statementList)			
+				break				
+				
+			else:
+				self.targetPrint.append(self.statementList[i])
+		
+		self.targetPrint=list(filter(None,self.targetPrint))
+		self.tblname=list(filter(None,self.tblname))		
+		status=0			
+		for m in range(0,len(self.targetPrint)):
+			if self.targetPrint[m] =="*":
+				status=1
+				break
+			else:
+				for n in range(0,len(self.tblname)):
+					if self.targetPrint[m] == ".":
+						meta.checkcolumnExist(self.targetPrint[m-1],self.targetPrint[m+1])
+						status=1
+						break
+					elif (meta.checkcolumnExist(self.tblname[n],self.targetPrint[m])):
+						print(self.tblname[n],self.targetPrint[m])
+						status=1
+						continue
+					else:
+						status=0
+											
+		if status==0:						#print ("Column Does Not Exist")
+			print ("Column Does Not Exist")	
+			return False
+		
+		
+		#check if the table is existing
+		for m in range(0,len(self.tblname)):
+			if not(meta.checkTableExist(self.tblname[m])):
+				print("Table Does Not Exist")
+				return False				
+			else:
+				for j in range(k,len(self.statementList)):
+					self.where_operation.append(self.statementList[j])
+
+				
+					
+		#for the where clause
+		
+		#print(self.where_operation)
+		if len(self.where_operation)> 0:
+			for i in range(0,len(self.tblname)):
+				for j in range(0,len(self.where_operation)):
+					if not((self.where_operation[j]!= '<' or self.where_operation[j]!= '>' or self.where_operation[j]!= '=' or (self.where_operation[j].isDigit())) and self.where_operation[i] in meta.getAllColumns(self.tblname[i])):
+						print("Column Does Not Exist")
+						return False
+		return True
+	def make_select(self): 
+		val=self.select_tree()
+		if val==True:		
+			self.perform_select()
+
+	def perform_select(self):
+		self.fetch_data()
+		self.perform_operations()
+		
+	def perform_operations(self):
+		result=[]
+		r1=[]
+		self.counter=0
+		statement=''
+		print(self.targetPrint)
+		if len(self.where_operation) == 0:
+			print("No where operation")
+			if self.targetPrint[0]=='*':
+				result=Data.PrintDataALL(self.tblname,self.database)
+				
+			else:
+				result=Data.PrintColumn(self.tblname,self.targetPrint,self.database)
+			Data.printData(result,self.tblname,self.targetPrint)
+			print(len(result),"rows returned")
+		else:
+			columns=[]
+			
+			result=Data.PrintDataALL(self.tblname,self.database)
+			print(self.where_operation)				
+			for j in range(0,len(self.tblname)):
+				columns.extend(meta.getAllColumns(self.tblname[j]))
+			
+			r1=Select.classify_where(self.where_operation,result,columns)			
+			if self.targetPrint[0]=='*':
+				Data.printData(r1,self.tblname,self.targetPrint)												
+			else:	
+				Data.printDataWhere(r1,self.tblname,self.targetPrint,columns)
+			print(len(r1),"rows returned")
+
+	def checkMatch(typeop,column,data,datahash,index):
+		#result=Select.checkMatch(1,operation[0],operation[2],datahash,Select.getIndex(columns,operation[0]))
+		results=[]
+		print(index)
+		if typeop == 1:
+			for i in range(0,len(datahash)):
+				if type(datahash[i][index]) == int:
+					if datahash[i][index] < int(data):
+						results.append(datahash[i])		
+				elif type(datahash[i][index]) == float:
+					if datahash[i][index] < float(data):
+						results.append(datahash[i])
+				else:
+					print("Conflicting types!")					
+			print(results)
+				
+		elif typeop == 2:
+			for i in range(0,len(datahash)):
+				if type(datahash[i][index]) == int:
+					if datahash[i][index] > int(data):
+						results.append(datahash[i])		
+				elif type(datahash[i][index]) == float:
+					if datahash[i][index] > float(data):
+						results.append(datahash[i])
+				else:
+					print("Conflicting types!")						
+			print(results)
+
+		elif typeop == 3:		
+			for i in range(0,len(datahash)):
+				if type(datahash[i][index]) == int:
+					if datahash[i][index] == int(data):
+						results.append(datahash[i])		
+				elif type(datahash[i][index]) == float:
+					if datahash[i][index] == float(data):
+						results.append(datahash[i])
+				elif type(datahash[i][index]) == str:
+					if datahash[i][index] == (data):
+						results.append(datahash[i])	
+				else:
+					print("Conflicting types!")					
+			print(results)
+		return results
+
+
+	def SelectOP(ops1,ops2):
+		if ops1 == ">" and ops2 == ">":
+			print("> and >")
+			return 1
+		elif ops1 == ">" and ops2 == "<":
+			print("> and <")
+			return 2
+		elif ops1 == ">" and ops2 == "=":
+			print("> and =")
+			return 3
+		elif ops1 == "<" and ops2 == ">":
+			print("< and >")
+			return 4
+		elif ops1 == "<" and ops2 == "<":
+			print("< and < ")
+			return 5
+		elif ops1 == "<" and ops2 == "=":
+			print("< and =")
+			return 6
+		elif ops1 == "=" and ops2 == ">":
+			print("= and >")
+			return 4
+		elif ops1 == "=" and ops2 == "<":
+			print("= and <")
+			return 5
+		elif ops1 == "=" and ops2 == "=":
+			print("= and =")
+			return 6					
+
+	def AndClause(list1,cond1a,ops1,cond1b,list2,cond2a,ops2,cond2b):
+		result=[]
+		ops=SelectOP(ops1,ops2)
+		#for i in range(0,len(list1)):
+			#for j in range(0,len(list2)):
+			
+				#if ops == 1:
+					#if list1[]						
+		
+		return result
+
+	def getIndex(columns,operation):	
+		
+		for i in range(0,len(columns)):
+			if operation== columns[i]:
+				return i
+
+
+	def classify_where(operation,datahash,columns):
+		result=[]		
+		index=[]		
+		if len(operation) == 3:
+			print("single where")
+			
+			
+			for i in range(0,len(columns)):
+				if operation[0] == columns[i]:
+					index.append(i)
+				
+			
+			#for i in range(0,len(operation)):
+			if operation[1] == '<':
+				result=Select.checkMatch(1,operation[0],operation[2],datahash,Select.getIndex(columns,operation[0]))
+			elif operation[1] == '>':
+				result=Select.checkMatch(2,operation[0],operation[2],datahash,Select.getIndex(columns,operation[0]))
+			elif operation[1] == '=':
+				result=Select.checkMatch(3,operation[0],operation[2],datahash,Select.getIndex(columns,operation[0])) 
+								
+		else:
+			print("complex where")
+			i=0
+			result1=[]
+			result2=[]
+			print(len(operation))
+			for i in range(0,len(operation)):
+				if operation[i] =="and":
+					print("AND")
+					if operation[i-2]== '<':
+						print("AND <")
+						result1=Select.checkMatch(1,operation[i-3],operation[i-1],datahash,Select.getIndex(columns,operation[i-3]))
+					if operation[i+2] == '<':
+						print("AND <")
+						result1=Select.checkMatch(1,operation[i+1],operation[i+3],datahash,Select.getIndex(columns,operation[i+1]))
+					print(result1)			
+					
+		return result1	
+	def fetch_data(self):
+		array1 = {}
+		
+		for i in range(0,len(self.tblname)):
+			if not(self.tblname[i] in self.database.keys()):
+				filer=FileReader(self.tblname[i])
+				filer.fileRead()
+				array1=filer.hashData()
+				self.database[self.tblname[i]]=array1
+				
+
+		
+
+				
+
+
+		
+  
+		

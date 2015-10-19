@@ -1,0 +1,18 @@
+from query import *
+
+class main:
+	statement=''
+	while statement!='quit':
+		statement=input("SQL>")
+		statement=statement.lower()
+		if statement == 'quit':
+			break
+		else:
+			q1=query(statement)
+			q1.makeTree(statement)
+
+
+	
+
+	
+

@@ -1,0 +1,7 @@
+select|*|from|payment
+select|*|from|payment|where|mode_of_payment|=|"credit card"
+select|*|from|payment|where|mode_of_payment|=|'none'
+select|*|from|payment|where|amount|=|23441.94473
+select|payment_id|from|payment|where|amount|=|23441.94473
+select|payment_id|amount|from|payment|where|amount|=|23441.94473
+select|payment_id|amount|customer_id|from|payment|customer|where|amount|=|23441.94473
