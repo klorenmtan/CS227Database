@@ -1,4 +1,4 @@
-Desc *;
+Desc name;
 Select * from delivery join payment;
 Select * from payment natural join delivery;
 Select * from payment natural join delivery join customer;
@@ -48,6 +48,5 @@ UPDATE customer SET first_name = 'Wens', email = 'ako@ikaw.com' WHERE last_name 
 UPDATE customer SET first_name = 'Wens2', birthdate = '9/9/1999' WHERE last_name = 'Kai' or email = 'gatu@undopse.gov' ;
 UPDATE customer SET first_name = 'Wens3' WHERE last_name = 'Kai' and email = 'gatu@undopse.gov' ;
 
-delete * from a where (a=1 and b=2) or c=b;?????
 
 
