@@ -73,13 +73,20 @@ class Data:
 					header.extend(column)
 				row.field_names = header
 	
+				#for i in range(0,len(datahash)):
+				#	row.add_row(datahash[i])
+				print(row)
 				for i in range(0,len(datahash)):
-					row.add_row(datahash[i])
+					for j in range(0,len(datahash[i])):
+						print(datahash[i][j]," ",end='')
+					print()
 			else:
 				row.field_names=targetPrint
+				print(row)
 				for i in range(0,len(datahash)):
-					row.add_row(datahash[i])
-			print(row)
+					for j in range(0,len(datahash[i])):
+						print(datahash[i][j]," ",end='')
+					print()			
 				
 		
 	
@@ -96,8 +103,11 @@ class Data:
 					header.extend(column)
 				row.field_names = header
 
+				print(row)
 				for i in range(0,len(datahash)):
-					row.add_row(datahash[i])
+					for j in range(0,len(datahash[i])):
+						print(datahash[i][j]," ",end='')
+					print()
 
 
 			else:
@@ -119,10 +129,12 @@ class Data:
 					data=[]	
 				
 				row.field_names=targetPrint
-				for i in range(0,len(fdata)):
-					row.add_row(fdata[i])
-		
-			print(row)
+				print(row)
+				for i in range(0,len(datahash)):
+					for j in range(0,len(datahash[i])):
+						print(datahash[i][j]," ",end='')
+					print()
+			
 				
 	def crossProduct(list1, list2):
 		list4=[]		

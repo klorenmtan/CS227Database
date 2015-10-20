@@ -1,7 +1,12 @@
+Desc name;
 Select * from delivery join payment;
 Select * from payment natural join delivery;
 Select * from payment natural join delivery join customer;
 Select * from delivery join payment on delivery_id=2;
+Select * from delivery join payment on delivery_id!=2;
+Select * from delivery join payment on delivery_id>2;
+Select * from delivery join payment on delivery_id<2;
+Select * from delivery join payment on delivery_id=124.75;
 Select * from delivery join payment on delivery_id="Peter";
 Select * from delivery join payment join customer on delivery_id=2;
 Select * from delivery join payment join customer on delivery_name="Peter";
@@ -42,5 +47,7 @@ update customer set first_name = 'wens' where last_name = 'navallo';
 UPDATE customer SET first_name = 'Wens', email = 'ako@ikaw.com' WHERE last_name = 'Kai' and email = 'gatu@undopse.gov' ;
 UPDATE customer SET first_name = 'Wens2', birthdate = '9/9/1999' WHERE last_name = 'Kai' or email = 'gatu@undopse.gov' ;
 UPDATE customer SET first_name = 'Wens3' WHERE last_name = 'Kai' and email = 'gatu@undopse.gov' ;
+
+delete * from a where (a=1 and b=2) or c=b;?????
 
 

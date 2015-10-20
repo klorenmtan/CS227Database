@@ -56,7 +56,7 @@ class Select:
 			for j in range(0,len(self.tblname)):
 				columns.extend(meta.getAllColumns(self.tblname[j]))
 			
-			r1=Select.classify_where(self.tblname,self.join_clause,result,columns)			
+			r1=Select.classify_where(self.tblname,self.join_clause,result,columns,0)			
 			if self.targetPrint[0]=='*':
 				Data.printData(r1,self.tblname,self.targetPrint)												
 			else:	
@@ -72,8 +72,8 @@ class Select:
 			for j in range(0,len(self.tblname)):
 				columns.extend(meta.getAllColumns(self.tblname[j]))
 
-			r1=Select.classify_where(self.tblname,self.join_clause,result,columns)
-			r2=Select.classify_where(self.tblname,self.where_operation,r1,columns)
+			r1=Select.classify_where(self.tblname,self.join_clause,result,columns,0)
+			r2=Select.classify_where(self.tblname,self.where_operation,r1,columns,0)
 
 			if self.targetPrint[0]=='*':
 				Data.printData(r2,self.tblname,self.targetPrint)												
@@ -94,7 +94,7 @@ class Select:
 			for j in range(0,len(self.tblname)):
 				columns.extend(meta.getAllColumns(self.tblname[j]))
 			
-			r1=Select.classify_where(self.tblname,self.where_operation,result,columns)			
+			r1=Select.classify_where(self.tblname,self.where_operation,result,columns,0)			
 			if self.targetPrint[0]=='*':
 				Data.printData(r1,self.tblname,self.targetPrint)												
 			else:	
@@ -168,7 +168,10 @@ class Select:
 		
 				
 	
-		if typeop == 3:
+		elif typeop == 3:
+			
+			
+		
 			for i in range(0,len(datahash)):
 				index1=fcol.index(column)
 				
@@ -285,7 +288,7 @@ class Select:
 		
 				
 	
-		if typeop == 3:
+		elif typeop == 3:
 			for i in range(0,len(datahash)):
 				index1=fcol.index(column)
 				if i==j:
@@ -343,11 +346,13 @@ class Select:
 				return i
 		return -1
 
-	def classify_where(tblname,operation,datahash,columns):
+	def classify_where(tblname,operation,datahash,columns,count):
+		
 		pk=[]		
 		result=[]		
 		index=[]
 		a=[]		
+		
 		if len(operation) == 3:
 			#print("single where")		
 			
@@ -398,59 +403,64 @@ class Select:
 		
 								
 		else:
-			i=0
-			count=0	
+			i=3
+			
 			res=[]
 			res1=[]
 			ans=[]
 			#results=[]
-			#print("complex where")
+			print("complex where")
+			print(operation)
+			print(len(operation))
 			while i < len(operation):
+				print("Value of i",i)
 				if operation[i] == "and":
 					if count == 0:
 						ops1=operation[i-3:i]
 						ops2=operation[i+1:i+4]
-						res=Select.classify_where(tblname,ops1,datahash,columns)
-						res1=Select.classify_where(tblname,ops2,res,columns)
+						res=Select.classify_where(tblname,ops1,datahash,columns,count+1)
+						res1=Select.classify_where(tblname,ops2,res,columns,count+1)
 						res=res1
 						count=count+1
 					else:
 						ops1=operation[i+1:i+4]
-						res1=Select.classify_where(tblname,ops1,res,columns)
+						res1=Select.classify_where(tblname,ops1,res,columns,count+1)
+						
 						count= count+1
 					#break
 				elif operation[i] == "or":
-					ops1=operation[i-3:i]
-					ops2=operation[i+1:i+5]
-					if count == 0:					
-						res=Select.classify_where(tblname,ops1,datahash,columns)
-						res1=Select.classify_where(tblname,ops2,datahash,columns)
+					
+					if count == 0:
+						print("COUNT if",count)
+						ops1=operation[i-3:i]
+						ops2=operation[i+1:i+4]
+						print("hi",ops1)
+						print("ho",ops2)					
+						res=Select.classify_where(tblname,ops1,datahash,columns,count+1)
+						res1=Select.classify_where(tblname,ops2,datahash,columns,count+1)
 												
-						for i in range(0,len(res1)):
-							if res1[i] not in res:
-								res.append(res1[i])
-							else:
-								print(res1[i])
-						
+						for j in range(0,len(res1)):
+							if res1[j] not in res:
+								res.append(res1[j])
 						
 						res1=res
 						count = count+1
 					else:
+						print("COUNT ELSE",count)
 						ops1=operation[i+1:i+4]
-						res1=Select.classify_where(tblname,ops1,res,columns)
-						for i in range(0,len(res1)):
-							if res1[i] not in res:
-								res.append(res1[i])
-							else:
-								print(res1[i])
-						#res.extend(res1)
+						print("ELSE",ops1)
+						res1=Select.classify_where(tblname,ops1,datahash,columns,count+1)
+						for j in range(0,len(res1)):
+							if res1[j] not in res:
+								res.append(res1[j])
+							
 						res1=res
-					
-				i=i+1
+						count=count+1
+				i=i+4
 
 			result=res1
 
-
+		count = count+1
 		return result	
 
 
