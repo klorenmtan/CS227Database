@@ -13,6 +13,7 @@ class Main:
                         break
                 else:
                         lexer = SqlLexer().build()
+                        
                         parser = SqlParser().build()
                         result = parser.parse(statement)
                         print ('parse result >>> {}' .format(result))

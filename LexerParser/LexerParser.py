@@ -75,8 +75,7 @@ class SqlLexer:
     def t_error(self, t):
         if t is not None:
             print("Lexer: Illegal token '%s'!" % t.value)
-        t.lexer.skip(1)
-        #exit(1);
+        t.lexer.skip(len(t.value))
         
     # Build the lexer
     def build(self, **kwargs):
@@ -150,8 +149,8 @@ class SqlParser:
         p[0] = p[1]
 
     def p_set_clause_list(self, p):
-        ''' set_clause_list : ID EQ literal
-                            | ID EQ literal COMMA set_clause_list '''
+        ''' set_clause_list : col_value EQ col_value
+                            | col_value EQ col_value COMMA set_clause_list '''
 
         if len(p) == 4:
             p[0] = p[1] + "|" + p[2] + "|" + p[3]
@@ -162,9 +161,9 @@ class SqlParser:
         ''' join_clause : NATURAL JOIN ID
                         | NATURAL JOIN ID join_clause
                         | join_list
-                        | join_list ON join_value comp_op join_value
-                        | join_list ON join_value comp_op join_value join_clause
-                        | join_list ON join_value comp_op join_value join_search_condition '''
+                        | join_list ON col_value comp_op col_value
+                        | join_list ON col_value comp_op col_value join_clause
+                        | join_list ON col_value comp_op col_value join_search_condition '''
 
         if len(p) == 2:
             p[0] = p[1]
@@ -186,10 +185,10 @@ class SqlParser:
         elif len(p) == 4:
             p[0] = p[1] + "|" + p[2] + "|" + p[3]
 
-    def p_join_value(self, p):
-        ''' join_value : ID
-                       | ID DOT ID
-                       | literal '''
+    def p_col_value(self, p):
+        ''' col_value : ID
+                      | ID DOT ID
+                      | literal '''
         
         if len(p) == 4:
             p[0] = p[1] + "|" + p[2] + "|" + p[3]
