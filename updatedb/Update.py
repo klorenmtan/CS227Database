@@ -84,7 +84,7 @@ class Update:
 					if lWhereClause[Index] in lLogicalOperator:
 						self.WhereLogicOperator.append(lWhereClause[Index])
 						
-			self.WhereColVal = self.WhereConvertDataType(self.WhereColVal) #perform the Convertion of clause
+			
 			
 			#For trouble shooting	
 			#print('Where Column Name :' + str(self.WhereColName))
@@ -105,8 +105,8 @@ class Update:
 					self.SetColNameToUpdate.append(lSetClause[Index - 1])
 					self.SetColValToUpdate.append(lSetClause[Index + 1])
 								
-			print('Set Column Name:' + str(self.SetColNameToUpdate))
-			print('Set Column Value:' + str(self.SetColValToUpdate))
+			#print('Set Column Name:' + str(self.SetColNameToUpdate))
+			#print('Set Column Value:' + str(self.SetColValToUpdate))
 			
 		
 
@@ -115,7 +115,7 @@ class Update:
 		#This function will check the existence of tables and column in data dictionary or metadata
 		
 		#check if the table is existing		
-		if not(meta.checkTableExist(self.TblName)):
+		if not(meta.checkTableExist(self.TblName[0])):
 			sTableName = self.TblName[0]
 			print("Table '" + sTableName +"' does not exist! ")
 			return False
@@ -152,6 +152,9 @@ class Update:
 		iSearchIndex = [] # Index will be assigned to list of integer
 		for ColumnName in self.WhereColName:
 			iSearchIndex.append(lTableAllColNames.index(str(ColumnName)))
+		
+		# Perform the where clause data type conversion
+		self.WhereColVal = self.WhereConvertDataType(self.WhereColVal)
 			
 		# Start the Searching of Table ID by extracting each record and compare with the where values	
 		for lRecord in AllRecords:
@@ -161,7 +164,8 @@ class Update:
 			
 			# Perform the conversion of tuples' Data Types
 			lSplitRecord = self.RowConvertDataType(lSplitRecord)
-			
+
+				
 			iColValIndex = 0	# this Index will be used by self.WhereColVal list
 			blnTFCounter = [] # List that will collect  True and False evaluation of the search fields
 			iRecordId = str(lSplitRecord[0]) # initialized the Record ID of each tuple and convert it to string from interger 
@@ -268,8 +272,9 @@ class Update:
 							UpdateRecord = UpdateRecord + str(field)
 				
 					UpdateRecord = UpdateRecord.replace('\n',',',len(SplitRecord)-1) # Replace '\n' with commas(,)
-	
-					print('Update Record: ' + UpdateRecord)	
+
+					#For Trouble Shooting
+					#print('Update Record: ' + UpdateRecord)	
 				
 					#+++++++++++++++++++++++++++++++++++++++++++++++++++++	
 				
